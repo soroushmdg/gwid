@@ -100,9 +100,7 @@ new_gwid <- function(gwas = "", phased= "", ...){
   }
   names(Mres) <- names(LST) <- names(gwas$caco)
   return(structure(list(mrk1 = mrk1, Mres = Mres, LST = LST, INDX = INDX, ind = ind),class = "gwid"))
-
 }
-
 
 #' @export
 aggregate <- function(gwid, new_gwas , ...) {
