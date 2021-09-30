@@ -100,7 +100,6 @@ new_gwid <- function(gwas = "", phased= "", ...){
   }
   names(Mres) <- names(LST) <- names(gwas$caco)
   return(structure(list(mrk1 = mrk1, Mres = Mres, LST = LST, INDX = INDX, ind = ind),class = "gwid"))
-
 }
 
 # #' @export
@@ -139,8 +138,6 @@ aggregate <- function(gwid, new_gwas , ...) {
     #for (j in 1:length(IND)) IND[[j]] <- IND[[j]] + len[i]
    #save("IND","Subj.id","res","res1","snps","nas","snp2","snp.chr","snp.id","snp.pos", file="../../RA.withmap/IBD-SNP-RA.withmap.Rda", version = 2)
    return(list(LST = LST, Mres = Mres, INDX = gwid$INDX, Subj.id = Subj.id, IND= IND, res= res, res1 = res1))
-
-
 }
 
 
