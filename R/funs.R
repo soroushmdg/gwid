@@ -103,7 +103,7 @@ new_gwid <- function(gwas = "", phased= "", ...){
 }
 
 #' @export
-aggregate <- function(gwid, new_gwas , ...) {
+aggregate.gwid <- function(gwid, new_gwas , ...) {
    res <- res1 <- IND <- Subj.id <- list();
   len <- NULL
    IND <- list()
