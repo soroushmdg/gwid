@@ -103,8 +103,6 @@ new_gwid <- function(gwas = "", phased= "", ...){
 
 }
 
-# #' @export
-# aggregatee <- function(x, ...){UseMethod("aggregatee") }
 
 #' @export
 aggregate <- function(gwid, new_gwas , ...) {
