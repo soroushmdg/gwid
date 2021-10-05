@@ -13,6 +13,13 @@ Imports:
     data.table,
     gdsfmt,
     SNPRelate,
-    Matrix
-Suggests: 
-RoxygenNote: 7.1.1
+    Matrix,
+    dplyr,
+    ggplot2,
+    plotly,
+    scales,
+    tibble,
+    tidyr,
+    magrittr,
+    rlang
+RoxygenNote: 7.1.2

@@ -4,7 +4,7 @@
 \alias{new_gwas}
 \title{Data Extraction of IBD and gds data}
 \usage{
-new_gwas(gds_data = "name.gds", caco = "name.Rda", ibd_data = "name.ibd", ...)
+new_gwas(gds_data = "name.gds", caco = "name.Rda", ...)
 }
 \arguments{
 \item{gds_data}{CoreArray Genomic Data Structure (GDS) with hierarchical structure to store
@@ -12,10 +12,10 @@ multiple scalable structure array oriented data sets.}
 
 \item{caco}{A List of case and control subjects.}
 
+\item{...}{argument to pass to plots (if we decided to add graphs)}
+
 \item{ibd_data}{Data frame containing identity by descent segments in phased data. The data is output of refined_ibd
 software package.}
-
-\item{...}{argument to pass to plots (if we decided to add graphs)}
 
 \item{i}{chromosome number can be from 1 to 22}
 }

@@ -13,7 +13,7 @@
 #'
 #' @examples new_gwid("chr1.gds","case_control.Rda","chr1.ibd", i = 1)
 #' @export
-new_gwas <- function(gds_data = "name.gds", caco = "name.Rda", ibd_data = "name.ibd", ...) {
+new_gwas <- function(gds_data = "name.gds", caco = "name.Rda", ...) {
   substrR <- function(x, n) {
     substr(x, nchar(x) - n + 1, nchar(x))
   }
@@ -24,11 +24,11 @@ new_gwas <- function(gds_data = "name.gds", caco = "name.Rda", ibd_data = "name.
   load(caco)
   genoRA <- SNPRelate::snpgdsOpen(gds_data)
   smp.id <- gdsfmt::read.gdsn(gdsfmt::index.gdsn(genoRA, "sample.id"))
-  IBD <- data.table::fread(ibd_data)
-  IBD <- IBD[V1 %in% unlist(unique(caco)) & V3 %in% unlist(unique(caco))]
+  #IBD <- data.table::fread(ibd_data)
+  #IBD <- IBD[V1 %in% unlist(unique(caco)) & V3 %in% unlist(unique(caco))]
   snp.id <- gdsfmt::read.gdsn(gdsfmt::index.gdsn(genoRA, "snp.rs.id"))
   snp.pos <- gdsfmt::read.gdsn(gdsfmt::index.gdsn(genoRA, "snp.position"))
-  smp.indx <- which(smp.id %in% unique(unlist(IBD[, c(1, 3)])))
+  smp.indx <- which(smp.id %in% unique(unlist(caco)))
   smp.snp <- list()
   for (j in 1:length(caco)) {
     smp.snp[[j]] <- (gdsfmt::read.gdsn(gdsfmt::index.gdsn(genoRA, "genotype"))[which(smp.id[smp.indx] %in% caco[[j]]), ])
@@ -37,104 +37,146 @@ new_gwas <- function(gds_data = "name.gds", caco = "name.Rda", ibd_data = "name.
     smp.snp[[j]][smp.snp[[j]] == 3] <- NA
   }
   SNPRelate::snpgdsClose(genoRA)
-  return(structure(list(smp.id = smp.id, IBD = IBD, snp.id = snp.id, snp.pos = snp.pos, smp.indx = smp.indx, smp.snp = smp.snp, caco = caco), class="gwas"))
+  return(structure(list(smp.id = smp.id, snp.id = snp.id, snp.pos = snp.pos, smp.indx = smp.indx, smp.snp = smp.snp, caco = caco), class="snp_smp"))
 }
+
 
 #' @import data.table
 #' @export
-print.gwas <- function(gwas, ...) {
-  print(paste("GWAS with", length(gwas$smp.id), "samples and", nrow(gwas$IBD),"IBD regions over", length(gwas$snp.id),"SNPs"))
-  invisible(gwas)
+IBD <- function(ibd_data = "name.ibd" , caco = "name.Rda", ...){
+  load(caco)
+  ibd <- data.table::fread(ibd_data)
+  ibd <- ibd[V1 %in% unlist(unique(caco)) & V3 %in% unlist(unique(caco))]
+  class(ibd) <- append("IBD", class(ibd))
+  return(ibd)
 }
 
 #' @export
-aggregate.gwas <- function(gwas, ...) {
-  snp2 <- snps <- nas <- matrix(0L, nrow = length(gwas$snp.id), ncol = length(gwas$caco))
-  for (j in 1:length(gwas$caco)) {
-    nas[, j] <- as.integer(apply(is.na(gwas$smp.snp[[j]]), 2, sum))
-    snps[, j] <- as.integer(apply(gwas$smp.snp[[j]], 2, sum, na.rm = T))
-    snp2[, j] <- as.integer(apply(gwas$smp.snp[[j]] == 2, 2, sum, na.rm = T))
+print.IBD <- function(ibd,  ...) {
+  print(paste("IBD data with", nrow(ibd), "paired samples"))
+  #invisible(snp_smp)
+}
+
+
+#' @export
+print.snp_smp <- function(snp_smp,  ...) {
+  print(paste("GWAS with", length(snp_smp$smp.id), "samples and", length(snp_smp$snp.id),"SNPs"))
+  invisible(snp_smp)
+}
+
+#' @export
+aggregate.snp_smp <- function(snp_smp, ...) {
+  snp2 <- snps <- nas <- matrix(0L, nrow = length(snp_smp$snp.id), ncol = length(snp_smp$caco))
+  for (j in 1:length(snp_smp$caco)) {
+    nas[, j] <- as.integer(apply(is.na(snp_smp$smp.snp[[j]]), 2, sum))
+    snps[, j] <- as.integer(apply(snp_smp$smp.snp[[j]], 2, sum, na.rm = T))
+    snp2[, j] <- as.integer(apply(snp_smp$smp.snp[[j]] == 2, 2, sum, na.rm = T))
   }
-  colnames(snp2) <- colnames(snps) <- colnames(nas) <- names(gwas$caco)
+  colnames(snp2) <- colnames(snps) <- colnames(nas) <- names(snp_smp$caco)
   # snp.chr <- rep(i, length(gwas$snp.id))
-  return(list(nas = nas, snp2 = snp2, snps = snps))
+  output <- list(nas = nas, snp2 = snp2, snps = snps)
+  class(output) <- append("gwas",class(output))
+  return(output)
+}
+
+
+#' @export
+plot.gwas <- function(statistics, data, type = "snps") {
+  plot_general(statistics, data, ty)
 }
 
 #' @export
 phased <- function(x, ...){ UseMethod("phased") }
 
 #' @export
-phased.gwas <- function(gwas, phased_vcf, ...) {
-  if (is.null(gwas) || is.null(phased_vcf)) stop("'gwas' and 'phased vcf' are needed")
+phased.snp_smp <- function(snp_smp, phased_vcf, ...) {
+  if (is.null(snp_smp) || is.null(phased_vcf)) stop("'snp_smp' and 'phased vcf' are needed")
   phased <- list()
   tmp <- data.table::fread(phased_vcf)
-  tmp2 <- tmp[, colnames(tmp) %in% gwas$smp.id[gwas$smp.indx], with = F]
+  tmp2 <- tmp[, colnames(tmp) %in% snp_smp$smp.id[snp_smp$smp.indx], with = F]
   phased[[1]] <- Matrix::Matrix(apply(apply(tmp2, 2, substr, 1, 1), 2, as.integer))
   phased[[2]] <- Matrix::Matrix(apply(apply(tmp2, 2, substr, 3, 3), 2, as.integer))
   names(phased) <- c("Hap.1", "Hap.2"); class(phased)="phased"
   return(phased)
 }
 
-# #' @export
-# gwid <- structure(list(), class = "gwid")
 
-# #' @export
-# new_gwid <- function(x, ...){UseMethod("new_gwid") }
 
 #' @export
-new_gwid <- function(gwas = "", phased= "", ...){
+new_gwid <- function(snp_smp, phased, IBD,  ...){
   mrk1 <- Mres <- LST <- ind <- list()
-  INDX <- Matrix::Matrix(0, nrow = nrow(gwas$IBD), ncol = 6)
+  INDX <- Matrix::Matrix(0, nrow = nrow(IBD), ncol = 6)
   colnames(INDX) <- c("Subj1", "Subj2", "start", "end", "hap1", "hap2")
-  for (j in 1:length(gwas$caco)) {
-    ind[[j]] <- which(gwas$IBD$V1 %in% gwas$caco[[j]] & gwas$IBD$V3 %in% gwas$caco[[j]])
+  for (j in 1:length(snp_smp$caco)) {
+    ind[[j]] <- which(IBD$V1 %in% snp_smp$caco[[j]] & IBD$V3 %in% snp_smp$caco[[j]])
     mrk1[[j]] <- LST[[j]] <- list()
-    Mres[[j]] <- Matrix::Matrix(outer(gwas$IBD[ind[[j]], ]$V6, gwas$snp.pos, FUN = "<=") + outer(gwas$IBD[ind[[j]], ]$V7, gwas$snp.pos, FUN = ">=") - 1)
+    Mres[[j]] <- Matrix::Matrix(outer(IBD[ind[[j]], ]$V6, snp_smp$snp.pos, FUN = "<=") + outer(IBD[ind[[j]], ]$V7, snp_smp$snp.pos, FUN = ">=") - 1)
     for (k in 1:length(ind[[j]])) {
-      INDX[ind[[j]][k], 1:2] <- which((gwas$smp.id[gwas$smp.indx]) %in% gwas$IBD[ind[[j]][k], c(1, 3)])
-      INDX[ind[[j]][k], 3:4] <- which(gwas$snp.pos %in% gwas$IBD[ind[[j]][k], 6:7])
-      INDX[ind[[j]][k], 5:6] <- unlist(gwas$IBD[ind[[j]][k], c(2, 4)])
+      INDX[ind[[j]][k], 1:2] <- which((snp_smp$smp.id[snp_smp$smp.indx]) %in% IBD[ind[[j]][k], c(1, 3)])
+      INDX[ind[[j]][k], 3:4] <- which(snp_smp$snp.pos %in% IBD[ind[[j]][k], 6:7])
+      INDX[ind[[j]][k], 5:6] <- unlist(IBD[ind[[j]][k], c(2, 4)])
       LST[[j]][[k]] <- Matrix::Matrix(phased[[INDX[ind[[j]][k], 5]]][INDX[ind[[j]][k], 3]:INDX[ind[[j]][k], 4], INDX[ind[[j]][k], 1]])
-      mrk1[[j]][[k]] <- as.character(gwas$snp.id[INDX[ind[[j]][k], "start"]:INDX[ind[[j]][k], "end"]][which(LST[[j]][[k]][, 1] == 1)])
+      mrk1[[j]][[k]] <- as.character(snp_smp$snp.id[INDX[ind[[j]][k], "start"]:INDX[ind[[j]][k], "end"]][which(LST[[j]][[k]][, 1] == 1)])
     }
   }
-  names(Mres) <- names(LST) <- names(gwas$caco)
-  return(structure(list(mrk1 = mrk1, Mres = Mres, LST = LST, INDX = INDX, ind = ind),class = "gwid"))
+  names(Mres) <- names(LST) <- names(snp_smp$caco)
+  output <- list(mrk1 = mrk1, Mres = Mres, LST = LST, INDX = INDX, ind = ind)
+  class(output) <- append("raw_gwid",class(output))
+  return(output)
 }
 
 #' @export
-aggregate.gwid <- function(gwid, new_gwas , ...) {
-   res <- res1 <- IND <- Subj.id <- list();
+aggregate.raw_gwid <- function(raw_gwid, snp_smp, IBD, ...) {
+  res <- res1 <- IND <- Subj.id <- list()
   len <- NULL
-   IND <- list()
-     LST <- gwid$LST
-     Mres <- gwid$Mres
-     res <- matrix(0, nr=length(new_gwas$snp.pos), nc=length(new_gwas$caco));
-     res1<- matrix(0, nr=length(new_gwas$snp.pos), nc=length(new_gwas$caco));
-     rownames(res1) <- new_gwas$snp.id
-     for (j in 1:length(new_gwas$caco)) {
-       IND[[j]] <- which(new_gwas$IBD$V1%in%new_gwas$caco[[j]] & new_gwas$IBD$V3%in%new_gwas$caco[[j]])
-       res[,j] <- apply(Mres[[j]],2,sum)
-       temp <- table(unlist(gwid$mrk1[[j]]));
-       res1[names(temp),j] <- temp
-     }
-     names(IND) <- colnames(res) <- colnames(res1) <- names(new_gwas$caco);
-     rownames(res1) <- NULL
-     ind <- which(IND[[1]]%in%unlist(IND[2:3]));
-     LST[[1]] <- LST[[1]][-ind];
-     Mres[[1]] <- Mres[[1]][-ind,];
-     IND[[1]] <- IND[[1]][- ind];
-     Subj.id <- (new_gwas$IBD[,c(1,3)]);
-     len <- c(len,nrow(new_gwas$IBD))
-     #save("LST","Mres","INDX",file=paste0("../../RA.withmap/chr",i,".Rda"), version = 2)
-     #return(LST = LST, Mres = Mres, INDX = INDX, subj.id = subj.id)
+  #browser()
+  IND <- list()
+  LST <- raw_gwid$LST
+  Mres <- raw_gwid$Mres
+  res <- matrix(0, nr = length(snp_smp$snp.pos), nc = length(snp_smp$caco))
+  res1 <- matrix(0, nr = length(snp_smp$snp.pos), nc = length(snp_smp$caco))
+  rownames(res1) <- snp_smp$snp.id
+  for (j in 1:length(snp_smp$caco)) {
+    IND[[j]] <- which(IBD$V1 %in% snp_smp$caco[[j]] & IBD$V3 %in% snp_smp$caco[[j]])
+    res[, j] <- apply(Mres[[j]], 2, sum)
+    temp <- table(unlist(raw_gwid$mrk1[[j]]))
+    res1[names(temp), j] <- temp
+  }
+  names(IND) <- colnames(res) <- colnames(res1) <- names(snp_smp$caco)
+  rownames(res1) <- NULL
+  Subj.id <- (IBD[, c(1, 3)])
+  output <- list(LST = LST, Mres = Mres, INDX = raw_gwid$INDX, Subj.id = Subj.id, IND = IND, res = res, res1 = res1)
+  class(output) <- append("gwid",class(output))
+  return(output)
+}
 
-   #load("../../genotype-RA.withmap.Rda");
-   #Subj.id <- as.data.frame(subj.id);
-   len <- c(0,cumsum(len)[-length(len)]) # len is going to be zero when working with one file (one chromosome)
-    #for (j in 1:length(IND)) IND[[j]] <- IND[[j]] + len[i]
-   #save("IND","Subj.id","res","res1","snps","nas","snp2","snp.chr","snp.id","snp.pos", file="../../RA.withmap/IBD-SNP-RA.withmap.Rda", version = 2)
-   return(list(LST = LST, Mres = Mres, INDX = gwid$INDX, Subj.id = Subj.id, IND= IND, res= res, res1 = res1))
+usethis::use_pipe()
+
+
+
+#' @export
+plot.gwid <- function(statistics, data, type = "res"){
+  plot_general(statistics,data,type)
+}
+
+
+
+plot_general <- function(statistics, data, type = "snps" ){
+
+  if (type %in% c("snps","nas","snp2","res")){
+
+  df <- tibble::as_tibble(cbind(snp.pos = data$snp.pos,statistics[[type]])) %>%
+    tidyr::pivot_longer(!snp.pos ,names_to = "case_control", values_to = "value")
+
+  p <- df %>% ggplot2::ggplot(ggplot2::aes(x=snp.pos, y=value)) +
+    ggplot2::geom_line(ggplot2::aes(color = case_control),size=.6) +
+    ggplot2::scale_x_continuous("snp position",labels = scales::label_number_si()) +
+    ggplot2::scale_y_continuous("sum of type in IBD regions") +
+    ggplot2::theme(legend.title = ggplot2::element_text(size=10))
+
+  fig <- plotly::ggplotly(p)
+  fig
+}
 }
 
 
