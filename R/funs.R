@@ -52,9 +52,9 @@ IBD <- function(ibd_data = "name.ibd" , caco = "name.Rda", ...){
 }
 
 #' @export
-print.IBD <- function(ibd,  ...) {
+print.IBD <- function(ibd, ...) {
   print(paste("IBD data with", nrow(ibd), "paired samples"))
-  #invisible(snp_smp)
+  # invisible(snp_smp)
 }
 
 
@@ -75,14 +75,14 @@ aggregate.snp_smp <- function(snp_smp, ...) {
   colnames(snp2) <- colnames(snps) <- colnames(nas) <- names(snp_smp$caco)
   # snp.chr <- rep(i, length(gwas$snp.id))
   output <- list(nas = nas, snp2 = snp2, snps = snps)
-  class(output) <- append("gwas",class(output))
+  class(output) <- append("gwas", class(output))
   return(output)
 }
 
 
 #' @export
 plot.gwas <- function(statistics, data, type = "snps") {
-  plot_general(statistics, data, ty)
+  plot_general(statistics, data, type)
 }
 
 #' @export
@@ -96,14 +96,15 @@ phased.snp_smp <- function(snp_smp, phased_vcf, ...) {
   tmp2 <- tmp[, colnames(tmp) %in% snp_smp$smp.id[snp_smp$smp.indx], with = F]
   phased[[1]] <- Matrix::Matrix(apply(apply(tmp2, 2, substr, 1, 1), 2, as.integer))
   phased[[2]] <- Matrix::Matrix(apply(apply(tmp2, 2, substr, 3, 3), 2, as.integer))
-  names(phased) <- c("Hap.1", "Hap.2"); class(phased)="phased"
+  names(phased) <- c("Hap.1", "Hap.2")
+  class(phased) <- "phased"
   return(phased)
 }
 
 
 
 #' @export
-new_gwid <- function(snp_smp, phased, IBD,  ...){
+new_gwid <- function(snp_smp, phased, IBD, ...) {
   mrk1 <- Mres <- LST <- ind <- list()
   INDX <- Matrix::Matrix(0, nrow = nrow(IBD), ncol = 6)
   colnames(INDX) <- c("Subj1", "Subj2", "start", "end", "hap1", "hap2")
@@ -121,7 +122,7 @@ new_gwid <- function(snp_smp, phased, IBD,  ...){
   }
   names(Mres) <- names(LST) <- names(snp_smp$caco)
   output <- list(mrk1 = mrk1, Mres = Mres, LST = LST, INDX = INDX, ind = ind)
-  class(output) <- append("raw_gwid",class(output))
+  class(output) <- append("raw_gwid", class(output))
   return(output)
 }
 
@@ -129,7 +130,6 @@ new_gwid <- function(snp_smp, phased, IBD,  ...){
 aggregate.raw_gwid <- function(raw_gwid, snp_smp, IBD, ...) {
   res <- res1 <- IND <- Subj.id <- list()
   len <- NULL
-  #browser()
   IND <- list()
   LST <- raw_gwid$LST
   Mres <- raw_gwid$Mres
@@ -143,10 +143,9 @@ aggregate.raw_gwid <- function(raw_gwid, snp_smp, IBD, ...) {
     res1[names(temp), j] <- temp
   }
   names(IND) <- colnames(res) <- colnames(res1) <- names(snp_smp$caco)
-  rownames(res1) <- NULL
   Subj.id <- (IBD[, c(1, 3)])
   output <- list(LST = LST, Mres = Mres, INDX = raw_gwid$INDX, Subj.id = Subj.id, IND = IND, res = res, res1 = res1)
-  class(output) <- append("gwid",class(output))
+  class(output) <- append("gwid", class(output))
   return(output)
 }
 
@@ -155,49 +154,74 @@ usethis::use_pipe()
 
 
 #' @export
-plot.gwid <- function(statistics, data, type = "res"){
-  plot_general(statistics,data,type)
+plot.gwid <- function(statistics, data, type = "res") {
+  plot_general(statistics, data, type)
+}
+
+
+#' @export
+wind_base <- function(data, w) {
+  data <- data[["Mres"]]
+  if (w > ncol(data[[1]])) stop("window size must be smaller than colums size of the data")
+  if (!(is.list(data))) stop("data must be of class list!")
+  wind_sum <- matrix(0, nrow = (ncol(data[[1]]) - w + 1), ncol = length(data))
+  for (j in 1:length(data)) {
+    for (i in (1:(ncol(data[[1]]) - w + 1))) {
+      wind_sum[i, j] <- sum(apply(data[[j]][, i:(w + i - 1), drop = F], 1, sum) == w)
+    }
+  }
+  colnames(wind_sum) <- c("cases","case1","case2","cont1","cont2","cont3")
+  output <- list(window = wind_sum)
+  class(output) <- append("window", class(output))
+  return(output)
+}
+
+
+#' @export
+plot.window <- function(statistics, data, type = "window") {
+  plot_general(statistics, data, type)
+}
+
+
+plot_general <- function(statistics, data, type = "snps") {
+  #browser()
+  if (type %in% c("snps", "nas", "snp2", "res","window")) {
+    df <- tibble::as_tibble(cbind(snp.pos = data$snp.pos[1:length(statistics[[type]][,1])], statistics[[type]])) %>%
+      tidyr::pivot_longer(!snp.pos, names_to = "case_control", values_to = "value")
+
+    p <- df %>% ggplot2::ggplot(ggplot2::aes(x = snp.pos, y = value)) +
+      ggplot2::geom_line(ggplot2::aes(color = case_control), size = .6) +
+      ggplot2::scale_x_continuous("snp position", labels = scales::label_number_si()) +
+      ggplot2::scale_y_continuous("sum of type in IBD regions") +
+      ggplot2::theme(legend.title = ggplot2::element_text(size = 10))
+
+    fig <- plotly::ggplotly(p)
+    fig
+  }
 }
 
 
 
-plot_general <- function(statistics, data, type = "snps" ){
 
-  if (type %in% c("snps","nas","snp2","res")){
-
-  df <- tibble::as_tibble(cbind(snp.pos = data$snp.pos,statistics[[type]])) %>%
-    tidyr::pivot_longer(!snp.pos ,names_to = "case_control", values_to = "value")
-
-  p <- df %>% ggplot2::ggplot(ggplot2::aes(x=snp.pos, y=value)) +
-    ggplot2::geom_line(ggplot2::aes(color = case_control),size=.6) +
-    ggplot2::scale_x_continuous("snp position",labels = scales::label_number_si()) +
-    ggplot2::scale_y_continuous("sum of type in IBD regions") +
-    ggplot2::theme(legend.title = ggplot2::element_text(size=10))
-
-  fig <- plotly::ggplotly(p)
-  fig
-}
-}
-
-
-
-
-csv2Rdat <- function(name="", type=1, rep=3) {
+csv2Rdat <- function(name = "", type = 1, rep = 3) {
   if (!file.exists(name)) message("File doesn't exist")
-  set.seed(1); caco <- list()
+  set.seed(1)
+  caco <- list()
   input.data <- read.csv(name)
-  check.column <- function(v) {return(sum(c("1","2") %in% as.integer(v)))}
-  cacos <- names(which(apply(input.data,2,check.column)==2))
+  check.column <- function(v) {
+    return(sum(c("1", "2") %in% as.integer(v)))
+  }
+  cacos <- names(which(apply(input.data, 2, check.column) == 2))
 
   for (i in 1:length(cacos)) {
-    caco$cases <- input.data$SampleName[which(input.data[,cacos[i]]==2)]
-      cont.ind <- which(input.data[,cacos[i]]==1)
-      if (length(caco$cases)*rep>length(cont.ind)) caco$cases <- sample(caco$cases,trunc(length(cont.ind)/rep))
-    conts <- sample(cont.ind, length(caco$cases)*rep)
+    caco$cases <- input.data$SampleName[which(input.data[, cacos[i]] == 2)]
+    cont.ind <- which(input.data[, cacos[i]] == 1)
+    if (length(caco$cases) * rep > length(cont.ind)) caco$cases <- sample(caco$cases, trunc(length(cont.ind) / rep))
+    conts <- sample(cont.ind, length(caco$cases) * rep)
     for (j in 1:rep) {
-      caco[[paste0("cont",j)]] <- input.data$SampleName[conts[rep(1:rep,each=length(caco$cases))==j]]
+      caco[[paste0("cont", j)]] <- input.data$SampleName[conts[rep(1:rep, each = length(caco$cases)) == j]]
     }
-    save(file=paste0(cacos[i],".Rda"), caco)
+    save(file = paste0(cacos[i], ".Rda"), caco)
   }
 }
 
