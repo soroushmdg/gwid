@@ -51,12 +51,6 @@ IBD <- function(ibd_data = "name.ibd" , caco = "name.Rda", ...){
   return(ibd)
 }
 
-#' @export
-print.IBD <- function(ibd, ...) {
-  print(paste("IBD data with", nrow(ibd), "paired samples"))
-  # invisible(snp_smp)
-}
-
 
 #' @export
 print.snp_smp <- function(snp_smp,  ...) {
@@ -120,7 +114,7 @@ new_gwid <- function(snp_smp, phased, IBD, ...) {
       mrk1[[j]][[k]] <- as.character(snp_smp$snp.id[INDX[ind[[j]][k], "start"]:INDX[ind[[j]][k], "end"]][which(LST[[j]][[k]][, 1] == 1)])
     }
   }
-  names(Mres) <- names(LST) <- names(snp_smp$caco)
+  names(ind) <- names(Mres) <- names(LST) <- names(snp_smp$caco)
   output <- list(mrk1 = mrk1, Mres = Mres, LST = LST, INDX = INDX, ind = ind)
   class(output) <- append("raw_gwid", class(output))
   return(output)
@@ -178,13 +172,89 @@ wind_base <- function(data, w) {
 
 
 #' @export
+haplo_win_str <- function(raw_gwid, snp_smp, w = 10, snp_start, snp_end) {
+  if (missing(snp_start)) {
+    snp_start <- snp_smp$snp.pos[1]
+  }
+  if (missing(snp_end)) {
+    snp_end <- snp_smp$snp.pos[length(snp_smp$snp.pos) - w + 1]
+  }
+
+  snp_indx <- (which(snp_smp$snp.pos >= snp_start & snp_smp$snp.pos <= snp_end))
+  start_end_indx <- range(snp_indx)
+  leni <- diff(start_end_indx) - w + 1
+  if (w >= diff(start_end_indx)) {
+    stop("window size should be smaller than number of snps")
+  }
+  lenj <- length(raw_gwid$Mres)
+  structures <- vector(mode = "list", length = lenj)
+  names(structures) <- names(raw_gwid$Mres)
+  for (j in 1:lenj) {
+    structures[[j]] <- vector(mode = "list", length = leni)
+    for (i in 1:leni) {
+      ibd_reg_count <- which(apply(raw_gwid$Mres[[j]][, snp_indx[i]:(w + snp_indx[i] - 1), drop = F], 1, sum) == w)
+      for (k in 1:length(ibd_reg_count)) {
+        structures[[j]][[i]][k] <- paste0(raw_gwid$LST[[j]][[ibd_reg_count[k]]][snp_indx[i]:(w + snp_indx[i] - 1)], collapse = "")
+      }
+    }
+  }
+  names(structures) <- c("cases","case1","case2","cont1","cont2","cont3")
+  output <- list(structures = structures)
+  return(output)
+}
+
+#' @export
+haplo_win_frame <- function(raw_gwid, snp_smp, w = 10, snp_start, snp_end) {
+  if (missing(snp_start)) {
+    snp_start <- snp_smp$snp.pos[1]
+  }
+  if (missing(snp_end)) {
+    snp_end <- snp_smp$snp.pos[length(snp_smp$snp.pos) - w + 1]
+  }
+
+  snp_indx <- (which(snp_smp$snp.pos >= snp_start & snp_smp$snp.pos <= snp_end))
+  start_end_indx <- range(snp_indx)
+  leni <- diff(start_end_indx) - w + 1
+  if (w >= diff(start_end_indx)) {
+    stop("window size should be smaller than number of snps")
+  }
+  lenj <- length(raw_gwid$Mres)
+  haplo_win <- matrix(character(),ncol = 3)
+  #names(structures) <- names(raw_gwid$Mres)
+  for (j in 1:lenj) {
+    #structures[[j]] <- vector(mode = "list", length = leni)
+    for (i in 1:leni) {
+      ibd_reg_count <- which(apply(raw_gwid$Mres[[j]][, snp_indx[i]:(w + snp_indx[i] - 1), drop = F], 1, sum) == w)
+      for (k in 1:length(ibd_reg_count)) {
+        structures<- paste0(raw_gwid$LST[[j]][[ibd_reg_count[k]]][snp_indx[i]:(w + snp_indx[i] - 1)], collapse = "")
+        new <- c(caco = names(raw_gwid$Mres)[j], window = paste0("window",i),structure =  structures)
+        haplo_win <- rbind(haplo_win,new)
+      }
+    }
+  }
+  #names(structures) <- c("cases","case1","case2","cont1","cont2","cont3")
+  rownames(haplo_win) <- NULL
+  output <- haplo_win
+  return(output)
+}
+
+#' @export
+haplo_win_freq <- function(hap_str) {
+  freq <- matrix(unlist(lapply(lapply(unlist(hap_str[[1]],recursive = F),table),max)),ncol = length(hap_str[[1]]),byrow = F)
+  colnames(freq) <- c("cases","case1","case2","cont1","cont2","cont3")
+  return(freq)
+}
+
+
+
+
+#' @export
 plot.window <- function(statistics, data, type = "window") {
   plot_general(statistics, data, type)
 }
 
 
 plot_general <- function(statistics, data, type = "snps") {
-  #browser()
   if (type %in% c("snps", "nas", "snp2", "res","window")) {
     df <- tibble::as_tibble(cbind(snp.pos = data$snp.pos[1:length(statistics[[type]][,1])], statistics[[type]])) %>%
       tidyr::pivot_longer(!snp.pos, names_to = "case_control", values_to = "value")
