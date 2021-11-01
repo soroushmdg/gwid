@@ -179,10 +179,11 @@ haplo_win_str <- function(raw_gwid, snp_smp, w = 10, snp_start, snp_end) {
   if (missing(snp_end)) {
     snp_end <- snp_smp$snp.pos[length(snp_smp$snp.pos) - w + 1]
   }
-
-  snp_indx <- (which(snp_smp$snp.pos >= snp_start & snp_smp$snp.pos <= snp_end))
+  snp_pos <- snp_smp$snp.pos >= snp_start & snp_smp$snp.pos <= snp_end
+  snp_indx <- (which(snp_pos))
   start_end_indx <- range(snp_indx)
   leni <- diff(start_end_indx) - w + 1
+  snp_pos_plot <- snp_smp$snp.pos[which(snp_pos)][1:leni]
   if (w >= diff(start_end_indx)) {
     stop("window size should be smaller than number of snps")
   }
@@ -199,20 +200,22 @@ haplo_win_str <- function(raw_gwid, snp_smp, w = 10, snp_start, snp_end) {
     }
   }
   names(structures) <- c("cases","case1","case2","cont1","cont2","cont3")
-  output <- list(structures = structures)
+  output <- list(structures = structures,snp_pos_plot = snp_pos_plot)
   return(output)
 }
 
+
 #' @export
-haplo_win_frame <- function(raw_gwid, snp_smp, w = 10, snp_start, snp_end) {
+haplo_win_str2 <- function(raw_gwid, snp_smp, w = 10, snp_start, snp_end) {
   if (missing(snp_start)) {
     snp_start <- snp_smp$snp.pos[1]
   }
   if (missing(snp_end)) {
     snp_end <- snp_smp$snp.pos[length(snp_smp$snp.pos) - w + 1]
   }
-
-  snp_indx <- (which(snp_smp$snp.pos >= snp_start & snp_smp$snp.pos <= snp_end))
+  snp_pos <- snp_smp$snp.pos >= snp_start & snp_smp$snp.pos <= snp_end
+  snp_pos_plot <- snp_smp$snp.pos[which(snp_pos)]
+  snp_indx <- (which(snp_pos))
   start_end_indx <- range(snp_indx)
   leni <- diff(start_end_indx) - w + 1
   if (w >= diff(start_end_indx)) {
@@ -222,29 +225,63 @@ haplo_win_frame <- function(raw_gwid, snp_smp, w = 10, snp_start, snp_end) {
   haplo_win <- matrix(character(),ncol = 3)
   #names(structures) <- names(raw_gwid$Mres)
   for (j in 1:lenj) {
-    #structures[[j]] <- vector(mode = "list", length = leni)
     for (i in 1:leni) {
       ibd_reg_count <- which(apply(raw_gwid$Mres[[j]][, snp_indx[i]:(w + snp_indx[i] - 1), drop = F], 1, sum) == w)
       for (k in 1:length(ibd_reg_count)) {
         structures<- paste0(raw_gwid$LST[[j]][[ibd_reg_count[k]]][snp_indx[i]:(w + snp_indx[i] - 1)], collapse = "")
-        new <- c(caco = names(raw_gwid$Mres)[j], window = paste0("window",i),structure =  structures)
+        #new <- c(caco = names(raw_gwid$Mres)[j], window = paste0("window_",i),structure =  structures)
+        new <- c(caco = names(raw_gwid$Mres)[j], window = i,structure =  structures)
         haplo_win <- rbind(haplo_win,new)
       }
     }
   }
   #names(structures) <- c("cases","case1","case2","cont1","cont2","cont3")
   rownames(haplo_win) <- NULL
-  output <- haplo_win
+  haplo_win <- dplyr::as_tibble(haplo_win)
+  output <- list(haplo_win=haplo_win,snp_indx = snp_indx)
   return(output)
 }
+
+
 
 #' @export
 haplo_win_freq <- function(hap_str) {
   freq <- matrix(unlist(lapply(lapply(unlist(hap_str[[1]],recursive = F),table),max)),ncol = length(hap_str[[1]]),byrow = F)
   colnames(freq) <- c("cases","case1","case2","cont1","cont2","cont3")
-  return(freq)
+  mywindow <- rep(1:nrow(freq))
+  snp_pos <- hap_str$snp_pos_plot
+  freq <- cbind(mywindow,snp_pos,freq)
+  freq <- dplyr::as_tibble(freq)
+  freq <- freq %>% tidyr::pivot_longer(!c(mywindow,snp_pos), names_to = "case_control", values_to = "structure")
+
+
+  # unlist haplo structures
+  new.l <- rapply(hap_str$structures, function(x) paste(x, collapse = "|"), how = "replace")
+  dt <- data.table::rbindlist(new.l)
+  dt <- data.table::transpose(dt)
+  colnames(dt) <- names(hap_str$structures)
+  dt <- cbind(mywindow,snp_pos,dt)
+  col_names <- colnames(dt)
+  dt <- dt %>% tidyr::pivot_longer(!c(mywindow,snp_pos), names_to = "case_control", values_to = "structure")
+  dt <- dt %>% tidyr::separate_rows(structure, sep = "\\|")
+  hap_freq <- dt %>% dplyr::group_by(mywindow,case_control,structure) %>%  dplyr::summarise(n=dplyr::n())
+
+  output <- list(hap_most_freq = freq, hap_freq = hap_freq)
+
+  return(output)
 }
 
+
+
+#' @export
+haplo_win_freq2 <- function(hap_str){
+  hap_str <- dplyr::as_tibble(hap_str)
+  hap_str$window <- forcats::as_factor(hap_str$window)
+  hap_freq <- hap_str %>% dplyr::group_by(caco,window,structure) %>% dplyr::summarise(n=n())
+  hap_most_freq <- hap_freq %>% dplyr::group_by(caco,window) %>% dplyr::summarise(most_freq = max(n))
+  output <- list(hap_freq = hap_freq, hap_most_freq = hap_most_freq)
+  return(output)
+}
 
 
 
