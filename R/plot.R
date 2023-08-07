@@ -201,7 +201,7 @@ plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ...) {
 }
 
 
-#' Two type of line plots for haplotype_structure_frequency objects.
+#' Two type of line plots for haplotype_structure_frequency objects .
 #'
 #' @param x an object of class haplotype_structure_frequency
 #' @param y NA
