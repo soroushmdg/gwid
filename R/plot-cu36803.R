@@ -195,7 +195,7 @@ plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ...) {
       panel.background = ggplot2::element_rect(colour = NA),
       plot.background = ggplot2::element_rect(colour = NA)
     ) +
-    ggplot2::scale_colour_brewer(type = "qual",  palette = 2)
+    ggplot2::scale_colour_brewer(type = "qual", palette = 2)
 
   plotly::ggplotly(p, ...)
 }
@@ -280,7 +280,7 @@ plot.haplotype_frequency <- function(x, y = NA, plot_type = c("haplotype_structu
     plot(x[[which(unlist(lapply(x, inherits, "haplotype_structure_frequency")))]], type = type, nwin = nwin)
   } else {
     if (!missing(title)) {
-      plot(x[[which(unlist(lapply(x, inherits, "result_snps")))]],title = title, ...)
+      plot(x[[which(unlist(lapply(x, inherits, "result_snps")))]], title = title, ...)
     } else {
       plot(x[[which(unlist(lapply(x, inherits, "result_snps")))]], ...)
     }

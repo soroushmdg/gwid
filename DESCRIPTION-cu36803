@@ -1,0 +1,28 @@
+Package: gwid
+Type: Package
+Title: Genome-Wide Identity By Descent (GWID)
+Version: 0.1.0
+Author: Who wrote it
+Maintainer: The package maintainer <soroushmdg@gmail.com>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports:
+    data.table,
+    gdsfmt,
+    SNPRelate,
+    Matrix,
+    ggplot2,
+    plotly,
+    utils,
+    stats,
+    RcppRoll,
+    methods
+RoxygenNote: 7.2.3
+Suggests: 
+    knitr,
+    magrittr,
+    rmarkdown
+VignetteBuilder: knitr

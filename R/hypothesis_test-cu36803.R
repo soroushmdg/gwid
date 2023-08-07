@@ -456,7 +456,9 @@ gtest.haplotype_structure <- function(haplotype_structure, reference, ...) {
 #'
 #' @export
 fisher_test.result_snps <- function(obj, caco, reference, alternative = c("two.sided","greater","less"), ...) {
-
+  # count ibd is sum value of structures for each window and each case_control
+  # res_mat is wider transformation of count ibd (matrix form) each row is a snp_pos
+  #browser()
   if (missing(obj)){
     stop("Please provide an object of class result_snps")
   }
@@ -466,6 +468,7 @@ fisher_test.result_snps <- function(obj, caco, reference, alternative = c("two.s
   if (missing(reference)){
     stop("Please provide reference e.x. 'case1' ")
   }
+  #browser()
   alternative <- match.arg(alternative)
   res_mat <- data.table::dcast(obj, snp_pos ~ case_control , value.var = "value")
   snp_pos <- res_mat[["snp_pos"]]
