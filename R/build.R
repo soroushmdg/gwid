@@ -14,7 +14,7 @@
 #' @export
 build_gwas <- function(gds_data = "name.gds", caco = "name.Rda", gwas_generator = TRUE) {
   if (missing(caco)) {
-    stop(" provide case_control list object or case_control rda (contains list of case_control) file name ")
+    stop("provide case_control list object or case_control rda (contains list of case_control) file name ")
   }
   if (!is.list(caco)) {
     caco <- case_control(caco)
