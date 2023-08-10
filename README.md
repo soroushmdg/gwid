@@ -20,16 +20,14 @@ from genetically related individuals, thereby facilitating the
 identification of causal variants. An overall representation of the
 procedural workflow is visually depicted in the accompanying figure.
 
-<div class="figure" style="text-align: center">
+<div class="figure" style="text-align: right">
 
-<img src="./inst/Figures/final-copy-arrow.png" alt="your caption" width="70%" />
+<img src="./inst/Figures/final-copy-arrow.png" alt="gwid pipeline" width="70%" />
 <p class="caption">
-your caption
+gwid pipeline
 </p>
 
 </div>
-
-<img src="../../Downloads/final - Copy.png" align="center" height=300/>
 
 ## Installation
 
