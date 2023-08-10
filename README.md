@@ -22,7 +22,7 @@ procedural workflow is visually depicted in the accompanying figure.
 
 <div class="figure" style="text-align: center">
 
-<embed src="../../Downloads/final - Copy.pdf" title="your caption" width="70%" type="application/pdf" />
+<img src="./inst/Figures/final-copy-arrow.png" alt="your caption" width="70%" />
 <p class="caption">
 your caption
 </p>
