@@ -22,7 +22,7 @@ GWID (Genome Wide Identity by Descent) is an R-package designed for the analysis
 
 
 
-```{r, out.width="70%",include=TRUE, fig.align="right", fig.cap=c("gwid pipeline"), echo=FALSE}
+```{r, out.width="70%",include=TRUE, fig.align="center", fig.cap=c("gwid pipeline"), echo=FALSE}
 knitr::include_graphics("./inst/Figures/final-copy-arrow.png")
 ``` 
 
