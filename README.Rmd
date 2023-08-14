@@ -1,5 +1,7 @@
 ---
-output: github_document
+output: 
+  html_document:
+    keep_md: true
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -60,8 +62,10 @@ caco <- gwid::case_control(case_control_rda = case_control_data)
 pieces <- gwid::build_gwas(gds_data = genome_data,caco = caco,gwas_generator = TRUE)
 myphase <- gwid::build_phase(phased_vcf = phase_data,caco = caco)
 myregion2 <- gwid::build_gwid(ibd_data = ibd_data,gwas = pieces)
-plot(myregion2)
+p <- plot(myregion2)
+p
 ```
+
 
 What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
 
