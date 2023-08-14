@@ -26,7 +26,7 @@ GWID (Genome Wide Identity by Descent) is an R-package designed for the analysis
 knitr::include_graphics("./inst/Figures/final-copy-arrow.png")
 ``` 
 ## Usage
-The `gwid` package receives four types of inputs: SNP panel information, IBD information, haplotype data, and data concerning subjects categorized as cases and controls. The SNP panel data is derived from the output of the [SNPRelate](https://www.bioconductor.org/packages/release/bioc/html/SNPRelate.html) package in the form of a **gds** file. The IBD data takes the form of tabulated data produced by the [Refined IBD](https://faculty.washington.edu/browning/refined-ibd.html) software. Haplotype data comes from the output of the [Beagle](http://faculty.washington.edu/browning/beagle/beagle.html), while information about case and control subjects is represented using R list.
+The `gwid` package receives four types of inputs: SNP panel information, IBD information, haplotype data, and data concerning subjects categorized as cases and controls. The SNP panel data is derived from the output of the [SNPRelate](https://www.bioconductor.org/packages/release/bioc/html/SNPRelate.html) package in the form of a **gds** file. The IBD data takes the form of tabulated data produced by the [Refined IBD](https://faculty.washington.edu/browning/refined-ibd.html) software. Haplotype data comes from the output of the [Beagle](http://faculty.washington.edu/browning/beagle/beagle.html), while information about case and control subjects is represented using an R list.
 
 ## Installation
 
@@ -56,7 +56,11 @@ This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
 library(gwid)
-
+caco <- gwid::case_control(case_control_rda = case_control_data)
+pieces <- gwid::build_gwas(gds_data = genome_data,caco = caco,gwas_generator = TRUE)
+myphase <- gwid::build_phase(phased_vcf = phase_data,caco = caco)
+myregion2 <- gwid::build_gwid(ibd_data = ibd_data,gwas = pieces)
+plot(myregion2)
 ```
 
 What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:

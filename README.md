@@ -68,6 +68,10 @@ library(gwid)
 #> The following objects are masked from 'package:base':
 #> 
 #>     print, subset
+caco <- gwid::case_control(case_control_rda = "../test/case-cont-RA.withmap.Rda")
+pieces <- gwid::build_gwas(gds_data = "../test/chr3.gds",caco = caco,gwas_generator = TRUE)
+myphase <- gwid::build_phase(phased_vcf = "../test/chr3.vcf",caco = caco)
+myregion2 <- gwid::build_gwid(ibd_data = "../test/chr3.ibd",gwas = pieces)
 ```
 
 What is special about using `README.Rmd` instead of just `README.md`?
