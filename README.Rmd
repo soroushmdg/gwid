@@ -56,12 +56,33 @@ This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
 library(gwid)
+
+# case-control data
 caco <- gwid::case_control(case_control_rda = case_control_data)
+names(caco) #cases adn controls group
+caco$cases[1:3] # sample names codes
+summary(caco) # in here, we only consider cases,cont1,cont2,cont3 groups in the study
+
+# read SNP data (use SNPRelate to convert it to gds) and count number of minor alleles  
 pieces <- gwid::build_gwas(gds_data = genome_data,caco = caco,gwas_generator = TRUE)
+head(pieces$snps)
+
+# read haplotype data (output of beagle)
 myphase <- gwid::build_phase(phased_vcf = phase_data,caco = caco)
+names(myphase)
+
+# read ibd data (output of refined ibd)
 myregion2 <- gwid::build_gwid(ibd_data = ibd_data,gwas = pieces)
-p <- plot(myregion2,ly = FALSE)
-p
+myregion2$ibd
+myregion2$res # count number of ibd for each SNP location 
+
+# plot count of IBD in chromosome 3
+plot(myregion2,ly = FALSE) 
+
+# Further investigate location between 117M and 122M
+plot(myregion2,snp_start = 117026294,snp_end = 122613594,ly = FALSE) 
+#significant number of IBD's in group cases, compare to cont1, cont2 and cont3.
+
 ```
 
 
