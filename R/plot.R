@@ -11,7 +11,7 @@
 #' @return an interactive line plot of result_snps for each case control subjects.
 #'
 #' @export
-plot.result_snps <- function(x, y = NA, title, snp_start, snp_end, ...) {
+plot.result_snps <- function(x, y = NA, title, snp_start, snp_end, ly = TRUE, ...) {
   snp_pos <- value <- NULL
   if (!missing(snp_start) & !missing(snp_end)) {
     x <- x[snp_pos >= snp_start & snp_pos <= snp_end]
@@ -65,8 +65,12 @@ plot.result_snps <- function(x, y = NA, title, snp_start, snp_end, ...) {
       plot.background = ggplot2::element_rect(colour = NA)
     ) +
     ggplot2::scale_colour_brewer(type = "qual", palette = 2)
-  p <- plotly::ggplotly(p, ...)
-  return(p)
+  if (ly == TRUE){
+    p <- plotly::ggplotly(p, ...)
+    return(p)
+  } else {
+    return(p)
+  }
 }
 
 #'  Line plot of gwid objects
@@ -142,7 +146,7 @@ plot.gwas <- function(x, y = NA, title = "number of snps", ...) {
 #' @return an interactive line plot of test_snps objects for each case control subjects.
 #'
 #' @export
-plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ...) {
+plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ly =TRUE, ...) {
   snp_pos <- value <- NULL
   if (!missing(snp_start) & !missing(snp_end)) {
     x <- x[snp_pos >= snp_start & snp_pos <= snp_end]
@@ -196,8 +200,14 @@ plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ...) {
       plot.background = ggplot2::element_rect(colour = NA)
     ) +
     ggplot2::scale_colour_brewer(type = "qual",  palette = 2)
+  if (ly == TRUE){
+    p <- plotly::ggplotly(p, ...)
+    return(p)
+  } else {
+    return(p)
+  }
 
-  plotly::ggplotly(p, ...)
+
 }
 
 
@@ -209,7 +219,7 @@ plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ...) {
 #' @param nwin window number
 #' @param ... other variables
 #' @export
-plot.haplotype_structure_frequency <- function(x, y = NA, type = c("version1", "version2"), nwin, ...) {
+plot.haplotype_structure_frequency <- function(x, y = NA, type = c("version1", "version2"), nwin, ly = TRUE, ...) {
   type <- match.arg(type)
   structures <- window_number <- n <- NULL
   if (type == "version1") {
@@ -257,8 +267,13 @@ plot.haplotype_structure_frequency <- function(x, y = NA, type = c("version1", "
   if (type != "version2") {
     p <- p + ggplot2::scale_colour_brewer(type = "qual", palette = 2)
   }
+  if (ly == TRUE){
+    p <- plotly::ggplotly(p)
+    return(p)
+  } else {
+    return(p)
+  }
 
-  plotly::ggplotly(p)
 }
 
 

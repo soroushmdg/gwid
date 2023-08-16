@@ -48,10 +48,10 @@ library(piggyback)
 pb_download(repo = "soroushmdg/gwid",
             tag = "v0.0.1",
             dest = tempdir())
-ibd_data <- paste0(tempdir(),"\\chr3.ibd")
-genome_data <- paste0(tempdir(),"\\chr3.gds")
-phase_data <- paste0(tempdir(),"\\chr3.vcf")
-case_control_data <- paste0(tempdir(),"\\case-cont-RA.withmap.Rda")
+ibd_data <- paste0(tempdir(),"//chr3.ibd")
+genome_data <- paste0(tempdir(),"//chr3.gds")
+phase_data <- paste0(tempdir(),"//chr3.vcf")
+case_control_data <- paste0(tempdir(),"//case-cont-RA.withmap.Rda")
 ```
 
 This is a basic example which shows you how to solve a common problem:
