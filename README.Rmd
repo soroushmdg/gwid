@@ -43,7 +43,7 @@ devtools::install_github("soroushmdg/gwid")
 
 The following example is for a SNP panel data from the Marshfield Clinic. subjects in case group has Rheumatoid Arthritis (RA).
 ```{r, echo=FALSE}
-#install.packages("piggyback")
+# install.packages("piggyback")
 library(piggyback)
 pb_download(repo = "soroushmdg/gwid",
             tag = "v0.0.1",
