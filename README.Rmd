@@ -62,7 +62,7 @@ caco <- gwid::case_control(case_control_rda = case_control_data)
 pieces <- gwid::build_gwas(gds_data = genome_data,caco = caco,gwas_generator = TRUE)
 myphase <- gwid::build_phase(phased_vcf = phase_data,caco = caco)
 myregion2 <- gwid::build_gwid(ibd_data = ibd_data,gwas = pieces)
-p <- plot(myregion2)
+p <- plot(myregion2,ly = FALSE)
 p
 ```
 
