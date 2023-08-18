@@ -1,11 +1,14 @@
 #'  Line plot of result_snps objects
 #'
 #' @param x An object of class result_snps.
-#' @param y NA
+#' @param y default value is NA, if specified it should be a vector of names of
+#' subject groups i.e. y = c("case","control")
 #'
 #' @param title title of the plot.
 #' @param snp_start select starting position of snps.
 #' @param snp_end select ending position of snps.
+#' @param ly if TRUE, we have a plotly object and if it is false plot is going to be
+#' a ggplot object.
 #' @param ... other variables
 #'
 #' @return an interactive line plot of result_snps for each case control subjects.
@@ -22,6 +25,9 @@ plot.result_snps <- function(x, y = NA, title, snp_start, snp_end, ly = TRUE, ..
 
   if (missing(snp_start) & !missing(snp_end)) {
     x <- x[snp_pos <= snp_end]
+  }
+  if (any(!is.na(y))){
+    x <- x[case_control %in% y]
   }
   p <- ggplot2::ggplot(x, ggplot2::aes(x = snp_pos, y = value)) +
     ggplot2::geom_line(ggplot2::aes(color = case_control), size = .6) +
@@ -76,7 +82,8 @@ plot.result_snps <- function(x, y = NA, title, snp_start, snp_end, ly = TRUE, ..
 #'  Line plot of gwid objects
 #'
 #' @param x An object of class gwid. Output of \code{build_gwid} function.
-#' @param y NA
+#' @param y default value is NA, if specified it should be a vector of names of
+#' subject groups i.e. y = c("case","control")
 #'
 #' @param title title of the plot.
 #' @param plot_type either \dQuote{result_snps} or \dQuote{profile}.
@@ -106,7 +113,7 @@ plot.gwid <- function(x, y = NA, title = "number of IBD in each snp", plot_type 
       x$res <- extract(x)
     }
 
-    plot(x[[which(unlist(lapply(x, inherits, "result_snps")))]],
+    plot(x[[which(unlist(lapply(x, inherits, "result_snps")))]], y,
       title = title, ...
     )
   }
@@ -115,7 +122,8 @@ plot.gwid <- function(x, y = NA, title = "number of IBD in each snp", plot_type 
 #'  Line plot of gwas objects
 #'
 #' @param x object of class gwas.
-#' @param y NA
+#' @param y default value is NA, if specified it should be a vector of names of
+#' subject groups i.e. y = c("case","control")
 #' @param title title of the plot.
 #' @param ... optional argument of \code{plot}
 #'
@@ -127,7 +135,7 @@ plot.gwas <- function(x, y = NA, title = "number of snps", ...) {
     x$snps <- extract(x)
   }
 
-  plot(x[[which(unlist(lapply(x, inherits, "result_snps")))]],
+  plot(x[[which(unlist(lapply(x, inherits, "result_snps")))]], y,
     title = title, ...
   )
 }
@@ -137,10 +145,13 @@ plot.gwas <- function(x, y = NA, title = "number of snps", ...) {
 #' Line plot of test_snps objects
 #'
 #' @param x an object of class test_snps.
-#' @param y NA
+#' @param y default value is NA, if specified it should be a vector of names of
+#' subject groups i.e. y = c("case","control")
 #' @param title title of the plot.
 #' @param snp_start select starting position of snps.
 #' @param snp_end select ending position of snps.
+#' @param ly if `TRUE`, we have a `plotly` object and if it is `FALSE` plot is going to be
+#' a `ggplot` object.
 #' @param ... other variables
 #'
 #' @return an interactive line plot of test_snps objects for each case control subjects.
@@ -157,6 +168,9 @@ plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ly =TRUE, ...) 
 
   if (missing(snp_start) & !missing(snp_end)) {
     x <- x[snp_pos <= snp_end]
+  }
+  if (any(!is.na(y))){
+    x <- x[case_control %in% y]
   }
   p <- ggplot2::ggplot(x, ggplot2::aes(x = snp_pos, y = value)) +
     ggplot2::geom_line(ggplot2::aes(color = case_control), size = .6) +
@@ -214,14 +228,20 @@ plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ly =TRUE, ...) 
 #' Two type of line plots for haplotype_structure_frequency objects .
 #'
 #' @param x an object of class haplotype_structure_frequency
-#' @param y NA
+#' @param y default value is NA, if specified it should be a vector of names of
+#' subject groups i.e. y = c("case","control")
 #' @param type either \dQuote{version1} or \dQuote{version2}
 #' @param nwin window number
+#' @param ly if `TRUE`, we have a `plotly` object and if it is `FALSE` plot is going to be
+#' a `ggplot` object.
 #' @param ... other variables
 #' @export
 plot.haplotype_structure_frequency <- function(x, y = NA, type = c("version1", "version2"), nwin, ly = TRUE, ...) {
   type <- match.arg(type)
   structures <- window_number <- n <- NULL
+  if (any(!is.na(y))){
+    x <- x[case_control %in% y]
+  }
   if (type == "version1") {
     p <- ggplot2::ggplot(x[window_number == nwin, ], ggplot2::aes(x = structures, y = n, frame = window_number)) +
       ggplot2::geom_line(ggplot2::aes(color = case_control, group = case_control), size = .6) +
@@ -280,7 +300,8 @@ plot.haplotype_structure_frequency <- function(x, y = NA, type = c("version1", "
 #' Line plot of haplotype_frequency object
 #'
 #' @param x an object of class haplotype_frequency
-#' @param y NA
+#' @param y default value is `NA`, if specified it should be a vector of names of
+#' subject groups i.e. `y = c("case","control")`
 #' @param plot_type either \dQuote{result_snps} or \dQuote{"haplotype_structure_frequency"}
 #' @param type either \dQuote{version1} or \dQuote{version2} when plot_type is \dQuote{"haplotype_structure_frequency"}
 #' @param nwin window number
@@ -292,12 +313,12 @@ plot.haplotype_frequency <- function(x, y = NA, plot_type = c("haplotype_structu
   plot_type <- match.arg(plot_type)
   if (plot_type == "haplotype_structure_frequency") {
     type <- match.arg(type)
-    plot(x[[which(unlist(lapply(x, inherits, "haplotype_structure_frequency")))]], type = type, nwin = nwin)
+    plot(x[[which(unlist(lapply(x, inherits, "haplotype_structure_frequency")))]], y, type = type, nwin = nwin)
   } else {
     if (!missing(title)) {
-      plot(x[[which(unlist(lapply(x, inherits, "result_snps")))]],title = title, ...)
+      plot(x[[which(unlist(lapply(x, inherits, "result_snps")))]], y, title = title, ...)
     } else {
-      plot(x[[which(unlist(lapply(x, inherits, "result_snps")))]], ...)
+      plot(x[[which(unlist(lapply(x, inherits, "result_snps")))]], y, ...)
     }
   }
 }

@@ -80,15 +80,17 @@ plot(myregion2,ly = FALSE)
 
 # Further investigate location between 117M and 122M
 # significant number of IBD's in group cases, compare to cont1, cont2 and cont3.
-plot(myregion2,snp_start = 117026294,snp_end = 122613594,ly = FALSE) 
+plot(myregion2,y = c("cases","cont1"),snp_start = 117026294,snp_end = 122613594,ly = FALSE) 
 
 ```
 
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
 
-```{r cars}
-#summary(cars)
+
+
+```{r, echo=FALSE}
+myregion2$res
+
 ```
 
 You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. You could also use GitHub Actions to re-render `README.Rmd` every time you push. An example workflow can be found here: <https://github.com/r-lib/actions/tree/v1/examples>.
