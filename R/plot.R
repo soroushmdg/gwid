@@ -181,12 +181,12 @@ plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ly =TRUE, ...) 
     ggplot2::scale_y_continuous(trans = "log10")
   if (!missing(title)) {
     p <- p + ggplot2::labs(
-      title = title, y = "log10 p_values",
+      title = title, y = "p_values",
       fill = "case_control"
     )
   } else {
     p <- p + ggplot2::labs(
-      y = "log10 p_values",
+      y = "p_values",
       fill = "case_control"
     )
   }

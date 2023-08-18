@@ -76,7 +76,7 @@ myregion2$ibd
 myregion2$res # count number of ibd for each SNP location 
 
 # plot count of IBD in chromosome 3
-plot(myregion2,ly = FALSE) 
+plot(myregion2,y = c("cases","cont1"),ly = FALSE) 
 
 # Further investigate location between 117M and 122M
 # significant number of IBD's in group cases, compare to cont1, cont2 and cont3.
@@ -84,6 +84,12 @@ plot(myregion2,y = c("cases","cont1"),snp_start = 117026294,snp_end = 122613594,
 
 ```
 
+```{r}
+model_fisher <- gwid::fisher_test(myregion2,caco,reference = "cases",
+                                             snp_start = 117026294,snp_end = 122613594)
+
+plot(model_fisher, y = c("cases","cont1"),ly = FALSE)
+```
 
 
 
