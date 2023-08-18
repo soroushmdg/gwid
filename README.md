@@ -71,10 +71,8 @@ library(gwid)
 
 # case-control data
 caco <- gwid::case_control(case_control_rda = case_control_data)
-names(caco) #cases adn controls group
+names(caco) #cases and controls group
 #> [1] "cases" "case1" "case2" "cont1" "cont2" "cont3"
-caco$cases[1:3] # sample names codes
-#> [1] "MC.154405@1075678440" "MC.154595@1075642175" "MC.154701@1076254706"
 summary(caco) # in here, we only consider cases,cont1,cont2,cont3 groups in the study
 #>       Length Class  Mode     
 #> cases 478    -none- character
@@ -150,14 +148,11 @@ plot(myregion2,ly = FALSE)
 ``` r
 
 # Further investigate location between 117M and 122M
+# significant number of IBD's in group cases, compare to cont1, cont2 and cont3.
 plot(myregion2,snp_start = 117026294,snp_end = 122613594,ly = FALSE) 
 ```
 
 <img src="man/figures/README-example-2.png" width="100%" />
-
-``` r
-#significant number of IBD's in group cases, compare to cont1, cont2 and cont3.
-```
 
 What is special about using `README.Rmd` instead of just `README.md`?
 You can include R chunks like so:
