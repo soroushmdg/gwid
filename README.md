@@ -29,8 +29,6 @@ gwid pipeline
 
 </div>
 
-<img src="inst/Figures/final-copy-arrow.png" align="center" height=300/>
-
 ## Usage
 
 The `gwid` package receives four types of inputs: SNP panel information,
