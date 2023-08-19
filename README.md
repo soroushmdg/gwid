@@ -29,6 +29,8 @@ gwid pipeline
 
 </div>
 
+<img src="inst/Figures/final-copy-arrow.png" align="center" height=300/>
+
 ## Usage
 
 The `gwid` package receives four types of inputs: SNP panel information,
@@ -140,7 +142,7 @@ myregion2$res # count number of ibd for each SNP location
 #> 133812: 197833758        cont3    44
 
 # plot count of IBD in chromosome 3
-plot(myregion2,ly = FALSE) 
+plot(myregion2,y = c("cases","cont1"),ly = FALSE) 
 ```
 
 <img src="man/figures/README-example-1.png" width="100%" />
@@ -149,17 +151,19 @@ plot(myregion2,ly = FALSE)
 
 # Further investigate location between 117M and 122M
 # significant number of IBD's in group cases, compare to cont1, cont2 and cont3.
-plot(myregion2,snp_start = 117026294,snp_end = 122613594,ly = FALSE) 
+plot(myregion2,y = c("cases","cont1"),snp_start = 117026294,snp_end = 122613594,ly = FALSE) 
 ```
 
 <img src="man/figures/README-example-2.png" width="100%" />
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
-
 ``` r
-#summary(cars)
+model_fisher <- gwid::fisher_test(myregion2,caco,reference = "cases",
+                                             snp_start = 117026294,snp_end = 122613594)
+
+plot(model_fisher, y = c("cases","cont1"),ly = FALSE)
 ```
+
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
 
 You’ll still need to render `README.Rmd` regularly, to keep `README.md`
 up-to-date. `devtools::build_readme()` is handy for this. You could also
