@@ -22,9 +22,10 @@ GWID (Genome Wide Identity by Descent) is an R-package designed for the analysis
 
 
 
-```{r, out.width="70%",include=TRUE, fig.align="center", fig.cap=c("gwid pipeline"), echo=FALSE}
+```{r, out.width="70%",include=TRUE, fig.align='center', fig.cap=c("gwid pipeline"), echo=FALSE}
 knitr::include_graphics("./inst/Figures/final-copy-arrow.png")
 ``` 
+
 ## Usage
 
 The `gwid` package receives four types of inputs: a genotype file, an IBD file, a haplotype file, and  phenotype file. The genotype data is derived from the output of the [SNPRelate](https://www.bioconductor.org/packages/release/bioc/html/SNPRelate.html) package in the form of a **gds** file. The IBD file takes the form of tabulated data produced by the [Refined IBD](https://faculty.washington.edu/browning/refined-ibd.html) software. Haplotype file comes from the output of the [Beagle](http://faculty.washington.edu/browning/beagle/beagle.html), while phenotype data is represented using an R list.
