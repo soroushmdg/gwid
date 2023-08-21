@@ -8,17 +8,18 @@
 
 GWID (Genome Wide Identity by Descent) is an R-package designed for the
 analysis of IBD (Identity by Descent) data, to discover rare alleles
-associated with case-control phenotype. Although Genome Wide Association
-Studies (GWAS) successfully reveal numerous common variants linked to
-diseases, they exhibit lack of power to identify rare alleles. To
-address this limitation, we have developed a pipeline that employs IBD
-data (output of refined-IBD software). This methodology encompasses a
-sequential process for analyzing the aforementioned data within isolated
-populations. The primary objective of this approach is to enhance the
-sensitivity of variant detection by utilizing information from
-genetically related individuals, thereby facilitating the identification
-of causal variants. An overall representation of the pipeline is
-visually depicted in the following figure.
+(susceptibility regions) associated with case-control phenotype.
+Although Genome Wide Association Studies (GWAS) successfully reveal
+numerous common variants linked to diseases, they exhibit lack of power
+to identify rare alleles. To address this limitation, we have developed
+a pipeline that employs IBD data (output of refined-IBD software). This
+methodology encompasses a sequential process for analyzing the
+aforementioned data within isolated populations. The primary objective
+of this approach is to enhance the sensitivity of variant detection by
+utilizing information from genetically related individuals, thereby
+facilitating the identification of causal variants. An overall
+representation of the pipeline is visually depicted in the following
+figure.
 
 <div class="figure" style="text-align: center">
 
@@ -31,18 +32,16 @@ gwid pipeline
 
 ## Usage
 
-The `gwid` package receives four types of inputs: SNP panel information,
-IBD information, haplotype data, and data concerning subjects
-categorized as cases and controls. The SNP panel data is derived from
-the output of the
+The `gwid` package receives four types of inputs: a genotype file, an
+IBD file, a haplotype file, and phenotype file. The genotype data is
+derived from the output of the
 [SNPRelate](https://www.bioconductor.org/packages/release/bioc/html/SNPRelate.html)
-package in the form of a **gds** file. The IBD data takes the form of
+package in the form of a **gds** file. The IBD file takes the form of
 tabulated data produced by the [Refined
 IBD](https://faculty.washington.edu/browning/refined-ibd.html) software.
-Haplotype data comes from the output of the
+Haplotype file comes from the output of the
 [Beagle](http://faculty.washington.edu/browning/beagle/beagle.html),
-while information about case and control subjects is represented using
-an R list.
+while phenotype data is represented using an R list.
 
 ## Installation
 
@@ -56,10 +55,36 @@ devtools::install_github("soroushmdg/gwid")
 
 ## Example
 
-The following example is for a SNP panel data from the Marshfield
-Clinic. subjects in case group has Rheumatoid Arthritis (RA).
+We demonstrated the key functionalities of gwid using the rheumatoid
+arthritis (RA) GWAS dataset. This dataset consisted of DNA samples
+collected from 478 individuals diagnosed with rheumatoid arthritis (RA)
+and a control group of 1,434 individuals without RA. Genotyping was
+performed using the Illumina Infinium array. All samples were obtained
+from a genetically homogeneous population in central Wisconsin
+exhibiting elevated relatedness structure. Because size of data is
+large, we use `pggyback` package to upload and download data from github
+repository.
 
-This is a basic example which shows you how to solve a common problem:
+``` r
+# install.packages("piggyback")
+library(piggyback)
+pb_download(repo = "soroushmdg/gwid",
+            tag = "v0.0.1",
+            dest = tempdir())
+ibd_data_file <- paste0(tempdir(),"//chr3.ibd")
+genome_data_file <- paste0(tempdir(),"//chr3.gds")
+phase_data_file <- paste0(tempdir(),"//chr3.vcf")
+case_control_data_file <- paste0(tempdir(),"//case-cont-RA.withmap.Rda")
+```
+
+### Input
+
+In this code we explain each input data files individually.
+`case_control` is object of class `caco` that has phenotype information.
+`snp_data_gds` object of class `gwas` read output of `SNPRelate`
+package, we use this package because it is very fast and efficient.
+`haplotype_data` object of class `phase` has haplotype data. `ibd_data`
+is an object of `gwid` class that has ibd information.
 
 ``` r
 library(gwid)
@@ -70,10 +95,10 @@ library(gwid)
 #>     print, subset
 
 # case-control data
-caco <- gwid::case_control(case_control_rda = case_control_data)
-names(caco) #cases and controls group
+case_control <- gwid::case_control(case_control_rda = case_control_data_file)
+names(case_control) #cases and controls group
 #> [1] "cases" "case1" "case2" "cont1" "cont2" "cont3"
-summary(caco) # in here, we only consider cases,cont1,cont2,cont3 groups in the study
+summary(case_control) # in here, we only consider cases,cont1,cont2,cont3 groups in the study
 #>       Length Class  Mode     
 #> cases 478    -none- character
 #> case1 178    -none- character
@@ -81,10 +106,16 @@ summary(caco) # in here, we only consider cases,cont1,cont2,cont3 groups in the 
 #> cont1 477    -none- character
 #> cont2 478    -none- character
 #> cont3 478    -none- character
+case_control$cases[1:3] # first three subject names of cases group
+#> [1] "MC.154405@1075678440" "MC.154595@1075642175" "MC.154701@1076254706"
 
 # read SNP data (use SNPRelate to convert it to gds) and count number of minor alleles  
-pieces <- gwid::build_gwas(gds_data = genome_data,caco = caco,gwas_generator = TRUE)
-head(pieces$snps)
+snp_data_gds <- gwid::build_gwas(gds_data = genome_data_file,caco = case_control,gwas_generator = TRUE)
+class(snp_data_gds)
+#> [1] "gwas"
+names(snp_data_gds)
+#> [1] "smp.id"   "snp.id"   "snp.pos"  "smp.indx" "smp.snp"  "caco"     "snps"
+head(snp_data_gds$snps) # it has information about counts of minor alleles in each location.
 #>    snp_pos case_control value
 #> 1:   66894        cases   627
 #> 2:   66894        case1   240
@@ -94,13 +125,19 @@ head(pieces$snps)
 #> 6:   66894        cont3   646
 
 # read haplotype data (output of beagle)
-myphase <- gwid::build_phase(phased_vcf = phase_data,caco = caco)
-names(myphase)
+haplotype_data <- gwid::build_phase(phased_vcf = phase_data_file,caco = case_control)
+class(haplotype_data)
+#> [1] "phase"
+names(haplotype_data)
 #> [1] "Hap.1" "Hap.2"
+dim(haplotype_data$Hap.1) #22302 SNP and 1911 subjects
+#> [1] 22302  1911
 
 # read ibd data (output of refined ibd)
-myregion2 <- gwid::build_gwid(ibd_data = ibd_data,gwas = pieces)
-myregion2$ibd
+ibd_data <- gwid::build_gwid(ibd_data = ibd_data_file,gwas = snp_data_gds)
+class(ibd_data)
+#> [1] "gwid"
+ibd_data$ibd # refined ibd output
 #>                              V1 V2                      V3 V4 V5        V6
 #>      1: MC.AMD127769@0123889787  2    MC.160821@1075679055  1  3  32933295
 #>      2: MC.AMD127769@0123889787  1 MC.AMD107154@0123908746  1  3  29995340
@@ -125,7 +162,7 @@ myregion2$ibd
 #> 377562: 186184328 5.95 2.179
 #> 377563: 184801115 3.58 3.318
 #> 377564: 183972729 3.03 1.533
-myregion2$res # count number of ibd for each SNP location 
+ibd_data$res # count number of ibd for each SNP location 
 #>           snp_pos case_control value
 #>      1:     66894        cases    27
 #>      2:     82010        cases    28
@@ -138,30 +175,34 @@ myregion2$res # count number of ibd for each SNP location
 #> 133810: 197744198        cont3    44
 #> 133811: 197762623        cont3    44
 #> 133812: 197833758        cont3    44
-
-# plot count of IBD in chromosome 3
-plot(myregion2,y = c("cases","cont1"),ly = FALSE) 
 ```
 
-<img src="man/figures/README-example-1.png" width="100%" />
+### `plot` method
+
+``` r
+# plot count of IBD in chromosome 3
+plot(ibd_data,y = c("cases","cont1"),ly = FALSE) 
+```
+
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
 
 ``` r
 
 # Further investigate location between 117M and 122M
 # significant number of IBD's in group cases, compare to cont1, cont2 and cont3.
-plot(myregion2,y = c("cases","cont1"),snp_start = 117026294,snp_end = 122613594,ly = FALSE) 
+plot(ibd_data,y = c("cases","cont1"),snp_start = 117026294,snp_end = 122613594,ly = FALSE) 
 ```
 
-<img src="man/figures/README-example-2.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-4-2.png" width="100%" />
 
 ``` r
-model_fisher <- gwid::fisher_test(myregion2,caco,reference = "cases",
+model_fisher <- gwid::fisher_test(ibd_data,case_control,reference = "cases",
                                              snp_start = 117026294,snp_end = 122613594)
 
 plot(model_fisher, y = c("cases","cont1"),ly = FALSE)
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
 You’ll still need to render `README.Rmd` regularly, to keep `README.md`
 up-to-date. `devtools::build_readme()` is handy for this. You could also

@@ -22,10 +22,9 @@ GWID (Genome Wide Identity by Descent) is an R-package designed for the analysis
 
 
 
-```{r, out.width="70%",include=TRUE, fig.align='center', fig.cap=c("gwid pipeline"), echo=FALSE}
+```{r, out.width="70%",include=TRUE, fig.align="center", fig.cap=c("gwid pipeline"), echo=FALSE}
 knitr::include_graphics("./inst/Figures/final-copy-arrow.png")
 ``` 
-
 ## Usage
 
 The `gwid` package receives four types of inputs: a genotype file, an IBD file, a haplotype file, and  phenotype file. The genotype data is derived from the output of the [SNPRelate](https://www.bioconductor.org/packages/release/bioc/html/SNPRelate.html) package in the form of a **gds** file. The IBD file takes the form of tabulated data produced by the [Refined IBD](https://faculty.washington.edu/browning/refined-ibd.html) software. Haplotype file comes from the output of the [Beagle](http://faculty.washington.edu/browning/beagle/beagle.html), while phenotype data is represented using an R list.
@@ -91,14 +90,12 @@ ibd_data$res # count number of ibd for each SNP location
 ### `plot` method
 ```{r}
 # plot count of IBD in chromosome 3
-plot(ibd_data,y = c("cases","cont1","cont2","cont3"),ly = FALSE) 
+plot(ibd_data,y = c("cases","cont1"),ly = FALSE) 
 
 # Further investigate location between 117M and 122M
 # significant number of IBD's in group cases, compare to cont1, cont2 and cont3.
-plot(ibd_data,y = c("cases","cont1","cont2","cont3"),snp_start = 117026294,snp_end = 122613594,ly = FALSE) 
+plot(ibd_data,y = c("cases","cont1"),snp_start = 117026294,snp_end = 122613594,ly = FALSE) 
 
-# profile plot of cases
-plot(ibd_data,plot_type = "profile")
 ```
 
 
