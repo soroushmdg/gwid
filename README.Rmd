@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # gwid
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/soroushmdg/gwid/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/soroushmdg/gwid/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 GWID (Genome Wide Identity by Descent) is an R-package designed for the analysis of IBD (Identity by Descent) data, to discover rare alleles (susceptibility regions) associated with case-control phenotype. Although Genome Wide Association Studies (GWAS) successfully reveal numerous common variants linked to diseases, they exhibit lack of power to identify rare alleles. To address this limitation, we have developed a pipeline that employs IBD data (output of refined-IBD software). This methodology encompasses a sequential process for analyzing the aforementioned data within isolated populations. The primary objective of this approach is to enhance the sensitivity of variant detection by utilizing information from genetically related individuals, thereby facilitating the identification of causal variants. An overall representation of the pipeline is visually depicted in the following figure.
@@ -109,11 +110,11 @@ plot(model_fisher, y = c("cases","cont1"),ly = FALSE)
 
 
 ```{r}
-model_permutation <- permutation_test(ibd_data,gwas=snp_data_gds,nperm = 10,
-                                      reference = "cases",
-                                      snp_start = 117026294,snp_end = 122613594)
-
-plot(model_permutation,y = c("cases","cont1"),ly=FALSE)
+# model_permutation <- permutation_test(ibd_data,gwas=snp_data_gds,nperm = 10,
+#                                       reference = "cases",
+#                                       snp_start = 117026294,snp_end = 122613594)
+# 
+# plot(model_permutation,y = c("cases","cont1"),ly=FALSE)
 ```
 
 

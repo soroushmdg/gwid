@@ -4,6 +4,8 @@
 # gwid
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/soroushmdg/gwid/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/soroushmdg/gwid/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 GWID (Genome Wide Identity by Descent) is an R-package designed for the
@@ -23,7 +25,7 @@ figure.
 
 <div class="figure" style="text-align: center">
 
-<img src="./inst/Figures/final-copy-arrow.png" alt="gwid pipeline" width="70%" />
+<img src="./man/figures/final-copy-arrow.png" alt="gwid pipeline" width="70%" />
 <p class="caption">
 gwid pipeline
 </p>
@@ -204,13 +206,10 @@ plot(model_fisher, y = c("cases","cont1"),ly = FALSE)
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this. You could also
-use GitHub Actions to re-render `README.Rmd` every time you push. An
-example workflow can be found here:
-<https://github.com/r-lib/actions/tree/v1/examples>.
-
-You can also embed plots, for example:
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+``` r
+# model_permutation <- permutation_test(ibd_data,gwas=snp_data_gds,nperm = 10,
+#                                       reference = "cases",
+#                                       snp_start = 117026294,snp_end = 122613594)
+# 
+# plot(model_permutation,y = c("cases","cont1"),ly=FALSE)
+```
