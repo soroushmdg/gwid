@@ -1,6 +1,6 @@
 #' @import data.table
 #' @import Matrix
-#' @importFrom stats fisher.test quantile
+#' @importFrom stats fisher.test quantile xtabs
 
 
 

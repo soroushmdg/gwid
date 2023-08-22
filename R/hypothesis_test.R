@@ -574,7 +574,7 @@ permutation_test.haplotype_structure <- function(obj, nperm, reference, ...) {
       y <- table(y)[caco, ]
     })
     statistics[, j] <- unlist(lapply(tmp, function(x) {
-      y <- gwid:::G_Test(x, correct = "williams")$statistic
+      y <- G_Test(x, correct = "williams")$statistic
       y
     }))
 
