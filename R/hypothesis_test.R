@@ -148,17 +148,19 @@ permutation_test <- function(obj, ...) {
 #' @param snp_end select ending position of snp.
 #' @param nperm Number of permutations.
 #' @param reference reference group
-#' @param ibd_data a file name for output of \href{http://faculty.washington.edu/browning/refined-ibd.html}{Refined IBD}
 #' @param ... other variables
 #'
 #' @export
 permutation_test.gwid <- function(obj, gwas, snp_start, snp_end,
-                                  nperm = 1000, reference = "cases",  ibd_data, ...) {
+                                  nperm = 100, reference = "cases", ...) {
   if (missing(obj)) {
     stop("please provide gwid object (output of function build_gwid)")
   }
   if (missing(gwas)) {
     stop("please provide gwas object")
+  }
+  if (missing(reference)) {
+    stop("please provide reference group")
   }
   if (sum(unlist(lapply(obj, inherits, "result_snps"))) == 0) {
     obj$res <- obj(obj)
@@ -182,7 +184,51 @@ permutation_test.gwid <- function(obj, gwas, snp_start, snp_end,
   gwas_temp <- gwas
   gwas_temp$caco <- list(all_subj = unique(unlist(gwas_temp$caco, use.names = FALSE)))
   class(gwas_temp$caco) <- class(gwas[["caco"]])
-  myregion2_temp <- gwid::build_gwid(ibd_data = ibd_data, gwas = gwas_temp)
+  build_gwid_modify <- function(gwid = "object of class gwid", gwas = "object of class gwas", gwid_generator = TRUE) {
+    ibd <- gwid$ibd
+    V1 <- V2 <- V3 <- V4 <- V5 <- V6 <- V7 <- V8 <- V9 <- NULL
+    ibd <- ibd[V1 %in% unlist(unique(gwas[["caco"]])) & V3 %in% unlist(unique(gwas[["caco"]]))]
+    class(ibd) <- append("IBD", class(ibd))
+    seq2 <- Vectorize(seq.default, vectorize.args = c("from", "to"))
+    profile <- ind <- vector(mode = "list", length = length(gwas[["caco"]])) # list length 6
+    for (j in seq_along(gwas[["caco"]])) {
+      ind[[j]] <- which(ibd$V1 %in% gwas[["caco"]][[j]] & ibd$V3 %in% gwas[["caco"]][[j]])
+      a1 <- ibd[V1 %in% gwas[["caco"]][[j]] & V3 %in% gwas[["caco"]][[j]]]
+      a2 <- seq2(match(a1$V6, gwas$snp.pos), match(a1$V7, gwas$snp.pos))
+      Un1 <- unlist(a2)
+      profile[[j]] <- Matrix::sparseMatrix(
+        i = rep(seq_along(a2), lengths(a2)),
+        j = Un1,
+        x = 1
+      )
+      if (ncol(profile[[j]]) < length(gwas$snp.pos)) {
+        if (min(Un1) > 1) {
+          mytemp <- Matrix(0, nrow = nrow(profile[[j]]), ncol = (min(Un1) - 1))
+          profile[[j]] <- cbind(mytemp, profile[[j]])
+        }
+
+        if (max(Un1) < length(gwas$snp.pos)) {
+          mytemp <- Matrix(0, nrow = nrow(profile[[j]]), ncol = (length(gwas$snp.pos) - max(Un1)))
+          profile[[j]] <- cbind(profile[[j]], mytemp)
+        }
+
+        profile[[j]] <- methods::as(profile[[j]], "sparseMatrix")
+      }
+    }
+
+    names(profile) <- names(ind) <- names(gwas[["caco"]])
+
+    class(profile) <- "profile"
+    output <- list(profile = profile, IND = ind)
+    output$snp_pos <- gwas[["snp.pos"]]
+    output$ibd <- ibd
+    class(output) <- "gwid"
+    if (gwid_generator) {
+      output$res <- extract(output)
+    }
+    return(output)
+  }
+  myregion2_temp <- build_gwid_modify(gwid = obj, gwas = gwas_temp)
   mres <- myregion2_temp$profile$all_subj
   ibd <- myregion2_temp$ibd
   subj.ind <- list()
