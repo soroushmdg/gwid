@@ -538,3 +538,70 @@ fisher_test.result_snps <- function(obj, caco, reference, alternative = c("two.s
   class(pval_table) <- append("test_snps",class(pval_table))
   return(pval_table)
 }
+
+
+
+#' Permutation test for `haplotype_structure` object
+#'
+#' @param obj object of class `haplotype_structure`
+#'
+#' @param nperm Number of permutations.
+#' @param reference reference group of subjects in which we want to perform `gtest`
+#' @param ... other variables
+#'
+#' @export
+permutation_test.haplotype_structure <- function(obj, nperm, reference, ...) {
+  if (missing(obj) | missing(reference)) {
+    stop("please provide function arguments")
+  }
+  statistics <- matrix(0, nrow = length(unique(obj$snp_pos)), ncol = length(unique(obj$case_control)))
+  colnames(statistics) <- levels(obj$case_control)
+  idx <- which(colnames(statistics) == reference)
+  statistics_perm <- vector(mode = "list", length = nperm)
+  for (i in 1:nperm) {
+    statistics_perm[[i]] <- matrix(0, nrow = nrow(statistics), ncol = ncol(statistics))
+  }
+  Freq <- NULL
+  for (j in (1:ncol(statistics))[-idx]) {
+    caco <- c(reference, colnames(statistics)[j])
+    case_control <- snp_pos <- structures <- window_number <- NULL
+    tmp <- obj[case_control %in% caco, list(case_control, structures, window_number)]
+
+    tmp <- split(tmp, tmp[, window_number])
+
+    tmp <- lapply(tmp, function(x) {
+      y <- x[case_control %in% caco, !"window_number"]
+      y <- table(y)[caco, ]
+    })
+    statistics[, j] <- unlist(lapply(tmp, function(x) {
+      y <- gwid:::G_Test(x, correct = "williams")$statistic
+      y
+    }))
+
+    for (i in 1:nperm) {
+      statistics_perm[[i]][, j] <- unlist(lapply(tmp, function(x) {
+        data_frame_tmp <- as.data.frame(x)
+        data_frame_tmp[, 3] <- sample(data_frame_tmp[, 3])
+        cn <- colnames(data_frame_tmp)
+        shuffled_table_obj <- xtabs(Freq ~ ., data_frame_tmp)
+        y <- gwid:::G_Test(shuffled_table_obj, correct = "williams")$statistic
+        y
+      }))
+    }
+  }
+
+  pval <- matrix(0, nrow = nrow(statistics), ncol = ncol(statistics))
+  pval <- Reduce("+", lapply(statistics_perm, function(x) {
+    x > statistics
+  })) / nperm
+  colnames(pval) <- colnames(statistics)
+  pval[, idx] <- 1
+  pval_table <- data.table::as.data.table(pval)[, snp_pos := sort(unique(obj$snp_pos))]
+  pval_table <- data.table::melt(pval_table,
+    id.vars = "snp_pos", value.name = "value",
+    measure.vars = colnames(statistics), variable.name = "case_control"
+  )
+  output <- data.table::copy(pval_table)
+  class(output) <- append("test_snps", class(output))
+  return(output)
+}
