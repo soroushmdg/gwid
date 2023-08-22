@@ -4,18 +4,22 @@
 \alias{plot.result_snps}
 \title{Line plot of result_snps objects}
 \usage{
-\method{plot}{result_snps}(x, y = NA, title, snp_start, snp_end, ...)
+\method{plot}{result_snps}(x, y = NA, title, snp_start, snp_end, ly = TRUE, ...)
 }
 \arguments{
 \item{x}{An object of class result_snps.}
 
-\item{y}{NA}
+\item{y}{default value is NA, if specified it should be a vector of names of
+subject groups i.e. y = c("case","control")}
 
 \item{title}{title of the plot.}
 
 \item{snp_start}{select starting position of snps.}
 
 \item{snp_end}{select ending position of snps.}
+
+\item{ly}{if TRUE, we have a plotly object and if it is false plot is going to be
+a ggplot object.}
 
 \item{...}{other variables}
 }

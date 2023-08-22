@@ -17,7 +17,8 @@
 \arguments{
 \item{x}{an object of class haplotype_frequency}
 
-\item{y}{NA}
+\item{y}{default value is `NA`, if specified it should be a vector of names of
+subject groups i.e. `y = c("case","control")`}
 
 \item{plot_type}{either \dQuote{result_snps} or \dQuote{"haplotype_structure_frequency"}}
 

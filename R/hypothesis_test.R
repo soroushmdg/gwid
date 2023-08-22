@@ -584,7 +584,7 @@ permutation_test.haplotype_structure <- function(obj, nperm, reference, ...) {
         data_frame_tmp[, 3] <- sample(data_frame_tmp[, 3])
         cn <- colnames(data_frame_tmp)
         shuffled_table_obj <- xtabs(Freq ~ ., data_frame_tmp)
-        y <- gwid:::G_Test(shuffled_table_obj, correct = "williams")$statistic
+        y <- G_Test(shuffled_table_obj, correct = "williams")$statistic
         y
       }))
     }

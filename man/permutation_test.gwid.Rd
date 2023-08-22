@@ -9,9 +9,8 @@
   gwas,
   snp_start,
   snp_end,
-  nperm = 1000,
+  nperm = 100,
   reference = "cases",
-  ibd_data,
   ...
 )
 }
@@ -27,8 +26,6 @@
 \item{nperm}{Number of permutations.}
 
 \item{reference}{reference group}
-
-\item{ibd_data}{a file name for output of \href{http://faculty.washington.edu/browning/refined-ibd.html}{Refined IBD}}
 
 \item{...}{other variables}
 }

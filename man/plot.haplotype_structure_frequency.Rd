@@ -2,21 +2,25 @@
 % Please edit documentation in R/plot.R
 \name{plot.haplotype_structure_frequency}
 \alias{plot.haplotype_structure_frequency}
-\title{Two type of line plots for haplotype_structure_frequency objects.}
+\title{Two type of line plots for haplotype_structure_frequency objects .}
 \usage{
-\method{plot}{haplotype_structure_frequency}(x, y = NA, type = c("version1", "version2"), nwin, ...)
+\method{plot}{haplotype_structure_frequency}(x, y = NA, type = c("version1", "version2"), nwin, ly = TRUE, ...)
 }
 \arguments{
 \item{x}{an object of class haplotype_structure_frequency}
 
-\item{y}{NA}
+\item{y}{default value is NA, if specified it should be a vector of names of
+subject groups i.e. y = c("case","control")}
 
 \item{type}{either \dQuote{version1} or \dQuote{version2}}
 
 \item{nwin}{window number}
 
+\item{ly}{if `TRUE`, we have a `plotly` object and if it is `FALSE` plot is going to be
+a `ggplot` object.}
+
 \item{...}{other variables}
 }
 \description{
-Two type of line plots for haplotype_structure_frequency objects.
+Two type of line plots for haplotype_structure_frequency objects .
 }

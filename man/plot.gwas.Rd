@@ -9,7 +9,8 @@
 \arguments{
 \item{x}{object of class gwas.}
 
-\item{y}{NA}
+\item{y}{default value is NA, if specified it should be a vector of names of
+subject groups i.e. y = c("case","control")}
 
 \item{title}{title of the plot.}
 

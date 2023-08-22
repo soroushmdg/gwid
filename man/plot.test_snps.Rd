@@ -4,18 +4,22 @@
 \alias{plot.test_snps}
 \title{Line plot of test_snps objects}
 \usage{
-\method{plot}{test_snps}(x, y = NA, title, snp_start, snp_end, ...)
+\method{plot}{test_snps}(x, y = NA, title, snp_start, snp_end, ly = TRUE, ...)
 }
 \arguments{
 \item{x}{an object of class test_snps.}
 
-\item{y}{NA}
+\item{y}{default value is NA, if specified it should be a vector of names of
+subject groups i.e. y = c("case","control")}
 
 \item{title}{title of the plot.}
 
 \item{snp_start}{select starting position of snps.}
 
 \item{snp_end}{select ending position of snps.}
+
+\item{ly}{if `TRUE`, we have a `plotly` object and if it is `FALSE` plot is going to be
+a `ggplot` object.}
 
 \item{...}{other variables}
 }
