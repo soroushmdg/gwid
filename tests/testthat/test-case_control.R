@@ -7,7 +7,7 @@ case_control_data_file <- paste0(tempdir(),"//case-cont-RA.withmap.Rda")
 case_control <- gwid::case_control(case_control_rda = case_control_data_file)
 
 
-test_that("build section works", {
+test_that("case_control section works", {
   expect_length(case_control,n = 6)
   expect_s3_class(case_control,"caco")
 })

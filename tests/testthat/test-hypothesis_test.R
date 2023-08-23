@@ -12,7 +12,7 @@ haplotype_data <- gwid::build_phase(phased_vcf = phase_data_file,caco = case_con
 ibd_data <- gwid::build_gwid(ibd_data = ibd_data_file,gwas = snp_data_gds)
 fisher_exact_test <- fisher_test(ibd_data,case_control,snp_start = 118926294,snp_end = 122613594,reference = "cases")
 
-test_that("extract section works", {
+test_that("hypothesis test section works", {
   expect_s3_class(fisher_exact_test,"test_snps")
 
 })

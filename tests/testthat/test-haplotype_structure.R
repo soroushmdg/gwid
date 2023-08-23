@@ -12,7 +12,7 @@ haplotype_data <- gwid::build_phase(phased_vcf = phase_data_file,caco = case_con
 ibd_data <- gwid::build_gwid(ibd_data = ibd_data_file,gwas = snp_data_gds)
 hap_str <- haplotype_structure(ibd_data,haplotype_data,w = 10, snp_start = 118926294,snp_end = 122613594)
 
-test_that("extract section works", {
+test_that("haplotype_structure section works", {
   expect_s3_class(hap_str,"haplotype_structure")
 
 })
