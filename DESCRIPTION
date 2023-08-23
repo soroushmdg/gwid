@@ -1,8 +1,8 @@
 Package: gwid
 Type: Package
-Title: Genome-Wide Identity By Descent (GWID)
-Version: 0.1.0
-Author: Who wrote it
+Title: Genome-Wide Identity-By-Descent (GWID)
+Version: 0.0.1
+Author: Soroush Mahmoudiandehkordi
 Maintainer: The package maintainer <soroushmdg@gmail.com>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
@@ -19,7 +19,8 @@ Imports:
     utils,
     stats,
     RcppRoll,
-    methods
+    methods,
+    piggyback
 RoxygenNote: 7.2.3
 Suggests: 
     knitr,
