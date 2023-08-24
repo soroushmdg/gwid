@@ -2,7 +2,7 @@
 % Please edit documentation in R/build.R
 \name{build_gwid}
 \alias{build_gwid}
-\title{Open a ibd file and extract information.}
+\title{Open an ibd file and extract information.}
 \usage{
 build_gwid(
   ibd_data = "name.ibd",
@@ -13,15 +13,17 @@ build_gwid(
 \arguments{
 \item{ibd_data}{a file name for output of \href{http://faculty.washington.edu/browning/refined-ibd.html}{Refined IBD}}
 
-\item{gwas}{object of class gwas}
+\item{gwas}{object of class `gwas`}
 
-\item{gwid_generator}{logical; if \code{TRUE} an object of class result_snps
+\item{gwid_generator}{logical; if \code{TRUE} an object of class `result_snps`
 will be saved inside output list.}
 }
 \value{
-the output will be a object(list) of class gwid contains
-profile object, IBD object and result_snps object.
+the output will be a object of `gwid` class contains
+profile object, IBD object and `result_snps` object.
 }
 \description{
-Open a ibd file and extract information.
+The function build_gwid processes an IBD file produced through Refined IBD software.
+Subsequently, it constructs a gwid class object comprising a sparse matrix of IBD segments. Moreover,
+this gwid object includes counts of IBD segments for individual pairs categorized within the case or control group.
 }

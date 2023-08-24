@@ -1,15 +1,15 @@
 #' Open a SNP GDS File and extract information.
 #'
-#'This function allows the user to access genetic information stored in the **gds** format,
-#'  which is the result produced by the `SNPRelate` package. In order to utilize this function,
-#'  the user must first employ `SNPRelate` to transform their file from **vcf** format to the **gds** format.
-#' @param gds_data File name with **gds** extension.
+#'This function allows the user to access genetic information stored in the \strong{gds} format,
+#'which is the result produced by the \pkg{SNPRelate} package. In order to utilize this function,
+#'the user must first employ \pkg{SNPRelate} to transform their file from \strong{vcf} format to the \strong{gds} format.
+#' @param gds_data File name with \strong{gds} extension.
 #'
-#' @param caco An object of class `caco`. Output of \code{case_control} function.
-#' @param gwas_generator logical; if \code{TRUE} an object of class `result_snps`
+#' @param caco An object of class \emph{caco}. Output of \code{case_control} function.
+#' @param gwas_generator logical; if \code{TRUE} an object of class \emph{result_snps}
 #' will be saved inside output list.
 #'
-#' @return A list of seven objects; including smp.id, snp.id, snp.pos, smp.indx,
+#' @return An object of \emph{gwas} class contains of seven objects; including smp.id, snp.id, snp.pos, smp.indx,
 #' smp.snp (a matrix with samples in rows and snp in columns), caco,
 #' snps(column sum of smp.snp for each case control)
 #'
@@ -45,16 +45,16 @@ build_gwas <- function(gds_data = "name.gds", caco = "name.Rda", gwas_generator 
 }
 
 
-#' Read **vcf** structured haplotype file.
+#' Read \strong{vcf} structured haplotype file.
 #'
-#'Read haplotype information encoded in a **VCF** formatted structured text and create two separate sparse matrices.
+#'Read haplotype information encoded in a \strong{vcf} formatted structured text and create two separate sparse matrices.
 #'These matrices will contain details about each haplotype, differentiating between paternal and maternal sources.
 #'
-#' @param phased_vcf A file name for a variant call format **vcf** file.
+#' @param phased_vcf A file name for a variant call format \strong{vcf} file.
 #'
-#' @param caco An object of class `caco`. Output of \code{case_control} function.
+#' @param caco An object of class \emph{caco}. Output of \code{case_control} function.
 #'
-#' @return The output will be a a list of class phase contains two sparse matrix
+#' @return The output will be a an object of class \emph{phase} contains two sparse matrix
 #' for each haplotype.
 #'
 #' @export
@@ -77,21 +77,19 @@ build_phase <- function(phased_vcf = "name.vcf", caco) {
   return(phased)
 }
 
-#' Open an `ibd` file and extract information.
+#' Open an ibd file and extract information.
 #'
-#'
-#'
-#'The function `build_gwid` processes an IBD file produced through **Refined IBD** software.
-#' Subsequently, it constructs a `gwid` class object comprising a sparse matrix of IBD segments. Moreover,
-#' this `gwid` object includes counts of IBD segments for individual pairs categorized within the case or control group.
+#'The function \code{build_gwid()} processes an IBD file produced through \pkg{Refined IBD} software.
+#'Subsequently, it constructs a \emph{gwid} class object comprising a sparse matrix of IBD segments. Moreover,
+#'this \emph{gwid} object includes counts of IBD segments for individual pairs categorized within the case or control group.
 #'
 #' @param ibd_data a file name for output of \href{http://faculty.washington.edu/browning/refined-ibd.html}{Refined IBD}
-#' @param gwas object of class `gwas`
-#' @param gwid_generator logical; if \code{TRUE} an object of class `result_snps`
+#' @param gwas object of class \emph{gwas}
+#' @param gwid_generator logical; if \code{TRUE} an object of class \emph{result_snps}
 #' will be saved inside output list.
 #'
-#' @return the output will be a object of `gwid` class contains
-#' profile object, IBD object and `result_snps` object.
+#' @return the output will be a object of \emph{gwid} class contains
+#' \emph{profile} object, \emph{IBD} object and \emph{result_snps} object.
 #'
 #' @export
 build_gwid <- function(ibd_data = "name.ibd", gwas = "object of class gwas", gwid_generator = TRUE) {

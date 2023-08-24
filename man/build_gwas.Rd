@@ -2,12 +2,12 @@
 % Please edit documentation in R/build.R
 \name{build_gwas}
 \alias{build_gwas}
-\title{Open a SNP GDS file and extract information.}
+\title{Open a SNP GDS File and extract information.}
 \usage{
 build_gwas(gds_data = "name.gds", caco = "name.Rda", gwas_generator = TRUE)
 }
 \arguments{
-\item{gds_data}{File name}
+\item{gds_data}{File name with gds extension.}
 
 \item{caco}{An object of class caco. Output of \code{case_control} function.}
 
@@ -15,10 +15,12 @@ build_gwas(gds_data = "name.gds", caco = "name.Rda", gwas_generator = TRUE)
 will be saved inside output list.}
 }
 \value{
-a list of seven objects; including smp.id, snp.id, snp.pos, smp.indx,
+A list of seven objects; including smp.id, snp.id, snp.pos, smp.indx,
 smp.snp (a matrix with samples in rows and snp in columns), caco,
 snps(column sum of smp.snp for each case control)
 }
 \description{
-Open a SNP GDS file and extract information.
+This function allows the user to access genetic information stored in the gds format,
+which is the result produced by the SNPRelate package. In order to utilize this function,
+the user must first employ SNPRelate to transform their file from vcf format to the gds format.
 }

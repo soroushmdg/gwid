@@ -25,16 +25,20 @@ csv2Rdat <- function(name = "", rep = 3) {
 }
 
 
-#' Reload saved case-control list file
+#' Retrieve and load a previously saved file containing a list of case-control data
 #'
-#' @param case_control_rda A character string giving the name of the case-control
-#' file to load. The file is a list of character vectors including subject names
-#' in each case-control groups or csv file including subject name for a disease.
+#'This function loads an RData file that contains an R list containing sample names
+#'categorized within different groups. For instance, it includes sample
+#'names affiliated with the case group.
+#'
+#' @param case_control_rda File name in working directory, path to file. A character string giving the name of the case-control
+#' file to load.
 #'
 #' @param ... name of a column (disease name) of csv file.
 #'
-#' @return The output will be a list of character vectors include subject names
-#' and groups. The class of returned object is caco.
+#' @return The function's outcome will yield an instance of the \strong{caco} class,
+#' which takes the form of a list containing names of samples from either the
+#' case or control group.
 #'
 #' @export
 case_control <- function(case_control_rda, ...) {
