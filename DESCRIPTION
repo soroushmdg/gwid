@@ -4,8 +4,7 @@ Title: Genome-Wide Identity-By-Descent (GWID)
 Version: 0.0.1
 Author: Soroush Mahmoudiandehkordi
 Maintainer: The package maintainer <soroushmdg@gmail.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Analyze Identity-By-Descent Data for Linkage and association.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
