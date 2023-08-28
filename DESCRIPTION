@@ -1,7 +1,7 @@
 Package: gwid
 Type: Package
 Title: Genome-Wide Identity-By-Descent (GWID)
-Version: 0.0.1
+Version: 0.0.1.9000
 Author: Soroush Mahmoudiandehkordi
 Maintainer: The package maintainer <soroushmdg@gmail.com>
 Description: Analyze Identity-By-Descent Data for Linkage and association.
