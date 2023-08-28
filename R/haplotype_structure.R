@@ -88,6 +88,9 @@ haplotype_structure.gwid <- function(obj, phase, w = 10, snp_start, snp_end, ...
   snp_pos_plot <- snp_pos_total[snp_indx][1:leni]
   snp_pos_plot <- data.table::data.table(snp_pos = snp_pos_plot)
   snp_pos_plot <- cbind(snp_pos_plot, window_number = seq(1, nrow(snp_pos_plot)))
+  if (sum(snp_indx)==0){
+    stop("length of select region should be positive")
+  }
 
   if (w >= diff(range(snp_indx))) {
     stop("window size should be smaller than number of snps")
@@ -102,6 +105,7 @@ haplotype_structure.gwid <- function(obj, phase, w = 10, snp_start, snp_end, ...
       which(unlist(lapply(obj, inherits, "profile")))
     ]], "[", j = snp_indx)
   }
+
   df <- lapply(Mres_reduced, function(x) {
     y <- t(apply(x, 1, RcppRoll::roll_sum, n = w))
     y <- data.table::as.data.table(y)
