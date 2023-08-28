@@ -25,6 +25,51 @@ roh <- function(phase, ...) {
 #' @return the output will be a result_snps (data.table) object including 3 columns
 #' including, \dQuote{snp_pos}, \dQuote{case_control}, and \dQuote{value}
 #'
+#'@examples
+#'\dontrun{
+#'piggyback::pb_download(repo = "soroushmdg/gwid",tag = "v0.0.1",dest = tempdir())
+#'ibd_data_file <- paste0(tempdir(),"//chr3.ibd")
+#'genome_data_file <- paste0(tempdir(),"//chr3.gds")
+#'phase_data_file <- paste0(tempdir(),"//chr3.vcf")
+#'case_control_data_file <- paste0(tempdir(),"//case-cont-RA.withmap.Rda")
+#'# case-control data
+#'case_control <- gwid::case_control(case_control_rda = case_control_data_file)
+#'names(case_control) #cases and controls group
+#'summary(case_control) # in here, we only consider cases,cont1,cont2,cont3 groups in the study
+#'case_control$cases[1:3] # first three subject names of cases group
+#'# read SNP data (use SNPRelate to convert it to gds) and count number of minor alleles
+#'snp_data_gds <- gwid::build_gwas(gds_data = genome_data_file,
+#'caco = case_control,gwas_generator = TRUE)
+#'class(snp_data_gds)
+#'names(snp_data_gds)
+#'head(snp_data_gds$snps) # it has information about counts of minor alleles in each location.
+#'# read haplotype data (output of beagle)
+#'haplotype_data <- gwid::build_phase(phased_vcf = phase_data_file,caco = case_control)
+#'class(haplotype_data)
+#'names(haplotype_data)
+#'dim(haplotype_data$Hap.1) #22302 SNP and 1911 subjects
+#'# read IBD data (output of Refined-IBD)
+#'ibd_data <- gwid::build_gwid(ibd_data = ibd_data_file,gwas = snp_data_gds)
+#'class(ibd_data)
+#'ibd_data$ibd # refined IBD output
+#'ibd_data$res # count number of IBD for each SNP location
+#'# plot count of IBD in chromosome 3
+#'plot(ibd_data,y = c("cases","cont1"),ly = FALSE)
+#'# Further investigate location between 117M and 122M
+#'# significant number of IBD's in group cases, compare to cont1, cont2 and cont3.
+#'plot(ibd_data,y = c("cases","cont1"),snp_start = 117026294,snp_end = 122613594,ly = FALSE)
+#'model_fisher <- gwid::fisher_test(ibd_data,case_control,reference = "cases",
+#'snp_start = 117026294,snp_end = 122613594)
+#'model_permutation <- permutation_test(ibd_data,snp_data_gds,
+#'snp_start = 117026294,snp_end = 122613594,nperm=1000,reference = "cases")
+#'class(model_fisher)
+#'plot(model_fisher, y = c("cases","cont1"),ly = FALSE)
+#'hap_str <- gwid::haplotype_structure(ibd_data,phase = haplotype_data,w = 10,
+#'snp_start = 117026294,snp_end = 122613594)
+#'haplo_freq <- gwid::haplotype_frequency(hap_str)
+#'plot(haplo_freq,y = c("cases", "cont1"),plot_type = "haplotype_structure_frequency",
+#'nwin = 1, type = "version1",ly = FALSE)
+#'}
 #'
 #' @export
 roh.phase <- function(phase, gwas, w = 10, fun = c("sum", "mean"), snp_start, snp_end, roh_mat = FALSE, ...) {
@@ -71,6 +116,51 @@ roh.phase <- function(phase, gwas, w = 10, fun = c("sum", "mean"), snp_start, sn
 #'
 #' @param ... other variables
 #'
+#'@examples
+#'\dontrun{
+#'piggyback::pb_download(repo = "soroushmdg/gwid",tag = "v0.0.1",dest = tempdir())
+#'ibd_data_file <- paste0(tempdir(),"//chr3.ibd")
+#'genome_data_file <- paste0(tempdir(),"//chr3.gds")
+#'phase_data_file <- paste0(tempdir(),"//chr3.vcf")
+#'case_control_data_file <- paste0(tempdir(),"//case-cont-RA.withmap.Rda")
+#'# case-control data
+#'case_control <- gwid::case_control(case_control_rda = case_control_data_file)
+#'names(case_control) #cases and controls group
+#'summary(case_control) # in here, we only consider cases,cont1,cont2,cont3 groups in the study
+#'case_control$cases[1:3] # first three subject names of cases group
+#'# read SNP data (use SNPRelate to convert it to gds) and count number of minor alleles
+#'snp_data_gds <- gwid::build_gwas(gds_data = genome_data_file,
+#'caco = case_control,gwas_generator = TRUE)
+#'class(snp_data_gds)
+#'names(snp_data_gds)
+#'head(snp_data_gds$snps) # it has information about counts of minor alleles in each location.
+#'# read haplotype data (output of beagle)
+#'haplotype_data <- gwid::build_phase(phased_vcf = phase_data_file,caco = case_control)
+#'class(haplotype_data)
+#'names(haplotype_data)
+#'dim(haplotype_data$Hap.1) #22302 SNP and 1911 subjects
+#'# read IBD data (output of Refined-IBD)
+#'ibd_data <- gwid::build_gwid(ibd_data = ibd_data_file,gwas = snp_data_gds)
+#'class(ibd_data)
+#'ibd_data$ibd # refined IBD output
+#'ibd_data$res # count number of IBD for each SNP location
+#'# plot count of IBD in chromosome 3
+#'plot(ibd_data,y = c("cases","cont1"),ly = FALSE)
+#'# Further investigate location between 117M and 122M
+#'# significant number of IBD's in group cases, compare to cont1, cont2 and cont3.
+#'plot(ibd_data,y = c("cases","cont1"),snp_start = 117026294,snp_end = 122613594,ly = FALSE)
+#'model_fisher <- gwid::fisher_test(ibd_data,case_control,reference = "cases",
+#'snp_start = 117026294,snp_end = 122613594)
+#'model_permutation <- permutation_test(ibd_data,snp_data_gds,
+#'snp_start = 117026294,snp_end = 122613594,nperm=1000,reference = "cases")
+#'class(model_fisher)
+#'plot(model_fisher, y = c("cases","cont1"),ly = FALSE)
+#'hap_str <- gwid::haplotype_structure(ibd_data,phase = haplotype_data,w = 10,
+#'snp_start = 117026294,snp_end = 122613594)
+#'haplo_freq <- gwid::haplotype_frequency(hap_str)
+#'plot(haplo_freq,y = c("cases", "cont1"),plot_type = "haplotype_structure_frequency",
+#'nwin = 1, type = "version1",ly = FALSE)
+#'}
 #' @export
 mcnemar_test <- function(roh, ...) {
   UseMethod("mcnemar_test")
@@ -85,6 +175,51 @@ mcnemar_test <- function(roh, ...) {
 #' @param w window size
 #' @param ... other variables
 #'
+#'@examples
+#'\dontrun{
+#'piggyback::pb_download(repo = "soroushmdg/gwid",tag = "v0.0.1",dest = tempdir())
+#'ibd_data_file <- paste0(tempdir(),"//chr3.ibd")
+#'genome_data_file <- paste0(tempdir(),"//chr3.gds")
+#'phase_data_file <- paste0(tempdir(),"//chr3.vcf")
+#'case_control_data_file <- paste0(tempdir(),"//case-cont-RA.withmap.Rda")
+#'# case-control data
+#'case_control <- gwid::case_control(case_control_rda = case_control_data_file)
+#'names(case_control) #cases and controls group
+#'summary(case_control) # in here, we only consider cases,cont1,cont2,cont3 groups in the study
+#'case_control$cases[1:3] # first three subject names of cases group
+#'# read SNP data (use SNPRelate to convert it to gds) and count number of minor alleles
+#'snp_data_gds <- gwid::build_gwas(gds_data = genome_data_file,
+#'caco = case_control,gwas_generator = TRUE)
+#'class(snp_data_gds)
+#'names(snp_data_gds)
+#'head(snp_data_gds$snps) # it has information about counts of minor alleles in each location.
+#'# read haplotype data (output of beagle)
+#'haplotype_data <- gwid::build_phase(phased_vcf = phase_data_file,caco = case_control)
+#'class(haplotype_data)
+#'names(haplotype_data)
+#'dim(haplotype_data$Hap.1) #22302 SNP and 1911 subjects
+#'# read IBD data (output of Refined-IBD)
+#'ibd_data <- gwid::build_gwid(ibd_data = ibd_data_file,gwas = snp_data_gds)
+#'class(ibd_data)
+#'ibd_data$ibd # refined IBD output
+#'ibd_data$res # count number of IBD for each SNP location
+#'# plot count of IBD in chromosome 3
+#'plot(ibd_data,y = c("cases","cont1"),ly = FALSE)
+#'# Further investigate location between 117M and 122M
+#'# significant number of IBD's in group cases, compare to cont1, cont2 and cont3.
+#'plot(ibd_data,y = c("cases","cont1"),snp_start = 117026294,snp_end = 122613594,ly = FALSE)
+#'model_fisher <- gwid::fisher_test(ibd_data,case_control,reference = "cases",
+#'snp_start = 117026294,snp_end = 122613594)
+#'model_permutation <- permutation_test(ibd_data,snp_data_gds,
+#'snp_start = 117026294,snp_end = 122613594,nperm=1000,reference = "cases")
+#'class(model_fisher)
+#'plot(model_fisher, y = c("cases","cont1"),ly = FALSE)
+#'hap_str <- gwid::haplotype_structure(ibd_data,phase = haplotype_data,w = 10,
+#'snp_start = 117026294,snp_end = 122613594)
+#'haplo_freq <- gwid::haplotype_frequency(hap_str)
+#'plot(haplo_freq,y = c("cases", "cont1"),plot_type = "haplotype_structure_frequency",
+#'nwin = 1, type = "version1",ly = FALSE)
+#'}
 #' @export
 mcnemar_test.result_snps <- function(roh = "object of class result_snps (output of function roh with fun=sum)", reference, w = 10, ...) {
   if (missing(reference)) {
@@ -118,6 +253,51 @@ mcnemar_test.result_snps <- function(roh = "object of class result_snps (output 
 #'
 #' @param ... other variables
 #'
+#'@examples
+#'\dontrun{
+#'piggyback::pb_download(repo = "soroushmdg/gwid",tag = "v0.0.1",dest = tempdir())
+#'ibd_data_file <- paste0(tempdir(),"//chr3.ibd")
+#'genome_data_file <- paste0(tempdir(),"//chr3.gds")
+#'phase_data_file <- paste0(tempdir(),"//chr3.vcf")
+#'case_control_data_file <- paste0(tempdir(),"//case-cont-RA.withmap.Rda")
+#'# case-control data
+#'case_control <- gwid::case_control(case_control_rda = case_control_data_file)
+#'names(case_control) #cases and controls group
+#'summary(case_control) # in here, we only consider cases,cont1,cont2,cont3 groups in the study
+#'case_control$cases[1:3] # first three subject names of cases group
+#'# read SNP data (use SNPRelate to convert it to gds) and count number of minor alleles
+#'snp_data_gds <- gwid::build_gwas(gds_data = genome_data_file,
+#'caco = case_control,gwas_generator = TRUE)
+#'class(snp_data_gds)
+#'names(snp_data_gds)
+#'head(snp_data_gds$snps) # it has information about counts of minor alleles in each location.
+#'# read haplotype data (output of beagle)
+#'haplotype_data <- gwid::build_phase(phased_vcf = phase_data_file,caco = case_control)
+#'class(haplotype_data)
+#'names(haplotype_data)
+#'dim(haplotype_data$Hap.1) #22302 SNP and 1911 subjects
+#'# read IBD data (output of Refined-IBD)
+#'ibd_data <- gwid::build_gwid(ibd_data = ibd_data_file,gwas = snp_data_gds)
+#'class(ibd_data)
+#'ibd_data$ibd # refined IBD output
+#'ibd_data$res # count number of IBD for each SNP location
+#'# plot count of IBD in chromosome 3
+#'plot(ibd_data,y = c("cases","cont1"),ly = FALSE)
+#'# Further investigate location between 117M and 122M
+#'# significant number of IBD's in group cases, compare to cont1, cont2 and cont3.
+#'plot(ibd_data,y = c("cases","cont1"),snp_start = 117026294,snp_end = 122613594,ly = FALSE)
+#'model_fisher <- gwid::fisher_test(ibd_data,case_control,reference = "cases",
+#'snp_start = 117026294,snp_end = 122613594)
+#'model_permutation <- permutation_test(ibd_data,snp_data_gds,
+#'snp_start = 117026294,snp_end = 122613594,nperm=1000,reference = "cases")
+#'class(model_fisher)
+#'plot(model_fisher, y = c("cases","cont1"),ly = FALSE)
+#'hap_str <- gwid::haplotype_structure(ibd_data,phase = haplotype_data,w = 10,
+#'snp_start = 117026294,snp_end = 122613594)
+#'haplo_freq <- gwid::haplotype_frequency(hap_str)
+#'plot(haplo_freq,y = c("cases", "cont1"),plot_type = "haplotype_structure_frequency",
+#'nwin = 1, type = "version1",ly = FALSE)
+#'}
 #' @export
 mcnemar_test_permut <- function(mcnemar, ...) {
   UseMethod("mcnemar_test_permut")

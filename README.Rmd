@@ -47,8 +47,7 @@ group of 1,434 individuals without RA. Genotyping was performed using the Illumi
 obtained from a genetically homogeneous population in central Wisconsin exhibiting elevated relatedness structure. Because size of data is large, we use `pggyback` package to upload and download data from github repository. 
 ```{r}
 # install.packages("piggyback")
-library(piggyback)
-pb_download(repo = "soroushmdg/gwid",
+piggyback::pb_download(repo = "soroushmdg/gwid",
             tag = "v0.0.1",
             dest = tempdir())
 ibd_data_file <- paste0(tempdir(),"//chr3.ibd")
