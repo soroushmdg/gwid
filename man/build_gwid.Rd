@@ -13,17 +13,17 @@ build_gwid(
 \arguments{
 \item{ibd_data}{a file name for output of \href{http://faculty.washington.edu/browning/refined-ibd.html}{Refined IBD}}
 
-\item{gwas}{object of class `gwas`}
+\item{gwas}{object of class \emph{gwas}}
 
-\item{gwid_generator}{logical; if \code{TRUE} an object of class `result_snps`
+\item{gwid_generator}{logical; if \code{TRUE} an object of class \emph{result_snps}
 will be saved inside output list.}
 }
 \value{
-the output will be a object of `gwid` class contains
-profile object, IBD object and `result_snps` object.
+the output will be a object of \emph{gwid} class contains
+\emph{profile} object, \emph{IBD} object and \emph{result_snps} object.
 }
 \description{
-The function build_gwid processes an IBD file produced through Refined IBD software.
-Subsequently, it constructs a gwid class object comprising a sparse matrix of IBD segments. Moreover,
-this gwid object includes counts of IBD segments for individual pairs categorized within the case or control group.
+The function \code{build_gwid()} processes an IBD file produced through \pkg{Refined IBD} software.
+Subsequently, it constructs a \emph{gwid} class object comprising a sparse matrix of IBD segments. Moreover,
+this \emph{gwid} object includes counts of IBD segments for individual pairs categorized within the case or control group.
 }

@@ -25,7 +25,7 @@ figure.
 
 <div class="figure" style="text-align: center">
 
-<img src="./man/figures/final-copy-arrow.png" alt="gwid pipeline" width="70%" />
+<img src="./man/figures/final-copy-arrow.png" alt="gwid pipeline" width="100%" />
 <p class="caption">
 gwid pipeline
 </p>
@@ -86,7 +86,7 @@ In this code we explain each input data files individually.
 `snp_data_gds` object of class `gwas` read output of `SNPRelate`
 package, we use this package because it is very fast and efficient.
 `haplotype_data` object of class `phase` has haplotype data. `ibd_data`
-is an object of `gwid` class that has ibd information.
+is an object of `gwid` class that has IBD information.
 
 ``` r
 library(gwid)
@@ -135,11 +135,11 @@ names(haplotype_data)
 dim(haplotype_data$Hap.1) #22302 SNP and 1911 subjects
 #> [1] 22302  1911
 
-# read ibd data (output of refined ibd)
+# read IBD data (output of Refined-IBD)
 ibd_data <- gwid::build_gwid(ibd_data = ibd_data_file,gwas = snp_data_gds)
 class(ibd_data)
 #> [1] "gwid"
-ibd_data$ibd # refined ibd output
+ibd_data$ibd # refined IBD output
 #>                              V1 V2                      V3 V4 V5        V6
 #>      1: MC.AMD127769@0123889787  2    MC.160821@1075679055  1  3  32933295
 #>      2: MC.AMD127769@0123889787  1 MC.AMD107154@0123908746  1  3  29995340
@@ -164,7 +164,7 @@ ibd_data$ibd # refined ibd output
 #> 377562: 186184328 5.95 2.179
 #> 377563: 184801115 3.58 3.318
 #> 377564: 183972729 3.03 1.533
-ibd_data$res # count number of ibd for each SNP location 
+ibd_data$res # count number of IBD for each SNP location 
 #>           snp_pos case_control value
 #>      1:     66894        cases    27
 #>      2:     82010        cases    28
@@ -180,6 +180,15 @@ ibd_data$res # count number of ibd for each SNP location
 ```
 
 ### `plot` method
+
+The `plot` function can be applied to the `gwid` class to display the
+counts of IBD in each Single SNP among both case and control groups. By
+utilizing the `ly=TRUE` parameter, the user has the option to transform
+the plot into a `plotly` object, facilitating interactive exploration of
+the entire chromosome or specific regions of interest through the use of
+`snp_start` and `snp_end` parameters. Additionally, the `y` parameter
+enables the inclusion of only specific groups of subjects for
+consideration.
 
 ``` r
 # plot count of IBD in chromosome 3
@@ -197,19 +206,60 @@ plot(ibd_data,y = c("cases","cont1"),snp_start = 117026294,snp_end = 122613594,l
 
 <img src="man/figures/README-unnamed-chunk-4-2.png" width="100%" />
 
+Through the utilization of the `fisher_test` method, it becomes possible
+to calculate p-values within chosen regions. These p-values help assess
+whether there are noteworthy differences in counts between the case and
+control groups.
+
 ``` r
 model_fisher <- gwid::fisher_test(ibd_data,case_control,reference = "cases",
                                              snp_start = 117026294,snp_end = 122613594)
+
+class(model_fisher)
+#> [1] "test_snps"  "data.table" "data.frame"
 
 plot(model_fisher, y = c("cases","cont1"),ly = FALSE)
 ```
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
+The `haplotype_structure` method can be utilized to extract haplotypes
+from regions that exhibit IBD patterns in a sliding window manner. `w`
+is length of sliding window and
+
 ``` r
-# model_permutation <- permutation_test(ibd_data,gwas=snp_data_gds,nperm = 10,
-#                                       reference = "cases",
-#                                       snp_start = 117026294,snp_end = 122613594)
-# 
-# plot(model_permutation,y = c("cases","cont1"),ly=FALSE)
+hap_str <- gwid::haplotype_structure(ibd_data,
+                                     phase = haplotype_data,
+                                     w = 10,
+                                     snp_start = 117026294,snp_end = 122613594)
+class(hap_str)
+#> [1] "haplotype_structure" "data.table"          "data.frame"
+
+hap_str[sample(1:nrow(hap_str),size = 5),] # structures column have haplotype of length w=10 
+#>    case_control   snp_pos window_number                     smp structures
+#> 1:        cont3 121660488           607    MC.157524@0123948124 0000000010
+#> 2:        cont3 119946098           391    MC.159487@1075679208 0000000000
+#> 3:        cases 121009772           476    8194961-1-0238039486 0000000000
+#> 4:        cont3 120976051           474 MC.AMD103829@0123910556 1000000000
+#> 5:        cases 118091164           110 MC.AMD110785@0123861281 1000000001
 ```
+
+The `haplotype_frequency` method can be employed to extract the count of
+these structures, which can then be plotted for each window.
+
+``` r
+haplo_freq <- gwid::haplotype_frequency(hap_str)
+```
+
+``` r
+
+# plot haplotype counts in first window (nwin=1).
+ plot(haplo_freq,
+   y = c("cases", "cont1"),
+   plot_type = "haplotype_structure_frequency",
+   nwin = 1, type = "version1",
+   ly = FALSE
+ )
+```
+
+<img src="./man/figures/hap_version1.png" width="100%" style="display: block; margin: auto;" />

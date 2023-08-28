@@ -1,5 +1,6 @@
 ---
 output: github_document
+always_allow_html: true
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -23,7 +24,7 @@ GWID (Genome Wide Identity by Descent) is an R-package designed for the analysis
 
 
 
-```{r, out.width="70%",include=TRUE, fig.align="center", fig.cap=c("gwid pipeline"), echo=FALSE}
+```{r, out.width="100%",include=TRUE, fig.align="center", fig.cap=c("gwid pipeline"), echo=FALSE}
 knitr::include_graphics("./man/figures/final-copy-arrow.png")
 ``` 
 ## Usage
@@ -56,7 +57,7 @@ phase_data_file <- paste0(tempdir(),"//chr3.vcf")
 case_control_data_file <- paste0(tempdir(),"//case-cont-RA.withmap.Rda")
 ```
 ### Input
-In this code we explain each input data files individually. `case_control` is object of class `caco` that has phenotype information.  `snp_data_gds` object of class `gwas` read output of `SNPRelate` package, we use this package because it is very fast and efficient. `haplotype_data` object of class `phase` has haplotype data. `ibd_data` is an object of `gwid` class that has ibd information.  
+In this code we explain each input data files individually. `case_control` is object of class `caco` that has phenotype information.  `snp_data_gds` object of class `gwas` read output of `SNPRelate` package, we use this package because it is very fast and efficient. `haplotype_data` object of class `phase` has haplotype data. `ibd_data` is an object of `gwid` class that has IBD information.  
 
 ```{r example}
 library(gwid)
@@ -79,16 +80,20 @@ class(haplotype_data)
 names(haplotype_data)
 dim(haplotype_data$Hap.1) #22302 SNP and 1911 subjects
 
-# read ibd data (output of refined ibd)
+# read IBD data (output of Refined-IBD)
 ibd_data <- gwid::build_gwid(ibd_data = ibd_data_file,gwas = snp_data_gds)
 class(ibd_data)
-ibd_data$ibd # refined ibd output
-ibd_data$res # count number of ibd for each SNP location 
+ibd_data$ibd # refined IBD output
+ibd_data$res # count number of IBD for each SNP location 
 
 ```
 
 
 ### `plot` method
+
+The `plot` function can be applied to the `gwid` class to display the counts of IBD in each Single SNP among both case and control groups. By utilizing the `ly=TRUE` parameter, the user has the option to transform the plot into a `plotly` object, facilitating interactive exploration of the entire chromosome or specific regions of interest through the use of `snp_start` and `snp_end` parameters. Additionally, the `y` parameter enables the inclusion of only specific groups of subjects for consideration.
+
+
 ```{r}
 # plot count of IBD in chromosome 3
 plot(ibd_data,y = c("cases","cont1"),ly = FALSE) 
@@ -99,23 +104,46 @@ plot(ibd_data,y = c("cases","cont1"),snp_start = 117026294,snp_end = 122613594,l
 
 ```
 
+Through the utilization of the `fisher_test` method, it becomes possible to calculate p-values within chosen regions. These p-values help assess whether there are noteworthy differences in counts between the case and control groups.
 
 ```{r}
 model_fisher <- gwid::fisher_test(ibd_data,case_control,reference = "cases",
                                              snp_start = 117026294,snp_end = 122613594)
 
+class(model_fisher)
+
 plot(model_fisher, y = c("cases","cont1"),ly = FALSE)
 ```
 
-
+The `haplotype_structure` method can be utilized to extract haplotypes from regions that exhibit IBD patterns in a sliding window manner. `w` is length of sliding window and 
 
 ```{r}
-# model_permutation <- permutation_test(ibd_data,gwas=snp_data_gds,nperm = 10,
-#                                       reference = "cases",
-#                                       snp_start = 117026294,snp_end = 122613594)
-# 
-# plot(model_permutation,y = c("cases","cont1"),ly=FALSE)
+hap_str <- gwid::haplotype_structure(ibd_data,
+                                     phase = haplotype_data,
+                                     w = 10,
+                                     snp_start = 117026294,snp_end = 122613594)
+class(hap_str)
+
+hap_str[sample(1:nrow(hap_str),size = 5),] # structures column have haplotype of length w=10 
+```
+The `haplotype_frequency` method can be employed to extract the count of these structures, which can then be plotted for each window.
+
+```{r}
+haplo_freq <- gwid::haplotype_frequency(hap_str)
+```
+```{r, eval=FALSE}
+
+# plot haplotype counts in first window (nwin=1).
+ plot(haplo_freq,
+   y = c("cases", "cont1"),
+   plot_type = "haplotype_structure_frequency",
+   nwin = 1, type = "version1",
+   ly = FALSE
+ )
+
 ```
 
-
+```{r, out.width="100%",include=TRUE, fig.align="center", echo=FALSE}
+knitr::include_graphics("./man/figures/hap_version1.png")
+``` 
 

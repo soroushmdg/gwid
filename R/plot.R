@@ -305,20 +305,22 @@ plot.haplotype_structure_frequency <- function(x, y = NA, type = c("version1", "
 #' @param plot_type either \dQuote{result_snps} or \dQuote{"haplotype_structure_frequency"}
 #' @param type either \dQuote{version1} or \dQuote{version2} when plot_type is \dQuote{"haplotype_structure_frequency"}
 #' @param nwin window number
+#' @param ly if TRUE, we have a plotly object and if it is false plot is going to be
+#' a ggplot object.
 #' @param title title of the plot.
 #' @param ... optional argument of \code{plot}
 #'
 #' @export
-plot.haplotype_frequency <- function(x, y = NA, plot_type = c("haplotype_structure_frequency", "result_snps"), type = c("version1", "version2"), nwin, title, ...) {
+plot.haplotype_frequency <- function(x, y = NA, plot_type = c("haplotype_structure_frequency", "result_snps"), type = c("version1", "version2"),ly, nwin, title, ...) {
   plot_type <- match.arg(plot_type)
   if (plot_type == "haplotype_structure_frequency") {
     type <- match.arg(type)
-    plot(x[[which(unlist(lapply(x, inherits, "haplotype_structure_frequency")))]], y, type = type, nwin = nwin)
+    plot(x[[which(unlist(lapply(x, inherits, "haplotype_structure_frequency")))]], y, type = type, nwin = nwin,ly = ly)
   } else {
     if (!missing(title)) {
-      plot(x[[which(unlist(lapply(x, inherits, "result_snps")))]], y, title = title, ...)
+      plot(x[[which(unlist(lapply(x, inherits, "result_snps")))]], y, title = title, ly=ly, ...)
     } else {
-      plot(x[[which(unlist(lapply(x, inherits, "result_snps")))]], y, ...)
+      plot(x[[which(unlist(lapply(x, inherits, "result_snps")))]], y, ly = ly, ...)
     }
   }
 }

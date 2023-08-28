@@ -2,21 +2,23 @@
 % Please edit documentation in R/case_control.R
 \name{case_control}
 \alias{case_control}
-\title{Reload saved case-control list file}
+\title{Retrieve and load a previously saved file containing a list of case-control data}
 \usage{
 case_control(case_control_rda, ...)
 }
 \arguments{
-\item{case_control_rda}{A character string giving the name of the case-control
-file to load. The file is a list of character vectors including subject names
-in each case-control groups or csv file including subject name for a disease.}
+\item{case_control_rda}{File name in working directory, path to file. A character string giving the name of the case-control
+file to load.}
 
 \item{...}{name of a column (disease name) of csv file.}
 }
 \value{
-The output will be a list of character vectors include subject names
-and groups. The class of returned object is caco.
+The function's outcome will yield an instance of the \strong{caco} class,
+which takes the form of a list containing names of samples from either the
+case or control group.
 }
 \description{
-Reload saved case-control list file
+This function loads an RData file that contains an R list containing sample names
+categorized within different groups. For instance, it includes sample
+names affiliated with the case group.
 }

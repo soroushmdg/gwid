@@ -9,6 +9,7 @@
   y = NA,
   plot_type = c("haplotype_structure_frequency", "result_snps"),
   type = c("version1", "version2"),
+  ly,
   nwin,
   title,
   ...
@@ -23,6 +24,9 @@ subject groups i.e. `y = c("case","control")`}
 \item{plot_type}{either \dQuote{result_snps} or \dQuote{"haplotype_structure_frequency"}}
 
 \item{type}{either \dQuote{version1} or \dQuote{version2} when plot_type is \dQuote{"haplotype_structure_frequency"}}
+
+\item{ly}{if TRUE, we have a plotly object and if it is false plot is going to be
+a ggplot object.}
 
 \item{nwin}{window number}
 

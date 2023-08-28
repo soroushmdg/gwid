@@ -2,20 +2,20 @@
 % Please edit documentation in R/build.R
 \name{build_phase}
 \alias{build_phase}
-\title{Read vcf structured haplotype file.}
+\title{Read \strong{vcf} structured haplotype file.}
 \usage{
 build_phase(phased_vcf = "name.vcf", caco)
 }
 \arguments{
-\item{phased_vcf}{A file name for a variant call format vcf file.}
+\item{phased_vcf}{A file name for a variant call format \strong{vcf} file.}
 
-\item{caco}{An object of class caco. Output of \code{case_control} function.}
+\item{caco}{An object of class \emph{caco}. Output of \code{case_control} function.}
 }
 \value{
-The output will be a a list of class phase contains two sparse matrix
+The output will be a an object of class \emph{phase} contains two sparse matrix
 for each haplotype.
 }
 \description{
-Read haplotype information encoded in a VCF formatted structured text and create two separate sparse matrices.
+Read haplotype information encoded in a \strong{vcf} formatted structured text and create two separate sparse matrices.
 These matrices will contain details about each haplotype, differentiating between paternal and maternal sources.
 }
