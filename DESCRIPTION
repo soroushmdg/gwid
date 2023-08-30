@@ -1,10 +1,11 @@
 Package: gwid
 Type: Package
-Title: Genome-Wide Identity-By-Descent (GWID)
+Title: Genome-Wide Identity-by-Descent (GWID)
 Version: 0.0.2
 Author: c(
     person("Soroush", "Mahmoudiandehkordi", email = "soroushmdg@gmail.com", role = c("aut", "cre")),
     person("Mehdi", "Maadooliat", email = "mehdi.maadooliat@mu.edu", role = "aut")
+    person("Steven", "Schrodi", email = "schrodi@wisc.edu", role = "aut")
     )
 Maintainer: The package maintainer <soroushmdg@gmail.com>
 Description: Analyze Identity-By-Descent Data for Linkage and Association Studies.

@@ -105,7 +105,6 @@ haplotype_structure.gwid <- function(obj, phase, w = 10, snp_start, snp_end, ...
       which(unlist(lapply(obj, inherits, "profile")))
     ]], "[", j = snp_indx)
   }
-
   df <- lapply(Mres_reduced, function(x) {
     y <- t(apply(x, 1, RcppRoll::roll_sum, n = w))
     y <- data.table::as.data.table(y)

@@ -69,8 +69,7 @@ repository.
 
 ``` r
 # install.packages("piggyback")
-library(piggyback)
-pb_download(repo = "soroushmdg/gwid",
+piggyback::pb_download(repo = "soroushmdg/gwid",
             tag = "v0.0.1",
             dest = tempdir())
 ibd_data_file <- paste0(tempdir(),"//chr3.ibd")
@@ -237,11 +236,11 @@ class(hap_str)
 
 hap_str[sample(1:nrow(hap_str),size = 5),] # structures column have haplotype of length w=10 
 #>    case_control   snp_pos window_number                     smp structures
-#> 1:        cont3 121660488           607    MC.157524@0123948124 0000000010
-#> 2:        cont3 119946098           391    MC.159487@1075679208 0000000000
-#> 3:        cases 121009772           476    8194961-1-0238039486 0000000000
-#> 4:        cont3 120976051           474 MC.AMD103829@0123910556 1000000000
-#> 5:        cases 118091164           110 MC.AMD110785@0123861281 1000000001
+#> 1:        case2 118864912           192 MC.AMD113306@0124011045 1000000000
+#> 2:        cont2 118757870           184 MC.AMD131873@0123861611 0001000010
+#> 3:        cases 119515585           345 MC.AMD101076@0123908934 0000000000
+#> 4:        cont1 122288312           698    1119828-1-0238095889 0000010111
+#> 5:        cont2 119426307           312    MC.160622@1075678724 1000100000
 ```
 
 The `haplotype_frequency` method can be employed to extract the count of
