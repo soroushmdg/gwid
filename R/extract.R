@@ -278,7 +278,7 @@ extract_window.gwid <- function(obj, w = 10, snp_start, snp_end, ...) {
   } else {
     Mres_reduced <- lapply(obj[[
       which(unlist(lapply(obj, inherits, "profile")))
-    ]], "[", j = snp_indx)
+    ]], "[", j = snp_indx,exact=TRUE)
   }
   # apply rolling window
   df <- lapply(Mres_reduced, function(x) {
