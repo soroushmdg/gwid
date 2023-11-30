@@ -48,7 +48,7 @@
 #'plot(ibd_data,y = c("cases","cont1"),snp_start = 117026294,snp_end = 122613594,ly = FALSE)
 #'model_fisher <- gwid::fisher_test(ibd_data,case_control,reference = "cases",
 #'snp_start = 117026294,snp_end = 122613594)
-#'class(model_fisher)
+#'class(model_fisher);
 #'plot(model_fisher, y = c("cases","cont1"),ly = FALSE)
 #'hap_str <- gwid::haplotype_structure(ibd_data,phase = haplotype_data,w = 10,
 #'snp_start = 117026294,snp_end = 122613594)
