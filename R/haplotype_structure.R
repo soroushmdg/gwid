@@ -67,7 +67,7 @@ haplotype_structure <- function(obj, ...) {
 #'}
 #' @export
 haplotype_structure.gwid <- function(obj, phase, w = 10, snp_start, snp_end, ...) {
-  # browser()
+  #browser()
   if (missing(obj)) {
     stop("please provide gwid object (output of function build_gwid)")
   }
@@ -103,7 +103,7 @@ haplotype_structure.gwid <- function(obj, phase, w = 10, snp_start, snp_end, ...
   } else {
     Mres_reduced <- lapply(obj[[
       which(unlist(lapply(obj, inherits, "profile")))
-    ]], "[", j = snp_indx)
+    ]], "[", j = snp_indx,exact=TRUE)
   }
   df <- lapply(Mres_reduced, function(x) {
     y <- t(apply(x, 1, RcppRoll::roll_sum, n = w))

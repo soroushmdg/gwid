@@ -9,6 +9,7 @@
 #' @param snp_end select ending position of snps.
 #' @param ly if TRUE, we have a plotly object and if it is false plot is going to be
 #' a ggplot object.
+#' @param line_size geom_line size
 #' @param ... other variables
 #'
 #' @return an interactive line plot of result_snps for each case control subjects.
@@ -59,7 +60,7 @@
 #'nwin = 1, type = "version1",ly = FALSE)
 #'}
 #' @export
-plot.result_snps <- function(x, y = NA, title, snp_start, snp_end, ly = TRUE, ...) {
+plot.result_snps <- function(x, y = NA, title, snp_start, snp_end, ly = TRUE, line_size = .6, ...) {
   snp_pos <- value <- NULL
   if (!missing(snp_start) & !missing(snp_end)) {
     x <- x[snp_pos >= snp_start & snp_pos <= snp_end]
@@ -75,7 +76,7 @@ plot.result_snps <- function(x, y = NA, title, snp_start, snp_end, ly = TRUE, ..
     x <- x[case_control %in% y]
   }
   p <- ggplot2::ggplot(x, ggplot2::aes(x = snp_pos, y = value)) +
-    ggplot2::geom_line(ggplot2::aes(color = case_control), size = .6) +
+    ggplot2::geom_line(ggplot2::aes(color = case_control), size = line_size) +
     ggplot2::scale_x_continuous("snp position",
       labels = paste0(round(quantile(x$snp_pos, seq(0, 1, length.out = 5)) / 10^6), "M"),
       breaks = quantile(x$snp_pos, seq(0, 1, length.out = 5))
