@@ -339,7 +339,7 @@ plot.gwas <- function(x, y = NA, title = "number of snps", ...) {
 #'nwin = 1, type = "version1",ly = FALSE)
 #'}
 #' @export
-plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ly =TRUE, line_Size = .6, ...) {
+plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ly =TRUE, line_size = .6, ...) {
   snp_pos <- value <- NULL
   if (!missing(snp_start) & !missing(snp_end)) {
     x <- x[snp_pos >= snp_start & snp_pos <= snp_end]
@@ -355,7 +355,7 @@ plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ly =TRUE, line_
     x <- x[case_control %in% y]
   }
   p <- ggplot2::ggplot(x, ggplot2::aes(x = snp_pos, y = value)) +
-    ggplot2::geom_line(ggplot2::aes(color = case_control), size = line_Size) +
+    ggplot2::geom_line(ggplot2::aes(color = case_control), size = line_size) +
     ggplot2::scale_x_continuous("snp position",
       labels = paste0(round(quantile(x$snp_pos, seq(0, 1, length.out = 5)) / 10^6), "M"),
       breaks = quantile(x$snp_pos, seq(0, 1, length.out = 5))

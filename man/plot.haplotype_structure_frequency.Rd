@@ -4,7 +4,15 @@
 \alias{plot.haplotype_structure_frequency}
 \title{Two type of line plots for haplotype_structure_frequency objects .}
 \usage{
-\method{plot}{haplotype_structure_frequency}(x, y = NA, type = c("version1", "version2"), nwin, ly = TRUE, ...)
+\method{plot}{haplotype_structure_frequency}(
+  x,
+  y = NA,
+  type = c("version1", "version2"),
+  nwin,
+  ly = TRUE,
+  line_size = 0.6,
+  ...
+)
 }
 \arguments{
 \item{x}{an object of class haplotype_structure_frequency}
@@ -18,6 +26,8 @@ subject groups i.e. y = c("case","control")}
 
 \item{ly}{if `TRUE`, we have a `plotly` object and if it is `FALSE` plot is going to be
 a `ggplot` object.}
+
+\item{line_size}{geom_line size}
 
 \item{...}{other variables}
 }

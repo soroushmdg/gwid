@@ -4,7 +4,7 @@
 \alias{plot.result_snps}
 \title{Line plot of result_snps objects}
 \usage{
-\method{plot}{result_snps}(x, y = NA, title, snp_start, snp_end, ly = TRUE, ...)
+\method{plot}{result_snps}(x, y = NA, title, snp_start, snp_end, ly = TRUE, line_size = 0.6, ...)
 }
 \arguments{
 \item{x}{An object of class result_snps.}
@@ -20,6 +20,8 @@ subject groups i.e. y = c("case","control")}
 
 \item{ly}{if TRUE, we have a plotly object and if it is false plot is going to be
 a ggplot object.}
+
+\item{line_size}{geom_line size}
 
 \item{...}{other variables}
 }

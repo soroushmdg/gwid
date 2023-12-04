@@ -9,9 +9,10 @@
   y = NA,
   plot_type = c("haplotype_structure_frequency", "result_snps"),
   type = c("version1", "version2"),
-  ly,
+  ly = TRUE,
   nwin,
   title,
+  line_size = 0.6,
   ...
 )
 }
@@ -31,6 +32,8 @@ a ggplot object.}
 \item{nwin}{window number}
 
 \item{title}{title of the plot.}
+
+\item{line_size}{geom_line size}
 
 \item{...}{optional argument of \code{plot}}
 }
