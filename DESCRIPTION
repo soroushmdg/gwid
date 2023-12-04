@@ -1,8 +1,8 @@
 Package: gwid
 Type: Package
-Title: Genome-Wide Identity-by-Descent (gwid)
+Title: genome-wide identity-by-descent (gwid)
 Version: 0.1.0
-Author: c(
+Authors@R: c(
     person("Soroush", "Mahmoudiandehkordi", email = "soroushmdg@gmail.com", role = c("aut", "cre")),
     person("Mehdi", "Maadooliat", email = "mehdi.maadooliat@mu.edu", role = "aut")
     person("Steven", "Schrodi", email = "schrodi@wisc.edu", role = "aut")
