@@ -288,6 +288,7 @@ plot.gwas <- function(x, y = NA, title = "number of snps", ...) {
 #' @param snp_end select ending position of snps.
 #' @param ly if `TRUE`, we have a `plotly` object and if it is `FALSE` plot is going to be
 #' a `ggplot` object.
+#' @param line_size geom_line size
 #' @param ... other variables
 #'
 #' @return an interactive line plot of test_snps objects for each case control subjects.
@@ -338,7 +339,7 @@ plot.gwas <- function(x, y = NA, title = "number of snps", ...) {
 #'nwin = 1, type = "version1",ly = FALSE)
 #'}
 #' @export
-plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ly =TRUE, ...) {
+plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ly =TRUE, line_Size = .6, ...) {
   snp_pos <- value <- NULL
   if (!missing(snp_start) & !missing(snp_end)) {
     x <- x[snp_pos >= snp_start & snp_pos <= snp_end]
@@ -354,7 +355,7 @@ plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ly =TRUE, ...) 
     x <- x[case_control %in% y]
   }
   p <- ggplot2::ggplot(x, ggplot2::aes(x = snp_pos, y = value)) +
-    ggplot2::geom_line(ggplot2::aes(color = case_control), size = .6) +
+    ggplot2::geom_line(ggplot2::aes(color = case_control), size = line_Size) +
     ggplot2::scale_x_continuous("snp position",
       labels = paste0(round(quantile(x$snp_pos, seq(0, 1, length.out = 5)) / 10^6), "M"),
       breaks = quantile(x$snp_pos, seq(0, 1, length.out = 5))
@@ -415,6 +416,7 @@ plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ly =TRUE, ...) 
 #' @param nwin window number
 #' @param ly if `TRUE`, we have a `plotly` object and if it is `FALSE` plot is going to be
 #' a `ggplot` object.
+#' @param line_size geom_line size
 #' @param ... other variables
 #' @examples
 #'\dontrun{
@@ -462,7 +464,7 @@ plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ly =TRUE, ...) 
 #'nwin = 1, type = "version1",ly = FALSE)
 #'}
 #' @export
-plot.haplotype_structure_frequency <- function(x, y = NA, type = c("version1", "version2"), nwin, ly = TRUE, ...) {
+plot.haplotype_structure_frequency <- function(x, y = NA, type = c("version1", "version2"), nwin, ly = TRUE, line_size=.6,...) {
   type <- match.arg(type)
   structures <- window_number <- n <- NULL
   if (any(!is.na(y))){
@@ -470,7 +472,7 @@ plot.haplotype_structure_frequency <- function(x, y = NA, type = c("version1", "
   }
   if (type == "version1") {
     p <- ggplot2::ggplot(x[window_number == nwin, ], ggplot2::aes(x = structures, y = n, frame = window_number)) +
-      ggplot2::geom_line(ggplot2::aes(color = case_control, group = case_control), size = .6) +
+      ggplot2::geom_line(ggplot2::aes(color = case_control, group = case_control), size = line_size) +
       ggplot2::scale_x_discrete("haplotypes", label = function(x) strtrim(x, 12)) +
       ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust = 1)) +
       ggplot2::labs(
@@ -479,7 +481,7 @@ plot.haplotype_structure_frequency <- function(x, y = NA, type = c("version1", "
       )
   } else {
     p <- ggplot2::ggplot(x[window_number == nwin, ], ggplot2::aes(x = case_control, y = n, frame = window_number)) +
-      ggplot2::geom_line(ggplot2::aes(color = structures, group = structures), size = .6) +
+      ggplot2::geom_line(ggplot2::aes(color = structures, group = structures), size = line_size) +
       ggplot2::scale_x_discrete("structures") +
       ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust = 1)) +
       ggplot2::labs(
@@ -534,6 +536,7 @@ plot.haplotype_structure_frequency <- function(x, y = NA, type = c("version1", "
 #' @param ly if TRUE, we have a plotly object and if it is false plot is going to be
 #' a ggplot object.
 #' @param title title of the plot.
+#' @param line_size geom_line size
 #' @param ... optional argument of \code{plot}
 #'
 #'@examples
@@ -582,11 +585,11 @@ plot.haplotype_structure_frequency <- function(x, y = NA, type = c("version1", "
 #'nwin = 1, type = "version1",ly = FALSE)
 #'}
 #' @export
-plot.haplotype_frequency <- function(x, y = NA, plot_type = c("haplotype_structure_frequency", "result_snps"), type = c("version1", "version2"),ly, nwin, title, ...) {
+plot.haplotype_frequency <- function(x, y = NA, plot_type = c("haplotype_structure_frequency", "result_snps"), type = c("version1", "version2"),ly=TRUE, nwin, title,line_size = .6, ...) {
   plot_type <- match.arg(plot_type)
   if (plot_type == "haplotype_structure_frequency") {
     type <- match.arg(type)
-    plot(x[[which(unlist(lapply(x, inherits, "haplotype_structure_frequency")))]], y, type = type, nwin = nwin,ly = ly)
+    plot(x[[which(unlist(lapply(x, inherits, "haplotype_structure_frequency")))]], y, type = type, nwin = nwin,ly = ly,line_size=line_size)
   } else {
     if (!missing(title)) {
       plot(x[[which(unlist(lapply(x, inherits, "result_snps")))]], y, title = title, ly=ly, ...)
