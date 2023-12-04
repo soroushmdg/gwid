@@ -236,11 +236,11 @@ class(hap_str)
 
 hap_str[sample(1:nrow(hap_str),size = 5),] # structures column have haplotype of length w=10 
 #>    case_control   snp_pos window_number                     smp structures
-#> 1:        case2 118864912           192 MC.AMD113306@0124011045 1000000000
-#> 2:        cont2 118757870           184 MC.AMD131873@0123861611 0001000010
-#> 3:        cases 119515585           345 MC.AMD101076@0123908934 0000000000
-#> 4:        cont1 122288312           698    1119828-1-0238095889 0000010111
-#> 5:        cont2 119426307           312    MC.160622@1075678724 1000100000
+#> 1:        cases 121168167           491    MC.161208@1076254558 0000000000
+#> 2:        cases 119446862           319 MC.AMD114863@0123861602 1000000001
+#> 3:        cases 118941441           212 MC.AMD105884@0123861718 0000010000
+#> 4:        cases 118945796           215 MC.AMD106221@0124011373 0100101100
+#> 5:        cont1 118793832           187 MC.AMD107926@0123861155 1000010000
 ```
 
 The `haplotype_frequency` method can be employed to extract the count of
