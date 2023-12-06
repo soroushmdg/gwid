@@ -1,6 +1,5 @@
 csv2Rdat <- function(name = "", rep = 3) {
   if (!file.exists(name)) message("File doesn't exist")
-  set.seed(1)
   caco <- list()
   output <- list()
   input.data <- utils::read.csv(name)
@@ -17,7 +16,6 @@ csv2Rdat <- function(name = "", rep = 3) {
     for (j in 1:rep) {
       caco[[paste0("cont", j)]] <- input.data$SampleName[conts[rep(1:rep, each = length(caco$cases)) == j]]
     }
-    save(file = paste0(dirname(name),"/",cacos[i], ".Rda"), caco)
     output[[cacos[i]]] <- caco
 
   }
