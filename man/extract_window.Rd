@@ -11,6 +11,10 @@ extract_window(obj, ...)
 
 \item{...}{other variables}
 }
+\value{
+the output will be a result_snps (data.table) object including 3 columns
+including, \dQuote{snp_pos}, \dQuote{case_control}, and \dQuote{value}
+}
 \description{
 extract component of an object
 }

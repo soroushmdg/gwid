@@ -11,6 +11,10 @@ subset(obj, ...)
 
 \item{...}{other variables}
 }
+\value{
+the output will be a object(list) of class gwid contains
+profile object and result_snps object.
+}
 \description{
 subset an object
 }

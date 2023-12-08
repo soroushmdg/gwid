@@ -12,7 +12,7 @@ print(x, ...)
 \item{...}{other objects}
 }
 \value{
-print
+print an object
 }
 \description{
 print

@@ -15,11 +15,16 @@
 
 \item{...}{other variables}
 }
+\value{
+the output will be a test_snps (data.table) object including 3 columns:
+ \dQuote{snp_pos}, \dQuote{case_control}, and \dQuote{value} which is
+a p-values.
+}
 \description{
 Permutation test for `haplotype_structure` object
 }
 \examples{
-\dontrun{
+\donttest{
 piggyback::pb_download(repo = "soroushmdg/gwid",tag = "v0.0.1",dest = tempdir())
 ibd_data_file <- paste0(tempdir(),"//chr3.ibd")
 genome_data_file <- paste0(tempdir(),"//chr3.gds")
@@ -50,15 +55,15 @@ ibd_data$res # count number of IBD for each SNP location
 plot(ibd_data,y = c("cases","cont1"),ly = FALSE)
 # Further investigate location between 117M and 122M
 # significant number of IBD's in group cases, compare to cont1, cont2 and cont3.
-plot(ibd_data,y = c("cases","cont1"),snp_start = 117026294,snp_end = 122613594,ly = FALSE)
+plot(ibd_data,y = c("cases","cont1"),snp_start = 119026294,snp_end = 120613594,ly = FALSE)
 model_fisher <- gwid::fisher_test(ibd_data,case_control,reference = "cases",
-snp_start = 117026294,snp_end = 122613594)
+snp_start = 119026294,snp_end = 120613594)
 model_permutation <- permutation_test(ibd_data,snp_data_gds,
-snp_start = 117026294,snp_end = 122613594,nperm=1000,reference = "cases")
+snp_start = 119026294,snp_end = 120613594,nperm=20,reference = "cases")
 class(model_fisher)
 plot(model_fisher, y = c("cases","cont1"),ly = FALSE)
 hap_str <- gwid::haplotype_structure(ibd_data,phase = haplotype_data,w = 10,
-snp_start = 117026294,snp_end = 122613594)
+snp_start = 119026294,snp_end = 120613594)
 haplo_freq <- gwid::haplotype_frequency(hap_str)
 plot(haplo_freq,y = c("cases", "cont1"),plot_type = "haplotype_structure_frequency",
 nwin = 1, type = "version1",ly = FALSE)

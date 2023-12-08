@@ -11,6 +11,10 @@ haplotype_structure(obj, ...)
 
 \item{...}{other variables}
 }
+\value{
+The output will be an object of class haplotype_structure (data.table) that has information
+about subjects haplotype structures in a a window.
+}
 \description{
 haplotype structures in a window
 }

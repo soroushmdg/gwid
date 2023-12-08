@@ -20,6 +20,11 @@
 
 \item{...}{other variables}
 }
+\value{
+the output will be a test_snps (data.table) object including 3 columns:
+ \dQuote{snp_pos}, \dQuote{case_control}, and \dQuote{value} which is
+a p-values.
+}
 \description{
 mcnemar test
 }

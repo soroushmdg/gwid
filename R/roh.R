@@ -70,7 +70,9 @@ roh.phase <- function(phase, gwas, w = 10, fun = c("sum", "mean"), snp_start, sn
 #' @param roh roh as class result_snp
 #'
 #' @param ... other variables
-#'
+#' @return the output will be a test_snps (data.table) object including 3 columns:
+#'  \dQuote{snp_pos}, \dQuote{case_control}, and \dQuote{value} which is
+#' a p-values.
 #' @export
 mcnemar_test <- function(roh, ...) {
   UseMethod("mcnemar_test")
@@ -84,7 +86,9 @@ mcnemar_test <- function(roh, ...) {
 #' @param reference reference group of subjects in which we want to perform fisher test.
 #' @param w window size
 #' @param ... other variables
-#'
+#' @return the output will be a test_snps (data.table) object including 3 columns:
+#'  \dQuote{snp_pos}, \dQuote{case_control}, and \dQuote{value} which is
+#' a p-values.
 #' @export
 mcnemar_test.result_snps <- function(roh = "object of class result_snps (output of function roh with fun=sum)", reference, w = 10, ...) {
   if (missing(reference)) {
@@ -117,7 +121,9 @@ mcnemar_test.result_snps <- function(roh = "object of class result_snps (output 
 #' @param mcnemar macnemar test output
 #'
 #' @param ... other variables
-#'
+#' @return the output will be a test_snps (data.table) object including 3 columns:
+#'  \dQuote{snp_pos}, \dQuote{case_control}, and \dQuote{value} which is
+#' a p-values.
 #' @export
 mcnemar_test_permut <- function(mcnemar, ...) {
   UseMethod("mcnemar_test_permut")
@@ -134,6 +140,9 @@ mcnemar_test_permut <- function(mcnemar, ...) {
 #' @param reference reference group
 #' @param w window
 #' @param ... other variables
+#'@return the output will be a test_snps (data.table) object including 3 columns:
+#'  \dQuote{snp_pos}, \dQuote{case_control}, and \dQuote{value} which is
+#' a p-values.
 #'
 #' @export
 mcnemar_test_permut.result_snps <- function(mcnemar = "object of class result_snps (output of function mcnemar_test with fun=sum)",

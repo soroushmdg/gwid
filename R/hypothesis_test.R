@@ -3,7 +3,9 @@
 #' @param obj an object
 #'
 #' @param ... other variables
-#'
+#' @return the output will be a test_snps (data.table) object including 3 columns:
+#'  \dQuote{snp_pos}, \dQuote{case_control}, and \dQuote{value} which is
+#' a p-values.
 #' @export
 fisher_test <- function(obj, ...) {
   UseMethod("fisher_test")
@@ -26,7 +28,7 @@ fisher_test <- function(obj, ...) {
 #' a p-values.
 #'
 #'@examples
-#'\dontrun{
+#'\donttest{
 #'piggyback::pb_download(repo = "soroushmdg/gwid",tag = "v0.0.1",dest = tempdir())
 #'ibd_data_file <- paste0(tempdir(),"//chr3.ibd")
 #'genome_data_file <- paste0(tempdir(),"//chr3.gds")
@@ -57,13 +59,13 @@ fisher_test <- function(obj, ...) {
 #'plot(ibd_data,y = c("cases","cont1"),ly = FALSE)
 #'# Further investigate location between 117M and 122M
 #'# significant number of IBD's in group cases, compare to cont1, cont2 and cont3.
-#'plot(ibd_data,y = c("cases","cont1"),snp_start = 117026294,snp_end = 122613594,ly = FALSE)
+#'plot(ibd_data,y = c("cases","cont1"),snp_start = 119026294,snp_end = 120613594,ly = FALSE)
 #'model_fisher <- gwid::fisher_test(ibd_data,case_control,reference = "cases",
-#'snp_start = 117026294,snp_end = 122613594)
+#'snp_start = 119026294,snp_end = 120613594)
 #'class(model_fisher)
 #'plot(model_fisher, y = c("cases","cont1"),ly = FALSE)
 #'hap_str <- gwid::haplotype_structure(ibd_data,phase = haplotype_data,w = 10,
-#'snp_start = 117026294,snp_end = 122613594)
+#'snp_start = 119026294,snp_end = 120613594)
 #'haplo_freq <- gwid::haplotype_frequency(hap_str)
 #'plot(haplo_freq,y = c("cases", "cont1"),plot_type = "haplotype_structure_frequency",
 #'nwin = 1, type = "version1",ly = FALSE)
@@ -137,7 +139,7 @@ fisher_test.gwas <- function(obj, reference, snp_start , snp_end, alternative = 
 #' a p-values.
 #'
 #'@examples
-#'\dontrun{
+#'\donttest{
 #'piggyback::pb_download(repo = "soroushmdg/gwid",tag = "v0.0.1",dest = tempdir())
 #'ibd_data_file <- paste0(tempdir(),"//chr3.ibd")
 #'genome_data_file <- paste0(tempdir(),"//chr3.gds")
@@ -168,13 +170,13 @@ fisher_test.gwas <- function(obj, reference, snp_start , snp_end, alternative = 
 #'plot(ibd_data,y = c("cases","cont1"),ly = FALSE)
 #'# Further investigate location between 117M and 122M
 #'# significant number of IBD's in group cases, compare to cont1, cont2 and cont3.
-#'plot(ibd_data,y = c("cases","cont1"),snp_start = 117026294,snp_end = 122613594,ly = FALSE)
+#'plot(ibd_data,y = c("cases","cont1"),snp_start = 119026294,snp_end = 120613594,ly = FALSE)
 #'model_fisher <- gwid::fisher_test(ibd_data,case_control,reference = "cases",
-#'snp_start = 117026294,snp_end = 122613594)
+#'snp_start = 119026294,snp_end = 120613594)
 #'class(model_fisher)
 #'plot(model_fisher, y = c("cases","cont1"),ly = FALSE)
 #'hap_str <- gwid::haplotype_structure(ibd_data,phase = haplotype_data,w = 10,
-#'snp_start = 117026294,snp_end = 122613594)
+#'snp_start = 119026294,snp_end = 120613594)
 #'haplo_freq <- gwid::haplotype_frequency(hap_str)
 #'plot(haplo_freq,y = c("cases", "cont1"),plot_type = "haplotype_structure_frequency",
 #'nwin = 1, type = "version1",ly = FALSE)
@@ -219,7 +221,9 @@ fisher_test.gwid <- function(obj, caco,snp_start ,snp_end ,reference , alternati
 #'
 #' @param ... other variables
 #'
-#'
+#' @return the output will be a test_snps (data.table) object including 3 columns:
+#'  \dQuote{snp_pos}, \dQuote{case_control}, and \dQuote{value} which is
+#' a p-values.
 #' @export
 permutation_test <- function(obj, ...) {
   UseMethod("permutation_test",obj)
@@ -236,9 +240,11 @@ permutation_test <- function(obj, ...) {
 #' @param nperm Number of permutations.
 #' @param reference reference group
 #' @param ... other variables
-#'
+#' @return the output will be a test_snps (data.table) object including 3 columns:
+#'  \dQuote{snp_pos}, \dQuote{case_control}, and \dQuote{value} which is
+#' a p-values.
 #'@examples
-#'\dontrun{
+#'\donttest{
 #'piggyback::pb_download(repo = "soroushmdg/gwid",tag = "v0.0.1",dest = tempdir())
 #'ibd_data_file <- paste0(tempdir(),"//chr3.ibd")
 #'genome_data_file <- paste0(tempdir(),"//chr3.gds")
@@ -269,15 +275,15 @@ permutation_test <- function(obj, ...) {
 #'plot(ibd_data,y = c("cases","cont1"),ly = FALSE)
 #'# Further investigate location between 117M and 122M
 #'# significant number of IBD's in group cases, compare to cont1, cont2 and cont3.
-#'plot(ibd_data,y = c("cases","cont1"),snp_start = 117026294,snp_end = 122613594,ly = FALSE)
+#'plot(ibd_data,y = c("cases","cont1"),snp_start = 119026294,snp_end = 120613594,ly = FALSE)
 #'model_fisher <- gwid::fisher_test(ibd_data,case_control,reference = "cases",
-#'snp_start = 117026294,snp_end = 122613594)
+#'snp_start = 119026294,snp_end = 120613594)
 #'model_permutation <- permutation_test(ibd_data,snp_data_gds,
-#'snp_start = 117026294,snp_end = 122613594,nperm=1000,reference = "cases")
+#'snp_start = 119026294,snp_end = 120613594,nperm=20,reference = "cases")
 #'class(model_fisher)
 #'plot(model_fisher, y = c("cases","cont1"),ly = FALSE)
 #'hap_str <- gwid::haplotype_structure(ibd_data,phase = haplotype_data,w = 10,
-#'snp_start = 117026294,snp_end = 122613594)
+#'snp_start = 119026294,snp_end = 120613594)
 #'haplo_freq <- gwid::haplotype_frequency(hap_str)
 #'plot(haplo_freq,y = c("cases", "cont1"),plot_type = "haplotype_structure_frequency",
 #'nwin = 1, type = "version1",ly = FALSE)
@@ -396,9 +402,11 @@ permutation_test.gwid <- function(obj, gwas, snp_start, snp_end,
 #' @param nperm Number of permutations.
 #' @param reference reference group of subjects in which we want to perform fisher test
 #' @param ... other variables
-#'
+#' @return the output will be a test_snps (data.table) object including 3 columns:
+#'  \dQuote{snp_pos}, \dQuote{case_control}, and \dQuote{value} which is
+#' a p-values.
 #'@examples
-#'\dontrun{
+#'\donttest{
 #'piggyback::pb_download(repo = "soroushmdg/gwid",tag = "v0.0.1",dest = tempdir())
 #'ibd_data_file <- paste0(tempdir(),"//chr3.ibd")
 #'genome_data_file <- paste0(tempdir(),"//chr3.gds")
@@ -429,15 +437,15 @@ permutation_test.gwid <- function(obj, gwas, snp_start, snp_end,
 #'plot(ibd_data,y = c("cases","cont1"),ly = FALSE)
 #'# Further investigate location between 117M and 122M
 #'# significant number of IBD's in group cases, compare to cont1, cont2 and cont3.
-#'plot(ibd_data,y = c("cases","cont1"),snp_start = 117026294,snp_end = 122613594,ly = FALSE)
+#'plot(ibd_data,y = c("cases","cont1"),snp_start = 119026294,snp_end = 120613594,ly = FALSE)
 #'model_fisher <- gwid::fisher_test(ibd_data,case_control,reference = "cases",
-#'snp_start = 117026294,snp_end = 122613594)
+#'snp_start = 119026294,snp_end = 120613594)
 #'model_permutation <- permutation_test(ibd_data,snp_data_gds,
-#'snp_start = 117026294,snp_end = 122613594,nperm=1000,reference = "cases")
+#'snp_start = 119026294,snp_end = 120613594,nperm=20,reference = "cases")
 #'class(model_fisher)
 #'plot(model_fisher, y = c("cases","cont1"),ly = FALSE)
 #'hap_str <- gwid::haplotype_structure(ibd_data,phase = haplotype_data,w = 10,
-#'snp_start = 117026294,snp_end = 122613594)
+#'snp_start = 119026294,snp_end = 120613594)
 #'haplo_freq <- gwid::haplotype_frequency(hap_str)
 #'plot(haplo_freq,y = c("cases", "cont1"),plot_type = "haplotype_structure_frequency",
 #'nwin = 1, type = "version1",ly = FALSE)
@@ -608,7 +616,9 @@ G_Test <- function (x, y = NULL, correct = c("none", "williams", "yates"),
 #' @param haplotype_structure object of a class
 #'
 #' @param ... other variables
-#'
+#' @return the output will be a test_snps (data.table) object including 3 columns:
+#'  \dQuote{snp_pos}, \dQuote{case_control}, and \dQuote{value} which is
+#' a p-values.
 #' @export
 gtest <- function(haplotype_structure, ...) {
   UseMethod("gtest")
@@ -678,7 +688,7 @@ gtest.haplotype_structure <- function(haplotype_structure, reference, ...) {
 #' a p-values.
 #'
 #'@examples
-#'\dontrun{
+#'\donttest{
 #'piggyback::pb_download(repo = "soroushmdg/gwid",tag = "v0.0.1",dest = tempdir())
 #'ibd_data_file <- paste0(tempdir(),"//chr3.ibd")
 #'genome_data_file <- paste0(tempdir(),"//chr3.gds")
@@ -709,15 +719,15 @@ gtest.haplotype_structure <- function(haplotype_structure, reference, ...) {
 #'plot(ibd_data,y = c("cases","cont1"),ly = FALSE)
 #'# Further investigate location between 117M and 122M
 #'# significant number of IBD's in group cases, compare to cont1, cont2 and cont3.
-#'plot(ibd_data,y = c("cases","cont1"),snp_start = 117026294,snp_end = 122613594,ly = FALSE)
+#'plot(ibd_data,y = c("cases","cont1"),snp_start = 119026294,snp_end = 120613594,ly = FALSE)
 #'model_fisher <- gwid::fisher_test(ibd_data,case_control,reference = "cases",
-#'snp_start = 117026294,snp_end = 122613594)
+#'snp_start = 119026294,snp_end = 120613594)
 #'model_permutation <- permutation_test(ibd_data,snp_data_gds,
-#'snp_start = 117026294,snp_end = 122613594,nperm=1000,reference = "cases")
+#'snp_start = 119026294,snp_end = 120613594,nperm=20,reference = "cases")
 #'class(model_fisher)
 #'plot(model_fisher, y = c("cases","cont1"),ly = FALSE)
 #'hap_str <- gwid::haplotype_structure(ibd_data,phase = haplotype_data,w = 10,
-#'snp_start = 117026294,snp_end = 122613594)
+#'snp_start = 119026294,snp_end = 120613594)
 #'haplo_freq <- gwid::haplotype_frequency(hap_str)
 #'plot(haplo_freq,y = c("cases", "cont1"),plot_type = "haplotype_structure_frequency",
 #'nwin = 1, type = "version1",ly = FALSE)
@@ -770,9 +780,11 @@ fisher_test.result_snps <- function(obj, caco, reference, alternative = c("two.s
 #' @param nperm Number of permutations.
 #' @param reference reference group of subjects in which we want to perform `gtest`
 #' @param ... other variables
-#'
+#' @return the output will be a test_snps (data.table) object including 3 columns:
+#'  \dQuote{snp_pos}, \dQuote{case_control}, and \dQuote{value} which is
+#' a p-values.
 #'@examples
-#'\dontrun{
+#'\donttest{
 #'piggyback::pb_download(repo = "soroushmdg/gwid",tag = "v0.0.1",dest = tempdir())
 #'ibd_data_file <- paste0(tempdir(),"//chr3.ibd")
 #'genome_data_file <- paste0(tempdir(),"//chr3.gds")
@@ -803,15 +815,15 @@ fisher_test.result_snps <- function(obj, caco, reference, alternative = c("two.s
 #'plot(ibd_data,y = c("cases","cont1"),ly = FALSE)
 #'# Further investigate location between 117M and 122M
 #'# significant number of IBD's in group cases, compare to cont1, cont2 and cont3.
-#'plot(ibd_data,y = c("cases","cont1"),snp_start = 117026294,snp_end = 122613594,ly = FALSE)
+#'plot(ibd_data,y = c("cases","cont1"),snp_start = 119026294,snp_end = 120613594,ly = FALSE)
 #'model_fisher <- gwid::fisher_test(ibd_data,case_control,reference = "cases",
-#'snp_start = 117026294,snp_end = 122613594)
+#'snp_start = 119026294,snp_end = 120613594)
 #'model_permutation <- permutation_test(ibd_data,snp_data_gds,
-#'snp_start = 117026294,snp_end = 122613594,nperm=1000,reference = "cases")
+#'snp_start = 119026294,snp_end = 120613594,nperm=20,reference = "cases")
 #'class(model_fisher)
 #'plot(model_fisher, y = c("cases","cont1"),ly = FALSE)
 #'hap_str <- gwid::haplotype_structure(ibd_data,phase = haplotype_data,w = 10,
-#'snp_start = 117026294,snp_end = 122613594)
+#'snp_start = 119026294,snp_end = 120613594)
 #'haplo_freq <- gwid::haplotype_frequency(hap_str)
 #'plot(haplo_freq,y = c("cases", "cont1"),plot_type = "haplotype_structure_frequency",
 #'nwin = 1, type = "version1",ly = FALSE)
