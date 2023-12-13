@@ -8,13 +8,7 @@ Authors@R: c(
     person("Steven", "Schrodi", email = "schrodi@wisc.edu", role = "aut")
     )
 Maintainer: Soroush Mahmoudiandehkordi <soroushmdg@gmail.com>
-Description: Methods and tools for the analysis of Genome Wide 
-    Identity-by-Descent (gwid) mapping data, focusing on testing whether there 
-    is a higher occurrence of IBD segments around potential causal variants 
-    in cases compared to controls, which is crucial for identifying rare 
-    variants. To enhance its analytical power, gwid incorporates a Sliding 
-    Window Approach, allowing for the detection and analysis of signals from 
-    multiple SNPs.
+Description: gwid provides methods and tools for the analysis of Identity-by-descent (IBD) mapping data, focusing on testing whether there is a higher occurrence of IBD segments around potential causal variants in cases compared to controls, which is crucial for identifying rare variants. To enhance its analytical power, gwid incorporates a Sliding Window Approach, allowing for the detection and analysis of signals from multiple SNPs. Furthermore, it offers the capability to extract haplotype sequences within these sliding windows, adding another layer of depth to its functionality in genetic analysis.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
