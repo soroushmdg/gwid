@@ -462,7 +462,7 @@ subset.gwid <- function(obj, snp_start, snp_end, ...) {
     class(output) <- class(obj)
     return(output)
   }
-  Mres_reduced <- lapply(lapply(obj[[ind_profile]], "[", j = snp_indx), function(x) {
+  Mres_reduced <- lapply(lapply(obj[[ind_profile]], "[", j = snp_indx,exact = TRUE), function(x) {
     x <- as.matrix(x)
     not_zero_index <- which(rowSums(x) != 0)
     y <- x[not_zero_index, ]
