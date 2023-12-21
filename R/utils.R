@@ -1,7 +1,10 @@
 #' @import data.table
 #' @import Matrix
+#' @import shiny
+#' @import plotly
 #' @importFrom stats fisher.test quantile xtabs
 #' @importFrom piggyback pb_download
+
 
 
 
@@ -13,6 +16,8 @@ IBD <- function(ibd_data = "name.ibd", caco = "name.Rda", ...) {
   class(ibd) <- append("IBD",class(ibd))
   return(ibd)
 }
+
+utils::globalVariables(c("caco_file_name", "data_folder_address"))
 
 
 

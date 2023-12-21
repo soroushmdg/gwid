@@ -29,7 +29,8 @@ Imports:
     stats,
     RcppRoll,
     methods,
-    piggyback
+    piggyback,
+    shiny
 RoxygenNote: 7.2.3
 Suggests: 
     knitr,
