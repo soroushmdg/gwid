@@ -7,7 +7,7 @@
 #' will be saved inside output list.
 #'
 #' @return a list of seven objects; including smp.id, snp.id, snp.pos, smp.indx,
-#' smp.snp (a matrix with samples in rows and snp in columns),caco,
+#' smp.snp (a matrix with samples in rows and snp in columns), caco,
 #' snps(column sum of smp.snp for each case control)
 #'
 #'
