@@ -100,10 +100,18 @@ build_gwid <- function(ibd_data = "name.ibd", gwas = "object of class gwas", gwi
       j = Un1,
       x = 1
     )
+    # if (ncol(profile[[j]]) < length(gwas$snp.pos) & sum(diff(sort(unique(Un1))))!=0 ){
+    #   ind_not1 <- which(diff(sort(unique(Un1)))!=1)
+    #   for (k in seq_along(ind_not1)) {
+    #     mytemp <- Matrix(0, nrow = nrow(profile[[j]]), ncol = ( sort(unique(Un1))[ind_not1[k]+1] - sort(unique(Un1))[ind_not1[k]] - 1))
+    #     profile[[j]] <- cbind(profile[[j]][,1:(ind_not1[[k]])] , mytemp , profile[[j]][,(ind_not1[[k]]+1):ncol(profile[[j]])])
+    #   }
+    # }
+
     if (ncol(profile[[j]]) < length(gwas$snp.pos)) {
       if (min(Un1) > 1) {
         mytemp <- Matrix(0, nrow = nrow(profile[[j]]), ncol = (min(Un1) - 1))
-        profile[[j]] <- cbind(mytemp, profile[[j]])
+        profile[[j]] <- cbind(mytemp, profile[[j]][,min(Un1):max(Un1)])
       }
 
       if (max(Un1) < length(gwas$snp.pos)) {
