@@ -4,14 +4,12 @@
 \alias{launch_app}
 \title{laucnh a shiny app}
 \usage{
-launch_app(data_folder_address, caco_file_name, ...)
+launch_app(data_folder_address, ...)
 }
 \arguments{
 \item{data_folder_address}{address of the folder that your data folders are.
 for example if you have two sets of data such as data1 and data2 and they are
 in mydata folder then your data_folder_address should be "./mydata"}
-
-\item{caco_file_name}{case control file name.}
 
 \item{...}{other variables}
 }
