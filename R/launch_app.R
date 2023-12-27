@@ -136,14 +136,22 @@ shiny_server <- function(input, output, session) {
       }
       data_path(paste0(data_folder_address, "/"))
       values$caco <- case_control(case_control_rda = paste0(data_path(), input$f_choice))
-      values$pieces <- build_gwas(gds_data = paste0(data_path(), "chr", input$chr, ".gds"), caco = values$caco, gwas_generator = TRUE) # ibd_data = paste0(data_path(), "chr", input$chr, ".ibd"))
+      values$pieces <- build_gwas(
+        gds_data = paste0(data_path(), "chr", input$chr, ".gds"),
+        caco = values$caco, gwas_generator = TRUE)
       rng <- range(values$pieces[["snp.pos"]])
       updateSliderInput(session, "pos", min = rng[1], max = rng[2], value = rng)
       values$ag.pieces <- values$pieces$snps
-      values$myphase <- build_phase(phased_vcf = paste0(data_path(), "chr", input$chr, ".vcf"), caco = values$caco) # phased(snp_smp = values$pieces, phased_vcf = paste0(data_path(), "chr", input$chr, ".vcf"))
-      values$myregion2 <- build_gwid(ibd_data = paste0(data_path(), "chr", input$chr, ".ibd"), gwas = values$pieces, gwid_generator = TRUE) # gwid(values$pieces, values$ibd)
-      values$ibd <- values$myregion2$ibd # IBD(ibd_data = paste0(data_path(), "chr", input$chr, ".ibd"), caco = paste0(data_path(), caco_file_name))
-      updateSelectInput(session, "res_choice", choices = names(values$caco), selected = names(values$caco)[1])
+      values$myphase <- build_phase(
+        phased_vcf = paste0(data_path(), "chr", input$chr, ".vcf"),
+        caco = values$caco)
+      values$myregion2 <- build_gwid(
+        ibd_data = paste0(data_path(), "chr", input$chr, ".ibd"),
+        gwas = values$pieces, gwid_generator = TRUE)
+      values$ibd <- values$myregion2$ibd
+      updateSelectInput(session, "res_choice",
+                        choices = names(values$caco),
+                        selected = names(values$caco)[1])
     },
     priority = 2
   )
@@ -166,7 +174,8 @@ shiny_server <- function(input, output, session) {
         return()
       }
       data_path(paste0(data_folder_address, "/"))
-      values$caco <- case_control(case_control_rda = paste0(data_path(), input$f_choice))
+      values$caco <- case_control(case_control_rda = paste0(data_path(),
+                                                            input$f_choice))
       values$pieces <- build_gwas(
         gds_data = paste0(
           data_path(),
@@ -346,11 +355,17 @@ shiny_server <- function(input, output, session) {
         showNotification("please wait to run ROH", type = "message")
         print("please wait to run ROH")
 
-        values$roh_mean <- roh(values$myphase, gwas = values$pieces, w = input$wroh, fun = "mean", snp_start = ival()[1], snp_end = ival()[2])
-        values$roh_sum <- roh(values$myphase, gwas = values$pieces, w = input$wroh, fun = "sum", snp_start = ival()[1], snp_end = ival()[2])
+        values$roh_mean <- roh(values$myphase, gwas = values$pieces,
+                               w = input$wroh, fun = "mean",
+                               snp_start = ival()[1], snp_end = ival()[2])
+        values$roh_sum <- roh(values$myphase, gwas = values$pieces,
+                              w = input$wroh, fun = "sum",
+                              snp_start = ival()[1], snp_end = ival()[2])
 
-        if (input$sh_plot == "rohm") p <- plot(values$roh_mean, title = "roh mean")
-        if (input$sh_plot == "rohs") p <- plot(values$roh_sum, title = "roh_sum")
+        if (input$sh_plot == "rohm") p <- plot(values$roh_mean,
+                                               title = "roh mean")
+        if (input$sh_plot == "rohs") p <- plot(values$roh_sum,
+                                               title = "roh_sum")
       }
 
       p
@@ -370,7 +385,9 @@ shiny_server <- function(input, output, session) {
     if (input$sh_plot != "profile") {
       return()
     }
-    selectInput("res_choice", NULL, choices = names(values$pieces$caco), selected = names(values$pieces$caco[1]), width = "300px")
+    selectInput(
+      "res_choice", NULL, choices = names(values$pieces$caco),
+      selected = names(values$pieces$caco[1]), width = "300px")
   })
 
 
