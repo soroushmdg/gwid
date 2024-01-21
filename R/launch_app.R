@@ -1,7 +1,7 @@
 shiny_ui <-
   fluidPage(
     tags$head(tags$style(HTML("body { max-width: 1250px !important; }"))),
-    titlePanel("IBD Game"),
+    titlePanel("gwid"),
     sidebarLayout(
       sidebarPanel(
         width = 3,
