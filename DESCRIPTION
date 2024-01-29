@@ -4,8 +4,8 @@ Title: Genome-Wide Identity-by-Descent
 Version: 0.1.0
 Authors@R: c(
     person("Soroush", "Mahmoudiandehkordi", email = "soroushmdg@gmail.com", role = c("aut", "cre")),
-    person("Mehdi", "Maadooliat", email = "mehdi.maadooliat@mu.edu", role = "aut"),
-    person("Steven", "Schrodi", email = "schrodi@wisc.edu", role = "aut")
+    person("Steven", "Schrodi", email = "schrodi@wisc.edu", role = "aut"),
+    person("Mehdi", "Maadooliat", email = "mehdi.maadooliat@mu.edu", role = "aut")
     )
 Maintainer: Soroush Mahmoudiandehkordi <soroushmdg@gmail.com>
 Description: Methods and tools for the analysis of Genome Wide 
