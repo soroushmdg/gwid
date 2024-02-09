@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# gwid
+# gwid <img src="man/figures/hex1.png" width = "175" height = "200" align="right" />
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/soroushmdg/gwid/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/soroushmdg/gwid/actions/workflows/R-CMD-check.yaml)
