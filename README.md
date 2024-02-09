@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# gwid
+# gwid <img src="man/figures/hex1.png" width = "175" height = "200" align="right" />
 
 <!-- badges: start -->
 
@@ -236,11 +236,11 @@ class(hap_str)
 
 hap_str[sample(1:nrow(hap_str),size = 5),] # structures column have haplotype of length w=10 
 #>    case_control   snp_pos window_number                     smp structures
-#> 1:        cases 121168167           491    MC.161208@1076254558 0000000000
-#> 2:        cases 119446862           319 MC.AMD114863@0123861602 1000000001
-#> 3:        cases 118941441           212 MC.AMD105884@0123861718 0000010000
-#> 4:        cases 118945796           215 MC.AMD106221@0124011373 0100101100
-#> 5:        cont1 118793832           187 MC.AMD107926@0123861155 1000010000
+#> 1:        cases 122472434           751 MC.AMD101468@0123860989 0100011100
+#> 2:        cases 119855410           376    MC.157418@1075680586 0100000010
+#> 3:        case1 118945796           215 MC.AMD102508@0123908300 0010000011
+#> 4:        case1 122354714           722 MC.AMD107489@0123909804 0000000000
+#> 5:        case1 122388993           732 MC.AMD107489@0123909804 0000000000
 ```
 
 The `haplotype_frequency` method can be employed to extract the count of
