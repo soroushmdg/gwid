@@ -79,7 +79,7 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="gwid">gwid<a class="anchor" aria-label="anchor" href="#gwid"></a>
+<div class="page-header"><h1 id="gwid-">gwid <img src="reference/figures/hex1.png" width="175" height="200" align="right"><a class="anchor" aria-label="anchor" href="#gwid-"></a>
 </h1></div>
 <!-- badges: start -->
 
@@ -245,11 +245,11 @@ gwid pipeline
 <span></span>
 <span><span class="va">hap_str</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">hap_str</span><span class="op">)</span>,size <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,<span class="op">]</span> <span class="co"># structures column have haplotype of length w=10 </span></span>
 <span><span class="co">#&gt;    case_control   snp_pos window_number                     smp structures</span></span>
-<span><span class="co">#&gt; 1:        cases 121168167           491    MC.161208@1076254558 0000000000</span></span>
-<span><span class="co">#&gt; 2:        cases 119446862           319 MC.AMD114863@0123861602 1000000001</span></span>
-<span><span class="co">#&gt; 3:        cases 118941441           212 MC.AMD105884@0123861718 0000010000</span></span>
-<span><span class="co">#&gt; 4:        cases 118945796           215 MC.AMD106221@0124011373 0100101100</span></span>
-<span><span class="co">#&gt; 5:        cont1 118793832           187 MC.AMD107926@0123861155 1000010000</span></span></code></pre></div>
+<span><span class="co">#&gt; 1:        cases 122472434           751 MC.AMD101468@0123860989 0100011100</span></span>
+<span><span class="co">#&gt; 2:        cases 119855410           376    MC.157418@1075680586 0100000010</span></span>
+<span><span class="co">#&gt; 3:        case1 118945796           215 MC.AMD102508@0123908300 0010000011</span></span>
+<span><span class="co">#&gt; 4:        case1 122354714           722 MC.AMD107489@0123909804 0000000000</span></span>
+<span><span class="co">#&gt; 5:        case1 122388993           732 MC.AMD107489@0123909804 0000000000</span></span></code></pre></div>
 <p>The <code>haplotype_frequency</code> method can be employed to extract the count of these structures, which can then be plotted for each window.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">haplo_freq</span> <span class="op">&lt;-</span> <span class="fu">gwid</span><span class="fu">::</span><span class="fu"><a href="reference/haplotype_frequency.html">haplotype_frequency</a></span><span class="op">(</span><span class="va">hap_str</span><span class="op">)</span></span></code></pre></div>

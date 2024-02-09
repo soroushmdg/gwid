@@ -87,9 +87,6 @@
 <span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     print, subset</span></span></code></pre></div>
-<div class="section level2">
-<h2 id="gwid">gwid<a class="anchor" aria-label="anchor" href="#gwid"></a>
-</h2>
 <!-- badges: start -->
 <p><a href="https://github.com/soroushmdg/gwid/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/soroushmdg/gwid/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <!-- badges: end --></p>
 <p>GWID (Genome Wide Identity by Descent) is an R-package designed for
@@ -111,9 +108,9 @@ figure.</p>
 gwid pipeline
 </p>
 </div>
-<div class="section level3">
-<h3 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
-</h3>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
 <p>The <code>gwid</code> package receives four types of inputs: a
 genotype file, an IBD file, a haplotype file, and phenotype file. The
 genotype data is derived from the output of the <a href="https://www.bioconductor.org/packages/release/bioc/html/SNPRelate.html" class="external-link">SNPRelate</a>
@@ -122,17 +119,17 @@ the form of tabulated data produced by the <a href="https://faculty.washington.e
 IBD</a> software. Haplotype file comes from the output of the <a href="http://faculty.washington.edu/browning/beagle/beagle.html" class="external-link">Beagle</a>,
 while phenotype data is represented using an R list.</p>
 </div>
-<div class="section level3">
-<h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h3>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>You can install the development version of <code>gwid</code> from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"soroushmdg/gwid"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
-</h3>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
 <p>We demonstrated the key functionalities of gwid using the rheumatoid
 arthritis (RA) GWAS dataset. This dataset consisted of DNA samples
 collected from 478 individuals diagnosed with rheumatoid arthritis (RA)
@@ -151,9 +148,9 @@ from github repository.</p>
 <span><span class="va">genome_data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"//chr3.gds"</span><span class="op">)</span></span>
 <span><span class="va">phase_data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"//chr3.vcf"</span><span class="op">)</span></span>
 <span><span class="va">case_control_data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"//case-cont-RA.withmap.Rda"</span><span class="op">)</span></span></code></pre></div>
-<div class="section level4">
-<h4 id="input">Input<a class="anchor" aria-label="anchor" href="#input"></a>
-</h4>
+<div class="section level3">
+<h3 id="input">Input<a class="anchor" aria-label="anchor" href="#input"></a>
+</h3>
 <p>In this code we explain each input data files individually.
 <code>case_control</code> is object of class <code>caco</code> that has
 phenotype information. <code>snp_data_gds</code> object of class
@@ -259,10 +256,10 @@ class that has IBD information.</p>
 <span><span class="co">#&gt; 133811: 197762623        cont3    44</span></span>
 <span><span class="co">#&gt; 133812: 197833758        cont3    44</span></span></code></pre></div>
 </div>
-<div class="section level4">
-<h4 id="plot-method">
+<div class="section level3">
+<h3 id="plot-method">
 <code>plot</code> method<a class="anchor" aria-label="anchor" href="#plot-method"></a>
-</h4>
+</h3>
 <p>The <code>plot</code> function can be applied to the
 <code>gwid</code> class to display the counts of IBD in each Single SNP
 among both case and control groups. By utilizing the
@@ -321,11 +318,11 @@ window manner. <code>w</code> is length of sliding window and</p>
 <span><span class="va">hap_str</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">hap_str</span><span class="op">)</span>,size <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,<span class="op">]</span> <span class="co"># structures column </span></span>
 <span><span class="co">#&gt;    case_control   snp_pos window_number                     smp structures</span></span>
 <span><span class="co">#&gt;          &lt;fctr&gt;     &lt;num&gt;         &lt;int&gt;                  &lt;char&gt;     &lt;char&gt;</span></span>
-<span><span class="co">#&gt; 1:        cont2 118942956           213    3267209-1-0238039064 0001000000</span></span>
-<span><span class="co">#&gt; 2:        cont1 121353254           549 MC.AMD123744@0123890953 1000000000</span></span>
-<span><span class="co">#&gt; 3:        cont1 119150089           251    4276404-1-0238096520 1010000000</span></span>
-<span><span class="co">#&gt; 4:        cases 121202345           494    MC.157761@1075680606 0000000000</span></span>
-<span><span class="co">#&gt; 5:        case1 120845812           469 MC.AMD115696@0123861293 0000000000</span></span>
+<span><span class="co">#&gt; 1:        case2 122259432           691    MC.158985@1075678808 0000000000</span></span>
+<span><span class="co">#&gt; 2:        cont1 121825197           639    MC.160854@1075641705 1010000000</span></span>
+<span><span class="co">#&gt; 3:        cont1 120782246           464    MC.157934@1075678400 0101000000</span></span>
+<span><span class="co">#&gt; 4:        cont2 119506880           344 MC.AMD102287@0123861829 1000101000</span></span>
+<span><span class="co">#&gt; 5:        cont3 121204025           495    MC.157665@1075676785 0000001000</span></span>
 <span><span class="co">#have haplotype of length w=10 </span></span></code></pre></div>
 <p>The <code>haplotype_frequency</code> method can be employed to
 extract the count of these structures, which can then be plotted for
@@ -342,7 +339,6 @@ each window.</p>
 <span>   ly <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span> <span class="op">)</span></span></code></pre></div>
 <p><img src="../reference/figures/hap_version1.png" width="100%" style="display: block; margin: auto;"></p>
-</div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
