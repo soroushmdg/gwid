@@ -89,20 +89,19 @@
 <span><span class="co">#&gt;     print, subset</span></span></code></pre></div>
 <!-- badges: start -->
 <p><a href="https://github.com/soroushmdg/gwid/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/soroushmdg/gwid/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <!-- badges: end --></p>
-<p>GWID (Genome Wide Identity by Descent) is an R-package designed for
-the analysis of IBD (Identity by Descent) data, to discover rare alleles
-(susceptibility regions) associated with case-control phenotype.
-Although Genome Wide Association Studies (GWAS) successfully reveal
-numerous common variants linked to diseases, they exhibit lack of power
-to identify rare alleles. To address this limitation, we have developed
-a pipeline that employs IBD data (output of refined-IBD software). This
-methodology encompasses a sequential process for analyzing the
-aforementioned data within isolated populations. The primary objective
-of this approach is to enhance the sensitivity of variant detection by
-utilizing information from genetically related individuals, thereby
-facilitating the identification of causal variants. An overall
-representation of the pipeline is visually depicted in the following
-figure.</p>
+<p>gwid is an R-package designed for the analysis of IBD (Identity by
+Descent) data, to discover rare alleles (susceptibility regions)
+associated with case-control phenotype. Although Genome Wide Association
+Studies (GWAS) successfully reveal numerous common variants linked to
+diseases, they exhibit lack of power to identify rare alleles. To
+address this limitation, we have developed a pipeline that employs IBD
+data (output of refined-IBD software). This methodology encompasses a
+sequential process for analyzing the aforementioned data within isolated
+populations. The primary objective of this approach is to enhance the
+sensitivity of variant detection by utilizing information from
+genetically related individuals, thereby facilitating the identification
+of causal variants. An overall representation of the pipeline is
+visually depicted in the following figure.</p>
 <div class="figure" style="text-align: center">
 <img src="../reference/figures/final-copy-arrow.png" alt="gwid pipeline" width="100%"><p class="caption">
 gwid pipeline
@@ -122,8 +121,11 @@ while phenotype data is represented using an R list.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of <code>gwid</code> from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<p>You can install the stable version of <code>gwid</code> from <a href="https://cran.r-project.org/" class="external-link">CRAN</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"gwid"</span><span class="op">)</span></span></code></pre></div>
+<p>You can install the development version of <code>gwid</code> from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"soroushmdg/gwid"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -139,7 +141,7 @@ from a genetically homogeneous population in central Wisconsin
 exhibiting elevated relatedness structure. Because size of data is
 large, we use <code>pggyback</code> package to upload and download data
 from github repository.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("piggyback")</span></span>
 <span><span class="fu">piggyback</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/piggyback/reference/pb_download.html" class="external-link">pb_download</a></span><span class="op">(</span>repo <span class="op">=</span> <span class="st">"soroushmdg/gwid"</span>,</span>
 <span>            tag <span class="op">=</span> <span class="st">"v0.0.1"</span>,</span>
@@ -159,7 +161,7 @@ this package because it is very fast and efficient.
 <code>haplotype_data</code> object of class <code>phase</code> has
 haplotype data. <code>ibd_data</code> is an object of <code>gwid</code>
 class that has IBD information.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/soroushmdg/gwid" class="external-link">gwid</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># case-control data</span></span>
@@ -269,13 +271,13 @@ exploration of the entire chromosome or specific regions of interest
 through the use of <code>snp_start</code> and <code>snp_end</code>
 parameters. Additionally, the <code>y</code> parameter enables the
 inclusion of only specific groups of subjects for consideration.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># plot count of IBD in chromosome 3</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ibd_data</span>,</span>
 <span>     y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cases"</span>,<span class="st">"cont1"</span><span class="op">)</span>,</span>
-<span>     ly <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="my-vignette_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<span>     ly<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> </span></code></pre></div>
+<p><img src="my-vignette_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Further investigate location between 117M and 122M</span></span>
 <span><span class="co"># significant number of IBD's in group cases, compare to cont1, cont2 and cont3.</span></span>
@@ -283,13 +285,13 @@ inclusion of only specific groups of subjects for consideration.</p>
 <span>     y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cases"</span>,<span class="st">"cont1"</span><span class="op">)</span>,</span>
 <span>     snp_start <span class="op">=</span> <span class="fl">117026294</span>,</span>
 <span>     snp_end <span class="op">=</span> <span class="fl">122613594</span>,</span>
-<span>     ly <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="my-vignette_files/figure-html/unnamed-chunk-4-2.png" width="700"></p>
+<span>     ly<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> </span></code></pre></div>
+<p><img src="my-vignette_files/figure-html/unnamed-chunk-6-2.png" width="672"></p>
 <p>Through the utilization of the <code>fisher_test</code> method, it
 becomes possible to calculate p-values within chosen regions. These
 p-values help assess whether there are noteworthy differences in counts
 between the case and control groups.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model_fisher</span> <span class="op">&lt;-</span> <span class="fu">gwid</span><span class="fu">::</span><span class="fu"><a href="../reference/fisher_test.html">fisher_test</a></span><span class="op">(</span><span class="va">ibd_data</span>,</span>
 <span>                                  <span class="va">case_control</span>,</span>
 <span>                                  reference <span class="op">=</span> <span class="st">"cases"</span>,           </span>
@@ -301,12 +303,20 @@ between the case and control groups.</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_fisher</span>, </span>
 <span>     y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cases"</span>,<span class="st">"cont1"</span><span class="op">)</span>,</span>
-<span>     ly <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="my-vignette_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<span>     ly<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="my-vignette_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
+<p>You can perform permutation test as follows:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">model_permutation</span> <span class="op">&lt;-</span> <span class="fu">gwid</span><span class="fu">::</span><span class="fu"><a href="../reference/permutation_test.html">permutation_test</a></span><span class="op">(</span><span class="va">ibd_data</span>,gwas <span class="op">=</span> <span class="va">snp_data_gds</span>,</span>
+<span>                                            reference <span class="op">=</span> <span class="st">"cases"</span>,</span>
+<span>                                            snp_start <span class="op">=</span> <span class="fl">117026294</span>,</span>
+<span>                                            snp_end <span class="op">=</span> <span class="fl">122613594</span>,</span>
+<span>                                            nperm <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_permutation</span><span class="op">)</span></span></code></pre></div>
 <p>The <code>haplotype_structure</code> method can be utilized to
 extract haplotypes from regions that exhibit IBD patterns in a sliding
 window manner. <code>w</code> is length of sliding window and</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hap_str</span> <span class="op">&lt;-</span> <span class="fu">gwid</span><span class="fu">::</span><span class="fu"><a href="../reference/haplotype_structure.html">haplotype_structure</a></span><span class="op">(</span><span class="va">ibd_data</span>,</span>
 <span>                                     phase <span class="op">=</span> <span class="va">haplotype_data</span>,</span>
 <span>                                     w <span class="op">=</span> <span class="fl">10</span>,</span>
@@ -318,27 +328,27 @@ window manner. <code>w</code> is length of sliding window and</p>
 <span><span class="va">hap_str</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">hap_str</span><span class="op">)</span>,size <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,<span class="op">]</span> <span class="co"># structures column </span></span>
 <span><span class="co">#&gt;    case_control   snp_pos window_number                     smp structures</span></span>
 <span><span class="co">#&gt;          &lt;fctr&gt;     &lt;num&gt;         &lt;int&gt;                  &lt;char&gt;     &lt;char&gt;</span></span>
-<span><span class="co">#&gt; 1:        case2 122259432           691    MC.158985@1075678808 0000000000</span></span>
-<span><span class="co">#&gt; 2:        cont1 121825197           639    MC.160854@1075641705 1010000000</span></span>
-<span><span class="co">#&gt; 3:        cont1 120782246           464    MC.157934@1075678400 0101000000</span></span>
-<span><span class="co">#&gt; 4:        cont2 119506880           344 MC.AMD102287@0123861829 1000101000</span></span>
-<span><span class="co">#&gt; 5:        cont3 121204025           495    MC.157665@1075676785 0000001000</span></span>
+<span><span class="co">#&gt; 1:        cont3 122014566           667 MC.AMD100053@0123911550 0000000000</span></span>
+<span><span class="co">#&gt; 2:        cont2 121260325           520    MC.157541@1075680576 0000001000</span></span>
+<span><span class="co">#&gt; 3:        cases 117280848            30 MC.AMD101817@0123861665 0000100111</span></span>
+<span><span class="co">#&gt; 4:        cont2 119895964           384    5551858-1-0238042103 0100000000</span></span>
+<span><span class="co">#&gt; 5:        cases 120629795           461    MC.158519@1075678444 0000101000</span></span>
 <span><span class="co">#have haplotype of length w=10 </span></span></code></pre></div>
 <p>The <code>haplotype_frequency</code> method can be employed to
 extract the count of these structures, which can then be plotted for
 each window.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">haplo_freq</span> <span class="op">&lt;-</span> <span class="fu">gwid</span><span class="fu">::</span><span class="fu"><a href="../reference/haplotype_frequency.html">haplotype_frequency</a></span><span class="op">(</span><span class="va">hap_str</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># plot haplotype counts in first window (nwin=1).</span></span>
 <span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">haplo_freq</span>,</span>
 <span>   y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cases"</span>, <span class="st">"cont1"</span><span class="op">)</span>,</span>
 <span>   plot_type <span class="op">=</span> <span class="st">"haplotype_structure_frequency"</span>,</span>
 <span>   nwin <span class="op">=</span> <span class="fl">1</span>, type <span class="op">=</span> <span class="st">"version1"</span>,</span>
-<span>   ly <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>   ly<span class="op">=</span><span class="cn">FALSE</span></span>
 <span> <span class="op">)</span></span></code></pre></div>
-<p><img src="../reference/figures/hap_version1.png" width="100%" style="display: block; margin: auto;"></p>
+<p><img src="my-vignette_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
