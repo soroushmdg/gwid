@@ -22,7 +22,19 @@ library(gwid)
 [![R-CMD-check](https://github.com/soroushmdg/gwid/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/soroushmdg/gwid/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-GWID (Genome Wide Identity by Descent) is an R-package designed for the analysis of IBD (Identity by Descent) data, to discover rare alleles (susceptibility regions) associated with case-control phenotype. Although Genome Wide Association Studies (GWAS) successfully reveal numerous common variants linked to diseases, they exhibit lack of power to identify rare alleles. To address this limitation, we have developed a pipeline that employs IBD data (output of refined-IBD software). This methodology encompasses a sequential process for analyzing the aforementioned data within isolated populations. The primary objective of this approach is to enhance the sensitivity of variant detection by utilizing information from genetically related individuals, thereby facilitating the identification of causal variants. An overall representation of the pipeline is visually depicted in the following figure.
+gwid is an R-package designed for the analysis
+of IBD (Identity by Descent) data, to discover rare alleles 
+(susceptibility regions) associated with case-control phenotype. 
+Although Genome Wide Association Studies (GWAS) successfully reveal numerous 
+common variants linked to diseases, they exhibit lack of power to identify rare 
+alleles. To address this limitation, we have developed a pipeline that employs 
+IBD data (output of refined-IBD software). This methodology encompasses a 
+sequential process for analyzing the aforementioned data within isolated 
+populations. The primary objective of this approach is to enhance the 
+sensitivity of variant detection by utilizing information from genetically 
+related individuals, thereby facilitating the identification of causal variants. 
+An overall representation of the pipeline is visually depicted in the following
+figure.
 
 
 
@@ -35,9 +47,15 @@ The `gwid` package receives four types of inputs: a genotype file, an IBD file, 
 
 ## Installation
 
+You can install the stable version of `gwid` from [CRAN](https://cran.r-project.org/) with:
+
+```{r eval = FALSE}
+install.packages("gwid")
+```
+
 You can install the development version of `gwid` from [GitHub](https://github.com/) with:
 
-``` r
+```{r eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("soroushmdg/gwid")
 ```
@@ -122,11 +140,11 @@ the entire chromosome or specific regions of interest through the use of
 the inclusion of only specific groups of subjects for consideration.
 
 
-```{r}
+```{r, fig.width=7}
 # plot count of IBD in chromosome 3
 plot(ibd_data,
      y = c("cases","cont1"),
-     ly = FALSE) 
+     ly=FALSE) 
 
 # Further investigate location between 117M and 122M
 # significant number of IBD's in group cases, compare to cont1, cont2 and cont3.
@@ -134,13 +152,13 @@ plot(ibd_data,
      y = c("cases","cont1"),
      snp_start = 117026294,
      snp_end = 122613594,
-     ly = FALSE) 
+     ly=FALSE) 
 
 ```
 
 Through the utilization of the `fisher_test` method, it becomes possible to calculate p-values within chosen regions. These p-values help assess whether there are noteworthy differences in counts between the case and control groups.
 
-```{r}
+```{r, , fig.width=7}
 model_fisher <- gwid::fisher_test(ibd_data,
                                   case_control,
                                   reference = "cases",           
@@ -151,8 +169,21 @@ class(model_fisher)
 
 plot(model_fisher, 
      y = c("cases","cont1"),
-     ly = FALSE)
+     ly=FALSE)
 ```
+
+You can perform permutation test as follows: 
+
+```{r eval=FALSE}
+model_permutation <- gwid::permutation_test(ibd_data,gwas = snp_data_gds,
+                                            reference = "cases",
+                                            snp_start = 117026294,
+                                            snp_end = 122613594,
+                                            nperm = 10000)
+plot(model_permutation)
+```
+
+
 
 The `haplotype_structure` method can be utilized to extract haplotypes 
 from regions that exhibit IBD patterns in a sliding window manner. `w` is 
@@ -178,19 +209,17 @@ haplo_freq <- gwid::haplotype_frequency(hap_str)
 ```
 
 
-```{r, eval=FALSE}
+```{r, fig.width=7}
 
 # plot haplotype counts in first window (nwin=1).
  plot(haplo_freq,
    y = c("cases", "cont1"),
    plot_type = "haplotype_structure_frequency",
    nwin = 1, type = "version1",
-   ly = FALSE
+   ly=FALSE
  )
 
 ```
 
-```{r, out.width="100%",include=TRUE, fig.align="center", echo=FALSE}
-knitr::include_graphics("../man/figures/hap_version1.png")
-``` 
+
 
