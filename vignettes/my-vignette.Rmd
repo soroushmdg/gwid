@@ -22,7 +22,7 @@ library(gwid)
 [![R-CMD-check](https://github.com/soroushmdg/gwid/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/soroushmdg/gwid/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-gwid is an R-package designed for the analysis
+GWID is an R-package designed for the analysis
 of IBD (Identity by Descent) data, to discover rare alleles 
 (susceptibility regions) associated with case-control phenotype. 
 Although Genome Wide Association Studies (GWAS) successfully reveal numerous 
