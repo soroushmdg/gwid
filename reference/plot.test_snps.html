@@ -58,7 +58,17 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for test_snps</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, y <span class="op">=</span> <span class="cn">NA</span>, <span class="va">title</span>, <span class="va">snp_start</span>, <span class="va">snp_end</span>, ly <span class="op">=</span> <span class="cn">TRUE</span>, line_size <span class="op">=</span> <span class="fl">0.6</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  y <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  <span class="va">title</span>,</span>
+<span>  <span class="va">snp_start</span>,</span>
+<span>  <span class="va">snp_end</span>,</span>
+<span>  ly <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  line_size <span class="op">=</span> <span class="fl">0.6</span>,</span>
+<span>  log_transformation <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -91,6 +101,10 @@ a `ggplot` object.</p></dd>
 
 <dt>line_size</dt>
 <dd><p>geom_line size</p></dd>
+
+
+<dt>log_transformation</dt>
+<dd><p>if `TRUE` plot -log10 transformation of p_values.</p></dd>
 
 
 <dt>...</dt>
