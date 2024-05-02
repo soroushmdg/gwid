@@ -118,6 +118,7 @@ fisher_test.gwas <- function(obj, reference, snp_start , snp_end, alternative = 
   pval_table <- data.table::melt(pval_table,id.vars="snp_pos",value.name = "value",
                                  measure.vars=colnames(pval),variable.name="case_control")
   output <- pval_table
+  output <- output[case_control!=reference]
   class(output) <- append("test_snps",class(output))
   return(output)
 }
@@ -310,7 +311,7 @@ permutation_test.gwid <- function(obj, gwas, snp_start, snp_end,
     snp_end <- snp_pos_total[length(snp_pos_total)]
   }
   list_ind_result_snps <- which(unlist(lapply(obj, inherits, "result_snps")))
-  snp_pos <- case_control <- V1 <- V3 <- NULL
+  value <- snp_pos <- case_control <- V1 <- V3 <- NULL
   snp_pos_total <- unique(obj[[list_ind_result_snps]]$snp_pos)
   snp_indx <- which(snp_pos_total >= snp_start & snp_pos_total <= snp_end)
   leni <- diff(range(snp_indx)) + 1
@@ -389,6 +390,8 @@ permutation_test.gwid <- function(obj, gwas, snp_start, snp_end,
   colnames(perm_matrix) <- c("snp_pos",colnames(perm_matrix)[-1])
   perm_table <- data.table::as.data.table(perm_matrix)
   pval <- data.table::melt(perm_table, id.vars = "snp_pos", variable.name = "case_control", value.name = "value")
+  pval[value==0,value:=1/(2*nperm)]
+  pval <- pval[case_control!=reference]
   class(pval) <- append("test_snps", class(pval))
   return(pval)
 }
@@ -463,7 +466,7 @@ permutation_test.gwas <- function(obj, snp_start, snp_end,
   if (missing(snp_end)) {
     snp_end <- snp_pos_total[length(snp_pos_total)]
   }
-  snp_pos <- case_control <- NULL
+  value <- snp_pos <- case_control <- NULL
   list_ind_result_snps <- which(unlist(lapply(obj, inherits, "result_snps")))
   snp_pos_total <- unique(obj[[list_ind_result_snps]]$snp_pos)
   snp_indx <- which(snp_pos_total >= snp_start & snp_pos_total <= snp_end)
@@ -493,7 +496,9 @@ permutation_test.gwas <- function(obj, snp_start, snp_end,
   colnames(perm_matrix) <- c("snp_pos", colnames(perm_matrix)[-1])
   perm_table <- data.table::as.data.table(perm_matrix)
   pval <- data.table::melt(perm_table, id.vars = "snp_pos", variable.name = "case_control", value.name = "value")
-  class(pval) <- append("test_snps", class(pval))
+  pval[value==0,value:=1/(2*nperm)]
+  pval <- pval[case_control!=reference]
+  class(pval) <- append("test_snps",class(pval))
   return(pval)
 }
 
@@ -669,6 +674,7 @@ gtest.haplotype_structure <- function(haplotype_structure, reference, ...) {
                                  measure.vars = colnames(pval), variable.name = "case_control"
   )
   output <- data.table::copy(pval_table)
+  output <- output[case_control!=reference]
   class(output) <- append("test_snps",class(output))
   return(output)
 }
@@ -767,6 +773,7 @@ fisher_test.result_snps <- function(obj, caco, reference, alternative = c("two.s
   # transform pval to long format 3 columns (snp_pos, case_control, value)
   pval_table <- data.table::melt(pval_table,id.vars="snp_pos",value.name = "value",
                                  measure.vars=colnames(pval),variable.name="case_control")
+  pval_table <- pval_table[case_control!=reference]
   class(pval_table) <- append("test_snps",class(pval_table))
   return(pval_table)
 }
@@ -833,6 +840,7 @@ permutation_test.haplotype_structure <- function(obj, nperm, reference, ...) {
   if (missing(obj) | missing(reference)) {
     stop("please provide function arguments")
   }
+  value <- NULL
   statistics <- matrix(0, nrow = length(unique(obj$snp_pos)), ncol = length(unique(obj$case_control)))
   colnames(statistics) <- levels(obj$case_control)
   idx <- which(colnames(statistics) == reference)
@@ -881,6 +889,8 @@ permutation_test.haplotype_structure <- function(obj, nperm, reference, ...) {
     measure.vars = colnames(statistics), variable.name = "case_control"
   )
   output <- data.table::copy(pval_table)
+  output[value==0,value:=1/(2*nperm)]
+  output <- output[case_control!=reference]
   class(output) <- append("test_snps", class(output))
   return(output)
 }

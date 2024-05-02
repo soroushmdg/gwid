@@ -4,7 +4,17 @@
 \alias{plot.test_snps}
 \title{Line plot of test_snps objects}
 \usage{
-\method{plot}{test_snps}(x, y = NA, title, snp_start, snp_end, ly = TRUE, line_size = 0.6, ...)
+\method{plot}{test_snps}(
+  x,
+  y = NA,
+  title,
+  snp_start,
+  snp_end,
+  ly = TRUE,
+  line_size = 0.6,
+  log_transformation = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{an object of class test_snps.}
@@ -22,6 +32,8 @@ subject groups i.e. y = c("case","control")}
 a `ggplot` object.}
 
 \item{line_size}{geom_line size}
+
+\item{log_transformation}{if `TRUE` plot -log10 transformation of p_values.}
 
 \item{...}{other variables}
 }

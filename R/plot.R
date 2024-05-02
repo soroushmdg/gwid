@@ -283,6 +283,7 @@ plot.gwas <- function(x, y = NA, title = "number of snps", ...) {
 #' @param ly if `TRUE`, we have a `plotly` object and if it is `FALSE` plot is going to be
 #' a `ggplot` object.
 #' @param line_size geom_line size
+#' @param log_transformation if `TRUE` plot -log10 transformation of p_values.
 #' @param ... other variables
 #'
 #' @return an interactive line plot of test_snps objects for each case control subjects.
@@ -331,7 +332,8 @@ plot.gwas <- function(x, y = NA, title = "number of snps", ...) {
 #'nwin = 1, type = "version1",ly = FALSE)
 #'}
 #' @export
-plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ly =TRUE, line_size = .6, ...) {
+plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ly =TRUE,
+                           line_size = .6,log_transformation = FALSE , ...) {
   snp_pos <- value <- NULL
   if (!missing(snp_start) & !missing(snp_end)) {
     x <- x[snp_pos >= snp_start & snp_pos <= snp_end]
@@ -346,16 +348,33 @@ plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ly =TRUE, line_
   if (any(!is.na(y))){
     x <- x[case_control %in% y]
   }
-  p <- ggplot2::ggplot(x, ggplot2::aes(x = snp_pos, y = value)) +
+  if (log_transformation){
+  p <- ggplot2::ggplot(x, ggplot2::aes(x = snp_pos, y = -log10(value))) +
     ggplot2::geom_line(ggplot2::aes(color = case_control), size = line_size) +
     ggplot2::scale_x_continuous("snp position",
       labels = paste0(round(quantile(x$snp_pos, seq(0, 1, length.out = 5)) / 10^6), "M"),
       breaks = quantile(x$snp_pos, seq(0, 1, length.out = 5))
     ) +
-    ggplot2::scale_y_continuous(trans = "log10")
+    ggplot2::scale_y_continuous(trans = "log10") +
+    ggplot2::labs(y = "-log10 p_values",
+      fill = "case_control"
+    )
+
+  } else {
+    p <- ggplot2::ggplot(x, ggplot2::aes(x = snp_pos, y = value)) +
+      ggplot2::geom_line(ggplot2::aes(color = case_control), size = line_size) +
+      ggplot2::scale_x_continuous("snp position",
+                                  labels = paste0(round(quantile(x$snp_pos, seq(0, 1, length.out = 5)) / 10^6), "M"),
+                                  breaks = quantile(x$snp_pos, seq(0, 1, length.out = 5))
+      ) +
+
+      ggplot2::labs(y = "p_values",
+                    fill = "case_control"
+      )
+  }
   if (!missing(title)) {
     p <- p + ggplot2::labs(
-      title = title, y = "p_values",
+      title = title,
       fill = "case_control"
     )
   } else {

@@ -179,7 +179,7 @@ model_permutation <- gwid::permutation_test(ibd_data,gwas = snp_data_gds,
                                             reference = "cases",
                                             snp_start = 117026294,
                                             snp_end = 122613594,
-                                            nperm = 10000)
+                                            nperm = 100)
 plot(model_permutation)
 ```
 
