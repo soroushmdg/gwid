@@ -280,10 +280,11 @@ plot.gwas <- function(x, y = NA, title = "number of snps", ...) {
 #' @param title title of the plot.
 #' @param snp_start select starting position of snps.
 #' @param snp_end select ending position of snps.
-#' @param ly if `TRUE`, we have a `plotly` object and if it is `FALSE` plot is going to be
-#' a `ggplot` object.
+#' @param ly if `TRUE`, we have a `plotly` object and if it is `FALSE` plot
+#' is going to be a `ggplot` object.
 #' @param line_size geom_line size
 #' @param log_transformation if `TRUE` plot -log10 transformation of p_values.
+#' @param QQplot if TRUE, plot QQplot of P-values
 #' @param ... other variables
 #'
 #' @return an interactive line plot of test_snps objects for each case control subjects.
@@ -333,7 +334,8 @@ plot.gwas <- function(x, y = NA, title = "number of snps", ...) {
 #'}
 #' @export
 plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ly =TRUE,
-                           line_size = .6,log_transformation = FALSE , ...) {
+                           line_size = .6,log_transformation = FALSE,
+                           QQplot = FALSE,...) {
   snp_pos <- value <- NULL
   if (!missing(snp_start) & !missing(snp_end)) {
     x <- x[snp_pos >= snp_start & snp_pos <= snp_end]
@@ -348,6 +350,7 @@ plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ly =TRUE,
   if (any(!is.na(y))){
     x <- x[case_control %in% y]
   }
+  if (QQplot==FALSE){
   if (log_transformation){
   p <- ggplot2::ggplot(x, ggplot2::aes(x = snp_pos, y = -log10(value))) +
     ggplot2::geom_line(ggplot2::aes(color = case_control), size = line_size) +
@@ -355,7 +358,6 @@ plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ly =TRUE,
       labels = paste0(round(quantile(x$snp_pos, seq(0, 1, length.out = 5)) / 10^6), "M"),
       breaks = quantile(x$snp_pos, seq(0, 1, length.out = 5))
     ) +
-    ggplot2::scale_y_continuous(trans = "log10") +
     ggplot2::labs(y = "-log10 p_values",
       fill = "case_control"
     )
@@ -410,7 +412,14 @@ plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ly =TRUE,
   if (ly == TRUE){
     p <- plotly::ggplotly(p, ...)
     return(p)
+    } else {
+    return(p)
+   }
   } else {
+    pvals_list <- lapply(split(x,by="case_control"),
+                         function(dt) dt[[3]])
+    pvals_list <- pvals_list[sapply(pvals_list, length) > 0]
+    p <- qqunif_plot(pvals_list,auto.key=list(corner=c(.95,.05)))
     return(p)
   }
 
@@ -605,4 +614,115 @@ plot.haplotype_frequency <- function(x, y = NA, plot_type = c("haplotype_structu
       plot(x[[which(unlist(lapply(x, inherits, "result_snps")))]], y, ly = ly, ...)
     }
   }
+}
+
+
+qqunif_plot<-function(pvalues,
+                      should.thin=T, thin.obs.places=2, thin.exp.places=2,
+                      xlab=expression(paste("Expected (",-log[10], " p-value)")),
+                      ylab=expression(paste("Observed (",-log[10], " p-value)")),
+                      draw.conf=TRUE, conf.points=1000, conf.col="lightgray", conf.alpha=.05,
+                      already.transformed=FALSE, pch=20, aspect="iso", prepanel=prepanel.qqunif,
+                      par.settings=list(superpose.symbol=list(pch=pch)), ...) {
+
+
+  #error checking
+  if (length(pvalues)==0) stop("pvalue vector is empty, can't draw plot")
+  if(!(class(pvalues)=="numeric" ||
+       (class(pvalues)=="list" && all(sapply(pvalues, class)=="numeric"))))
+    stop("pvalue vector is not numeric, can't draw plot")
+  if (any(is.na(unlist(pvalues)))) stop("pvalue vector contains NA values, can't draw plot")
+  if (already.transformed==FALSE) {
+    if (any(unlist(pvalues)==0)) stop("pvalue vector contains zeros, can't draw plot")
+  } else {
+    if (any(unlist(pvalues)<0)) stop("-log10 pvalue vector contains negative values, can't draw plot")
+  }
+
+
+  grp<-NULL
+  n<-1
+  exp.x<-c()
+  if(is.list(pvalues)) {
+    nn<-sapply(pvalues, length)
+    rs<-cumsum(nn)
+    re<-rs-nn+1
+    n<-min(nn)
+    if (!is.null(names(pvalues))) {
+      grp=factor(rep(names(pvalues), nn), levels=names(pvalues))
+      names(pvalues)<-NULL
+    } else {
+      grp=factor(rep(1:length(pvalues), nn))
+    }
+    pvo<-pvalues
+    pvalues<-numeric(sum(nn))
+    exp.x<-numeric(sum(nn))
+    for(i in 1:length(pvo)) {
+      if (!already.transformed) {
+        pvalues[rs[i]:re[i]] <- -log10(pvo[[i]])
+        exp.x[rs[i]:re[i]] <- -log10((rank(pvo[[i]], ties.method="first")-.5)/nn[i])
+      } else {
+        pvalues[rs[i]:re[i]] <- pvo[[i]]
+        exp.x[rs[i]:re[i]] <- -log10((nn[i]+1-rank(pvo[[i]], ties.method="first")-.5)/(nn[i]+1))
+      }
+    }
+  } else {
+    n <- length(pvalues)+1
+    if (!already.transformed) {
+      exp.x <- -log10((rank(pvalues, ties.method="first")-.5)/n)
+      pvalues <- -log10(pvalues)
+    } else {
+      exp.x <- -log10((n-rank(pvalues, ties.method="first")-.5)/n)
+    }
+  }
+
+
+  #this is a helper function to draw the confidence interval
+  panel.qqconf<-function(n, conf.points=1000, conf.col="gray", conf.alpha=.05, ...) {
+    conf.points = min(conf.points, n-1);
+    mpts<-matrix(nrow=conf.points*2, ncol=2)
+    for(i in seq(from=1, to=conf.points)) {
+      mpts[i,1]<- -log10((i-.5)/n)
+      mpts[i,2]<- -log10(qbeta(1-conf.alpha/2, i, n-i))
+      mpts[conf.points*2+1-i,1]<- -log10((i-.5)/n)
+      mpts[conf.points*2+1-i,2]<- -log10(qbeta(conf.alpha/2, i, n-i))
+    }
+    grid::grid.polygon(x=mpts[,1],y=mpts[,2], gp=grid::gpar(fill=conf.col, lty=0), default.units="native")
+  }
+
+  #reduce number of points to plot
+  if (should.thin==T) {
+    if (!is.null(grp)) {
+      thin <- unique(data.frame(pvalues = round(pvalues, thin.obs.places),
+                                exp.x = round(exp.x, thin.exp.places),
+                                grp=grp))
+      grp = thin$grp
+    } else {
+      thin <- unique(data.frame(pvalues = round(pvalues, thin.obs.places),
+                                exp.x = round(exp.x, thin.exp.places)))
+    }
+    pvalues <- thin$pvalues
+    exp.x <- thin$exp.x
+  }
+  gc()
+
+  prepanel.qqunif= function(x,y,...) {
+    A = list()
+    A$xlim = range(x, y)*1.02
+    A$xlim[1]=0
+    A$ylim = A$xlim
+    return(A)
+  }
+
+  #draw the plot
+  lattice::xyplot(pvalues~exp.x, groups=grp, xlab=xlab, ylab=ylab, aspect=aspect,
+         prepanel=prepanel, scales=list(axs="i"), pch=pch,
+         panel = function(x, y, ...) {
+           if (draw.conf) {
+             panel.qqconf(n, conf.points=conf.points,
+                          conf.col=conf.col, conf.alpha=conf.alpha)
+           };
+           lattice::panel.xyplot(x,y, ...);
+           lattice::panel.abline(0,1);
+         }, par.settings=par.settings, ...
+  )
 }

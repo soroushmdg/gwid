@@ -168,8 +168,14 @@ model_fisher <- gwid::fisher_test(ibd_data,
 class(model_fisher)
 
 plot(model_fisher, 
-     y = c("cases","cont1"),
-     ly=FALSE)
+     y = c("cont1","cont2"),
+     ly=FALSE,
+     log_transformation = TRUE)
+
+plot(model_fisher, 
+     y = c("cont1","cont2"),
+     QQplot = TRUE)
+
 ```
 
 You can perform permutation test as follows: 
@@ -180,7 +186,9 @@ model_permutation <- gwid::permutation_test(ibd_data,gwas = snp_data_gds,
                                             snp_start = 117026294,
                                             snp_end = 122613594,
                                             nperm = 100)
-plot(model_permutation)
+plot(model_permutation,
+     y = c("cont1","cont2","cont3"),
+     log_transformation=TRUE)
 ```
 
 

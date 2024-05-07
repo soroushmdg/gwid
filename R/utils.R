@@ -2,8 +2,10 @@
 #' @import Matrix
 #' @import shiny
 #' @import plotly
-#' @importFrom stats fisher.test quantile xtabs
+#' @import lattice
+#' @importFrom stats fisher.test quantile xtabs qbeta
 #' @importFrom piggyback pb_download
+#' @importFrom grid grid.polygon gpar
 
 
 
