@@ -302,21 +302,30 @@ between the case and control groups.</p>
 <span><span class="co">#&gt; [1] "test_snps"  "data.table" "data.frame"</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_fisher</span>, </span>
-<span>     y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cases"</span>,<span class="st">"cont1"</span><span class="op">)</span>,</span>
-<span>     ly<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span>     y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cont1"</span>,<span class="st">"cont2"</span><span class="op">)</span>,</span>
+<span>     ly<span class="op">=</span><span class="cn">FALSE</span>,</span>
+<span>     log_transformation <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="my-vignette_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
-<p>You can perform permutation test as follows:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_fisher</span>, </span>
+<span>     y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cont1"</span>,<span class="st">"cont2"</span><span class="op">)</span>,</span>
+<span>     QQplot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="my-vignette_files/figure-html/unnamed-chunk-7-2.png" width="672"></p>
+<p>You can perform permutation test as follows:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">model_permutation</span> <span class="op">&lt;-</span> <span class="fu">gwid</span><span class="fu">::</span><span class="fu"><a href="../reference/permutation_test.html">permutation_test</a></span><span class="op">(</span><span class="va">ibd_data</span>,gwas <span class="op">=</span> <span class="va">snp_data_gds</span>,</span>
 <span>                                            reference <span class="op">=</span> <span class="st">"cases"</span>,</span>
 <span>                                            snp_start <span class="op">=</span> <span class="fl">117026294</span>,</span>
 <span>                                            snp_end <span class="op">=</span> <span class="fl">122613594</span>,</span>
 <span>                                            nperm <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_permutation</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_permutation</span>,</span>
+<span>     y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cont1"</span>,<span class="st">"cont2"</span>,<span class="st">"cont3"</span><span class="op">)</span>,</span>
+<span>     log_transformation<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>The <code>haplotype_structure</code> method can be utilized to
 extract haplotypes from regions that exhibit IBD patterns in a sliding
 window manner. <code>w</code> is length of sliding window and</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hap_str</span> <span class="op">&lt;-</span> <span class="fu">gwid</span><span class="fu">::</span><span class="fu"><a href="../reference/haplotype_structure.html">haplotype_structure</a></span><span class="op">(</span><span class="va">ibd_data</span>,</span>
 <span>                                     phase <span class="op">=</span> <span class="va">haplotype_data</span>,</span>
 <span>                                     w <span class="op">=</span> <span class="fl">10</span>,</span>
@@ -337,9 +346,9 @@ window manner. <code>w</code> is length of sliding window and</p>
 <p>The <code>haplotype_frequency</code> method can be employed to
 extract the count of these structures, which can then be plotted for
 each window.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">haplo_freq</span> <span class="op">&lt;-</span> <span class="fu">gwid</span><span class="fu">::</span><span class="fu"><a href="../reference/haplotype_frequency.html">haplotype_frequency</a></span><span class="op">(</span><span class="va">hap_str</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">haplo_freq</span> <span class="op">&lt;-</span> <span class="fu">gwid</span><span class="fu">::</span><span class="fu"><a href="../reference/haplotype_frequency.html">haplotype_frequency</a></span><span class="op">(</span><span class="va">hap_str</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># plot haplotype counts in first window (nwin=1).</span></span>
 <span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">haplo_freq</span>,</span>
