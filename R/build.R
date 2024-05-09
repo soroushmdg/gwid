@@ -55,12 +55,8 @@ build_gwas <- function(gds_data = "name.gds", caco = "name.Rda", gwas_generator 
 build_phase <- function(phased_vcf = "name.vcf", caco) {
   if (missing(caco) || is.null(phased_vcf)) stop("case_control and 'phased vcf' are needed")
   phased <- vector(mode = "list", length = 2)
-  # read only colnames (because of memory issues)
   tmp <- data.table::fread(phased_vcf, nrows = 0)
-  # select those samples who are in caco (only relevant samples)
-  # tmp2 <- data.table::fread(phased_vcf,select = which(colnames(tmp) %in% snp_smp$smp.id[snp_smp$smp.indx]))
   tmp2 <- data.table::fread(phased_vcf, select = which(colnames(tmp) %in% unique(unlist(caco))))
-  # find row and column index of 1's (zeros generate in sparse matrix)
   ind1 <- which(tmp2[, lapply(.SD, substr, 1, 1)] == "1", arr.ind = TRUE)
   ind2 <- which(tmp2[, lapply(.SD, substr, 3, 3)] == "1", arr.ind = TRUE)
   phased[[1]] <- Matrix::sparseMatrix(i = ind1[, 1], j = ind1[, 2], x = 1, dims = c(nrow(tmp2), ncol(tmp2)))
