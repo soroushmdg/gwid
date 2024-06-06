@@ -385,7 +385,6 @@ plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ly =TRUE,
     )
   } else {
     p <- p + ggplot2::labs(
-      y = "p_values",
       fill = "case_control"
     )
   }
