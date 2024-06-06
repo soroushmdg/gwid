@@ -12,7 +12,7 @@
   snp_end,
   ly = TRUE,
   line_size = 0.6,
-  log_transformation = FALSE,
+  log_transformation = TRUE,
   QQplot = FALSE,
   ...
 )

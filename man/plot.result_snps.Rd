@@ -48,7 +48,7 @@ snp_data_gds <- gwid::build_gwas(gds_data = genome_data_file,
 caco = case_control,gwas_generator = TRUE)
 class(snp_data_gds)
 names(snp_data_gds)
-head(snp_data_gds$snps) # it has information about counts of minor alleles in each location.
+head(snp_data_gds$snps)
 # read haplotype data (output of beagle)
 haplotype_data <- gwid::build_phase(phased_vcf = phase_data_file,caco = case_control)
 class(haplotype_data)

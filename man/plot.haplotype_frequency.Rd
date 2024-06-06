@@ -22,12 +22,14 @@
 \item{y}{default value is `NA`, if specified it should be a vector of names of
 subject groups i.e. `y = c("case","control")`}
 
-\item{plot_type}{either \dQuote{result_snps} or \dQuote{"haplotype_structure_frequency"}}
+\item{plot_type}{either \dQuote{result_snps}
+or \dQuote{"haplotype_structure_frequency"}}
 
-\item{type}{either \dQuote{version1} or \dQuote{version2} when plot_type is \dQuote{"haplotype_structure_frequency"}}
+\item{type}{either \dQuote{version1} or \dQuote{version2}
+when plot_type is \dQuote{"haplotype_structure_frequency"}}
 
-\item{ly}{if TRUE, we have a plotly object and if it is false plot is going to be
-a ggplot object.}
+\item{ly}{if TRUE, we have a plotly object and if it is false plot
+is going to be a ggplot object.}
 
 \item{nwin}{window number}
 
@@ -38,14 +40,16 @@ a ggplot object.}
 \item{...}{optional argument of \code{plot}}
 }
 \value{
-an interactive line plot of haplotype_frequency objects for each case control subjects.
+an interactive line plot of haplotype_frequency objects for
+each case control subjects.
 }
 \description{
 Line plot of haplotype_frequency object
 }
 \examples{
 \donttest{
-piggyback::pb_download(repo = "soroushmdg/gwid",tag = "v0.0.1",dest = tempdir())
+piggyback::pb_download(repo = "soroushmdg/gwid",tag = "v0.0.1",
+dest = tempdir())
 ibd_data_file <- paste0(tempdir(),"//chr3.ibd")
 genome_data_file <- paste0(tempdir(),"//chr3.gds")
 phase_data_file <- paste0(tempdir(),"//chr3.vcf")
@@ -53,7 +57,7 @@ case_control_data_file <- paste0(tempdir(),"//case-cont-RA.withmap.Rda")
 # case-control data
 case_control <- gwid::case_control(case_control_rda = case_control_data_file)
 names(case_control) #cases and controls group
-summary(case_control) # in here, we only consider cases,cont1,cont2,cont3 groups in the study
+summary(case_control)
 case_control$cases[1:3] # first three subject names of cases group
 # read SNP data (use SNPRelate to convert it to gds) and count number of minor alleles
 snp_data_gds <- gwid::build_gwas(gds_data = genome_data_file,
