@@ -83,16 +83,18 @@ subject groups i.e. `y = c("case","control")`</p></dd>
 
 
 <dt>plot_type</dt>
-<dd><p>either “result_snps” or “"haplotype_structure_frequency"”</p></dd>
+<dd><p>either “result_snps”
+or “"haplotype_structure_frequency"”</p></dd>
 
 
 <dt>type</dt>
-<dd><p>either “version1” or “version2” when plot_type is “"haplotype_structure_frequency"”</p></dd>
+<dd><p>either “version1” or “version2”
+when plot_type is “"haplotype_structure_frequency"”</p></dd>
 
 
 <dt>ly</dt>
-<dd><p>if TRUE, we have a plotly object and if it is false plot is going to be
-a ggplot object.</p></dd>
+<dd><p>if TRUE, we have a plotly object and if it is false plot
+is going to be a ggplot object.</p></dd>
 
 
 <dt>nwin</dt>
@@ -115,13 +117,15 @@ a ggplot object.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>an interactive line plot of haplotype_frequency objects for each case control subjects.</p>
+<p>an interactive line plot of haplotype_frequency objects for
+each case control subjects.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span><span class="fu">piggyback</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/piggyback/reference/pb_download.html" class="external-link">pb_download</a></span><span class="op">(</span>repo <span class="op">=</span> <span class="st">"soroushmdg/gwid"</span>,tag <span class="op">=</span> <span class="st">"v0.0.1"</span>,dest <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">piggyback</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/piggyback/reference/pb_download.html" class="external-link">pb_download</a></span><span class="op">(</span>repo <span class="op">=</span> <span class="st">"soroushmdg/gwid"</span>,tag <span class="op">=</span> <span class="st">"v0.0.1"</span>,</span></span>
+<span class="r-in"><span>dest <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> All local files already up-to-date!</span>
 <span class="r-in"><span><span class="va">ibd_data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">"//chr3.ibd"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">genome_data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,<span class="st">"//chr3.gds"</span><span class="op">)</span></span></span>
@@ -131,7 +135,7 @@ a ggplot object.</p></dd>
 <span class="r-in"><span><span class="va">case_control</span> <span class="op">&lt;-</span> <span class="fu">gwid</span><span class="fu">::</span><span class="fu"><a href="case_control.html">case_control</a></span><span class="op">(</span>case_control_rda <span class="op">=</span> <span class="va">case_control_data_file</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">case_control</span><span class="op">)</span> <span class="co">#cases and controls group</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "cases" "case1" "case2" "cont1" "cont2" "cont3"</span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">case_control</span><span class="op">)</span> <span class="co"># in here, we only consider cases,cont1,cont2,cont3 groups in the study</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">case_control</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       Length Class  Mode     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> cases 478    -none- character</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> case1 178    -none- character</span>
