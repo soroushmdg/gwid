@@ -57,13 +57,28 @@ while phenotype data is represented using an R list.
 You can install the stable version of `gwid` from [CRAN](https://cran.r-project.org/) with:
 
 ```{r eval = FALSE}
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install(c("SNPRelate","gdsfmt"))
 install.packages("gwid")
+```
+Alternatively, you can install the stable version of `gwid`
+with:
+
+```{r eval = FALSE}
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("gwid")
 ```
 
 Also, you can install the development version of `gwid` from [GitHub](https://github.com/) with:
 
 ```{r eval=FALSE}
-# install.packages("devtools")
+if (!require("devtools", quietly = TRUE))
+    install.packages("devtools")
+
 devtools::install_github("soroushmdg/gwid")
 ```
 

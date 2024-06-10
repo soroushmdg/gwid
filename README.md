@@ -50,14 +50,29 @@ You can install the stable version of `gwid` from
 [CRAN](https://cran.r-project.org/) with:
 
 ``` r
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install(c("SNPRelate","gdsfmt"))
 install.packages("gwid")
+```
+
+Alternatively, you can install the stable version of `gwid` with:
+
+``` r
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("gwid")
 ```
 
 Also, you can install the development version of `gwid` from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
+if (!require("devtools", quietly = TRUE))
+    install.packages("devtools")
+
 devtools::install_github("soroushmdg/gwid")
 ```
 
@@ -213,7 +228,7 @@ plot(ibd_data,y = c("cases","cont1"),
      ly = FALSE) 
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
 
 ``` r
 
@@ -226,7 +241,7 @@ plot(ibd_data,
      ly = FALSE) 
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-2.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-7-2.png" width="100%" />
 
 Through the utilization of the `fisher_test` method, it becomes possible
 to calculate p-values within chosen regions. These p-values help assess
@@ -247,7 +262,7 @@ plot(model_fisher,
      ly = FALSE)
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
 
 You can perform permutation test as follows:
 
@@ -275,11 +290,11 @@ class(hap_str)
 hap_str[sample(1:nrow(hap_str),size = 5),] # structures column have haplotype of length w=10 
 #>    case_control   snp_pos window_number                     smp structures
 #>          <fctr>     <num>         <int>                  <char>     <char>
-#> 1:        cont1 121207883           502    MC.159481@1075641352 0000000100
-#> 2:        cases 121356079           554 MC.AMD102275@0123861016 0000000000
-#> 3:        case2 121168167           491 MC.AMD117730@0123911620 0000000000
-#> 4:        cont1 121712434           624 MC.AMD103161@0124011280 0000100000
-#> 5:        cont1 122040062           669 MC.AMD126224@0123908828 1011010000
+#> 1:        case1 120147864           414 MC.AMD117897@0123890753 0011101011
+#> 2:        case2 119694893           368 MC.AMD116754@0123911408 0000000001
+#> 3:        cont1 117383670            41    MC.157186@1075678676 0000000001
+#> 4:        cont2 122353931           721 MC.AMD134768@0123911507 0000001001
+#> 5:        cont2 122089359           676    MC.158775@1075642103 1000000000
 ```
 
 The `haplotype_frequency` method can be employed to extract the count of
