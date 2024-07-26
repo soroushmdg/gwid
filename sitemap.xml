@@ -1,153 +1,53 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/404.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/articles/my-vignette.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/index.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/build_gwas.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/build_gwid.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/build_phase.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/case_control.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/extract.gwas.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/extract.gwid.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/extract.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/extract_window.gwid.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/extract_window.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/fisher_test.gwas.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/fisher_test.gwid.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/fisher_test.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/fisher_test.result_snps.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/gtest.haplotype_structure.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/gtest.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/haplotype_frequency.haplotype_structure.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/haplotype_frequency.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/haplotype_structure.gwas.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/haplotype_structure.gwid.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/haplotype_structure.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/launch_app.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/mcnemar_test.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/mcnemar_test.result_snps.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/mcnemar_test_permut.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/mcnemar_test_permut.result_snps.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/permutation_test.gwas.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/permutation_test.gwid.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/permutation_test.haplotype_structure.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/permutation_test.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/plot.gwas.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/plot.gwid.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/plot.haplotype_frequency.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/plot.haplotype_structure_frequency.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/plot.result_snps.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/plot.test_snps.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/print.gwas.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/print.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/roh.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/roh.phase.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/subset.gwid.html</loc>
-  </url>
-  <url>
-    <loc>https://soroushmdg.github.io/gwid/reference/subset.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://soroushmdg.github.io/gwid/404.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/LICENSE-text.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/LICENSE.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/articles/index.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/articles/my-vignette.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/authors.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/index.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/news/index.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/build_gwas.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/build_gwid.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/build_phase.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/case_control.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/extract.gwas.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/extract.gwid.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/extract.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/extract_window.gwid.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/extract_window.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/fisher_test.gwas.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/fisher_test.gwid.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/fisher_test.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/fisher_test.result_snps.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/gtest.haplotype_structure.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/gtest.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/haplotype_frequency.haplotype_structure.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/haplotype_frequency.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/haplotype_structure.gwas.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/haplotype_structure.gwid.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/haplotype_structure.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/index.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/launch_app.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/mcnemar_test.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/mcnemar_test.result_snps.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/mcnemar_test_permut.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/mcnemar_test_permut.result_snps.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/permutation_test.gwas.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/permutation_test.gwid.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/permutation_test.haplotype_structure.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/permutation_test.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/plot.gwas.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/plot.gwid.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/plot.haplotype_frequency.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/plot.haplotype_structure_frequency.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/plot.result_snps.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/plot.test_snps.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/print.gwas.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/print.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/roh.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/roh.phase.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/subset.gwid.html</loc></url>
+<url><loc>https://soroushmdg.github.io/gwid/reference/subset.html</loc></url>
 </urlset>
+
