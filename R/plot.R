@@ -373,6 +373,7 @@ plot.test_snps <- function(x, y = NA, title, snp_start, snp_end, ly =TRUE,
                                   breaks = quantile(x$snp_pos,
                                                     seq(0, 1, length.out = 5))
       ) +
+      scale_y_log10() +
 
       ggplot2::labs(y = "p_values",
                     fill = "case_control"
