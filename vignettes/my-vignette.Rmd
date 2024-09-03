@@ -39,7 +39,7 @@ figure.
 
 
 ```{r, out.width="100%",include=TRUE, fig.align="center", fig.cap=c("gwid pipeline"), echo=FALSE}
-knitr::include_graphics("../man/figures/final-copy-arrow.png")
+knitr::include_graphics("./man/figures/final-copy-arrow.png")
 ``` 
 ## Usage
 
