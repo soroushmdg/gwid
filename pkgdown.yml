@@ -3,7 +3,7 @@ pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
   my-vignette: my-vignette.html
-last_built: 2024-07-26T21:23Z
+last_built: 2024-09-03T22:03Z
 urls:
   reference: https://soroushmdg.github.io/gwid/reference
   article: https://soroushmdg.github.io/gwid/articles
